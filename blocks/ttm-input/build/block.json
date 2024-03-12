@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ttm/input",
+  "version": "1.0.0",
+  "title": "TTM Input",
+  "category": "widgets",
+  "icon": "text",
+  "description": "",
+  "example": {},
+  "supports": {
+    "html": false,
+    "multiple": true
+  },
+  "attributes": {},
+  "textdomain": "ttm-form",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}

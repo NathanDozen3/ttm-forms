@@ -111,7 +111,7 @@ add_filter( 'allowed_block_types_all', __NAMESPACE__ . '\form_allowed_block_type
 /**
  * 
  */
-function form_shortcode_callback( $atts ) : string {
+function form_shortcode_callback( bool|array $atts ) : string {
 	$atts = shortcode_atts( array(
 		'id' => '0',
 	), $atts, 'ttm-form' );
@@ -179,5 +179,6 @@ function process_form() {
 add_action( 'plugins_loaded', __NAMESPACE__ . '\process_form' );
 
 add_action( 'init', function(){
-	register_block_type( __DIR__ . '/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-form/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input/build' );
 } );

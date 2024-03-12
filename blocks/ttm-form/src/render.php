@@ -1,5 +1,5 @@
 <?php namespace ttm\forms; ?>
 
 <div <?php echo get_block_wrapper_attributes(); ?>>
-	<?php form_shortcode_callback(1); ?>
+	<?php echo form_shortcode_callback( [ 'id' => 1 ]); ?>
 </div>

@@ -12,7 +12,9 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start --webpack-copy-php"
+		"start": "wp-scripts start --webpack-copy-php",
+		"start:ttm-form": "wp-scripts start --webpack-src-dir=blocks/ttm-form/src --output-path=blocks/ttm-form/build",
+		"start:ttm-input": "wp-scripts start --webpack-src-dir=blocks/ttm-input/src --output-path=blocks/ttm-input/build"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^27.1.0"
