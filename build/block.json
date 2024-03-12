@@ -12,28 +12,9 @@
     "html": false,
     "multiple": true
   },
-  "attributes": {
-    "button__background_color": {
-      "type": "string",
-      "default": "#86b7fe"
-    },
-    "button__background_color__active": {
-      "type": "string"
-    },
-    "body__color": {
-      "type": "string",
-      "default": "#000000"
-    },
-    "body__background_color": {
-      "type": "string",
-      "default": "#ffffff"
-    }
-  },
-  "textdomain": "t3-faq",
-  "editorScript": [
-    "file:./index.js",
-    "t3-schema-view"
-  ],
+  "attributes": {},
+  "textdomain": "ttm-form",
+  "editorScript": [],
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
