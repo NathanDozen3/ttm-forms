@@ -15,11 +15,7 @@
   "attributes": {
     "label": {
       "type": "string",
-      "default": ""
-    },
-    "type": {
-      "type": "string",
-      "default": "text"
+      "default": "Phone: "
     }
   },
   "parent": [

@@ -273,7 +273,7 @@ module.exports = window["wp"]["i18n"];
   \*********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-tel","version":"1.0.0","title":"Phone","category":"widgets","icon":"phone","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":""},"type":{"type":"string","default":"text"}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-tel","version":"1.0.0","title":"Phone","category":"widgets","icon":"phone","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":"Phone: "}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

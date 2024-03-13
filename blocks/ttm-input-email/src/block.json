@@ -15,7 +15,7 @@
 	"attributes": {
 		"label": { 
 				"type": "string",
-				"default": ""
+				"default": "Email: "
 		}
 	},
 	"parent": [ "ttm/form" ],
