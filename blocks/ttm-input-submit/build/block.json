@@ -9,6 +9,11 @@
   "description": "",
   "example": {},
   "supports": {
+    "align": [
+      "left",
+      "center",
+      "right"
+    ],
     "html": false,
     "multiple": true
   },

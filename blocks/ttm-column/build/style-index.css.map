@@ -1,0 +1,1 @@
+{"version":3,"file":"./style-index.css","mappings":";;;AAAA;EACI;AACJ,C","sources":["webpack://ttm-forms/./blocks/ttm-column/src/style.scss"],"sourcesContent":[".wp-block-ttm-column {\n    flex-grow: 1;\n}\n"],"names":[],"sourceRoot":""}

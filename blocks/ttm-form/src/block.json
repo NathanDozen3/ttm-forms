@@ -9,6 +9,7 @@
 	"description": "Add form.",
 	"example": {},
 	"supports": {
+		"align": [ "wide", "full" ],
 		"html": false,
 		"multiple": true
 	},

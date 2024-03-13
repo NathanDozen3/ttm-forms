@@ -14,15 +14,7 @@ import { __ } from '@wordpress/i18n';
 import {
 	InnerBlocks,
 	useBlockProps,
-	InspectorControls,
 } from '@wordpress/block-editor';
-
-import {
-	PanelBody,
-	TextControl
-} from '@wordpress/components';
-
-import { select } from '@wordpress/data';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -40,51 +32,13 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit({attributes, setAttributes}) {
+export default function Edit() {
 	const blockProps = useBlockProps();
 	const allowedBlocks = [
-		"core/heading",
-		"ttm/columns",
-		"ttm/input-date",
-		"ttm/input-email",
-		"ttm/input-hidden",
-		"ttm/input-password",
-		"ttm/input-submit",
-		"ttm/input-tel",
-		"ttm/input-text",
-		"ttm/textarea"
+		"ttm/column"
 	];
-	const { to, subject } = attributes;
 	return (
 		<div { ...blockProps }>
-			<InspectorControls key="setting">
-				<PanelBody
-					title = {__( 'Settings', 'ttm-form' ) }
-					initialOpen = { true }
-				>
-					<fieldset>
-						<TextControl
-							label="To"
-							value={ to }
-							onChange={ ( value ) => {
-								setAttributes( { to: value } );
-								let post_id = select("core/editor").getCurrentPostId();
-								setAttributes( { post_id: post_id } );
-							 } }
-						/>
-						<TextControl
-							label="Subject"
-							value={ subject }
-							onChange={ ( value ) => {
-								setAttributes( { subject: value } );
-								let post_id = select("core/editor").getCurrentPostId();
-								console.log(post_id);
-								setAttributes( { post_id: post_id } );
-							} }
-						/>
-					</fieldset>
-				</PanelBody>
-			</InspectorControls>
 			<InnerBlocks allowedBlocks={ allowedBlocks } />
 		</div>
 	);

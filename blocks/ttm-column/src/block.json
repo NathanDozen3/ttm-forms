@@ -1,25 +1,19 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "ttm/input-submit",
+	"name": "ttm/column",
 	"version": "1.0.0",
-	"title": "Submit",
+	"title": "Column",
 	"category": "widgets",
-	"icon": "saved",
+	"icon": "columns",
 	"description": "",
 	"example": {},
 	"supports": {
-		"align": [ "left", "center", "right" ],
 		"html": false,
 		"multiple": true
 	},
-	"attributes": {
-		"label": { 
-				"type": "string",
-				"default": "Submit"
-		}
-	},
-	"parent": [ "ttm/form" ],
+	"attributes": {},
+	"parent": [ "ttm/columns" ],
 	"textdomain": "ttm-form",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

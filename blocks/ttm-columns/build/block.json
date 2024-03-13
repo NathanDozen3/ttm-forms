@@ -1,35 +1,21 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "ttm/form",
+  "name": "ttm/columns",
   "version": "1.0.0",
-  "title": "TTM Form",
+  "title": "Columns",
   "category": "widgets",
-  "icon": "text",
-  "description": "Add form.",
+  "icon": "columns",
+  "description": "",
   "example": {},
   "supports": {
-    "align": [
-      "wide",
-      "full"
-    ],
     "html": false,
     "multiple": true
   },
-  "attributes": {
-    "post_id": {
-      "type": "string",
-      "default": ""
-    },
-    "to": {
-      "type": "string",
-      "default": ""
-    },
-    "subject": {
-      "type": "string",
-      "default": ""
-    }
-  },
+  "attributes": {},
+  "parent": [
+    "ttm/form"
+  ],
   "textdomain": "ttm-form",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

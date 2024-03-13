@@ -230,6 +230,8 @@ add_action( 'plugins_loaded', __NAMESPACE__ . '\process_form' );
  * 
  */
 function register_blocks() {
+	register_block_type( __DIR__ . '/blocks/ttm-column/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-columns/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-form/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-input-date/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-input-email/build' );
