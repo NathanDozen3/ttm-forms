@@ -266,7 +266,7 @@ module.exports = window["wp"]["i18n"];
   \************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-submit","version":"1.0.0","title":"Submit","category":"widgets","icon":"play","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":""}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-submit","version":"1.0.0","title":"Submit","category":"widgets","icon":"saved","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":""}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
