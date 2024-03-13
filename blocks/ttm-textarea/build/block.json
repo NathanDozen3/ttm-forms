@@ -17,9 +17,13 @@
       "type": "string",
       "default": ""
     },
-    "type": {
+    "placeholder": {
       "type": "string",
-      "default": "text"
+      "default": ""
+    },
+    "sronly": {
+      "type": "boolean",
+      "default": false
     }
   },
   "parent": [

@@ -16,6 +16,14 @@
 		"label": { 
 				"type": "string",
 				"default": "Email: "
+		},
+		"placeholder": { 
+				"type": "string",
+				"default": "Email: "
+		},
+		"sronly": { 
+				"type": "boolean",
+				"default": false
 		}
 	},
 	"parent": [ "ttm/form" ],

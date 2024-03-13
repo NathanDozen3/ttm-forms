@@ -16,13 +16,10 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save( { attributes } ) {
-    const { label, value } = attributes;
-
-    let name =label.trim().replaceAll(":", "").toLowerCase();
+    const { name, value } = attributes;
 
     return (
         <div { ...useBlockProps.save() }>
-            <label for={name}>{label}</label>
 			<input type="hidden" id={name} name={name} value={value}></input>
         </div>
     );

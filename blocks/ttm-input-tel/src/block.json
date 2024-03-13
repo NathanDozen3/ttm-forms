@@ -16,6 +16,14 @@
 		"label": { 
 				"type": "string",
 				"default": "Phone: "
+		},
+		"placeholder": { 
+				"type": "string",
+				"default": "Phone: "
+		},
+		"sronly": { 
+				"type": "boolean",
+				"default": false
 		}
 	},
 	"parent": [ "ttm/form" ],

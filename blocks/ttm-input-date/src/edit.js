@@ -19,7 +19,8 @@ import {
 
 import {
 	PanelBody,
-	TextControl
+	TextControl,
+	ToggleControl
 } from '@wordpress/components';
 
 /**
@@ -40,9 +41,9 @@ import './editor.scss';
  */
 export default function Edit( { attributes, setAttributes } ) {
 
-    const { label } = attributes;
-
-	let name =label.trim().replaceAll(":", "").toLowerCase();
+    const { label, sronly } = attributes;
+	const className = sronly ? 'sr-only' : '';
+	const name =label.trim().replaceAll(":", "").toLowerCase();
 
 	return (
 		<div { ...useBlockProps() }>
@@ -57,10 +58,20 @@ export default function Edit( { attributes, setAttributes } ) {
 							value={ label }
 							onChange={ ( value ) => setAttributes( { label: value } ) }
 						/>
+						<ToggleControl
+							label="Screen Reader Only"
+							help={
+								sronly
+									? 'Only shown to screen readers.'
+									: 'Shown to everyone.'
+							}
+							checked={ sronly }
+							onChange={ ( value ) => setAttributes( { sronly: value }  ) }
+						/>
 					</fieldset>
 				</PanelBody>
 			</InspectorControls>
-			<label for={name}>{label}</label>
+			<label class={className} for={name}>{label}</label>
 			<input type="date" id={name} name={name} disabled></input>
 		</div>
 	);

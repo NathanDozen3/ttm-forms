@@ -190,6 +190,7 @@ function register_blocks() {
 	register_block_type( __DIR__ . '/blocks/ttm-input-email/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-input-hidden/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-input-password/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input-submit/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-input-tel/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-input-text/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-textarea/build' );

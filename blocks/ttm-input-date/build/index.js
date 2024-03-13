@@ -59,9 +59,11 @@ function Edit({
   setAttributes
 }) {
   const {
-    label
+    label,
+    sronly
   } = attributes;
-  let name = label.trim().replaceAll(":", "").toLowerCase();
+  const className = sronly ? 'sr-only' : '';
+  const name = label.trim().replaceAll(":", "").toLowerCase();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
@@ -75,7 +77,15 @@ function Edit({
     onChange: value => setAttributes({
       label: value
     })
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: "Screen Reader Only",
+    help: sronly ? 'Only shown to screen readers.' : 'Shown to everyone.',
+    checked: sronly,
+    onChange: value => setAttributes({
+      sronly: value
+    })
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: className,
     for: name
   }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "date",
@@ -177,12 +187,15 @@ function save({
   attributes
 }) {
   const {
-    label
+    label,
+    sronly
   } = attributes;
-  let name = label.trim().replaceAll(":", "").toLowerCase();
+  const className = sronly ? 'sr-only' : '';
+  const name = label.trim().replaceAll(":", "").toLowerCase();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: className,
     for: name
   }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "date",
@@ -273,7 +286,7 @@ module.exports = window["wp"]["i18n"];
   \**********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-date","version":"1.0.0","title":"Date","category":"widgets","icon":"calendar","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":"Date: "}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-date","version":"1.0.0","title":"Date","category":"widgets","icon":"calendar","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":"Date: "},"sronly":{"type":"boolean","default":false}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

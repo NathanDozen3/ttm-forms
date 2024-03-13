@@ -1,12 +1,35 @@
 /*!*******************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./blocks/ttm-form/src/style.scss ***!
   \*******************************************************************************************************************************************************************************************************************************************************/
-.wp-block-ttm-form input[type=submit] {
+.wp-block-ttm-form .sr-only {
+  border-width: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.wp-block-ttm-form label {
+  display: block;
+}
+.wp-block-ttm-form input,
+.wp-block-ttm-form textarea {
   border: 1px solid #999;
-  border-radius: 5px;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  display: block;
+  margin-bottom: 0.5rem;
+  max-width: 100%;
+  padding: 0.5rem;
+  width: 100%;
+}
+.wp-block-ttm-form input[type=submit] {
   cursor: pointer;
-  margin: 5px 0;
-  padding: 5px;
+  margin-top: 1rem;
+  width: auto;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

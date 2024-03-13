@@ -59,7 +59,7 @@ function Edit({
   setAttributes
 }) {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const allowedBlocks = ["ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
+  const allowedBlocks = ["ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
   const {
     to,
     subject
@@ -85,9 +85,7 @@ function Edit({
     })
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: allowedBlocks
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    disabled: true
-  }, "Submit"));
+  }));
 }
 
 /***/ }),
@@ -191,7 +189,7 @@ function save({
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
     method: "post"
-  }, innerBlocksProps.children, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "hidden",
     id: "ttm_form",
     name: "ttm_form",
@@ -206,10 +204,7 @@ function save({
     id: "subject",
     name: "subject",
     value: subject
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "submit",
-    value: "Submit"
-  })));
+  }), innerBlocksProps.children));
 }
 
 /***/ }),

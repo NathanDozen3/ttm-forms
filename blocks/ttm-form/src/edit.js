@@ -46,6 +46,7 @@ export default function Edit({attributes, setAttributes}) {
 		"ttm/input-email",
 		"ttm/input-hidden",
 		"ttm/input-password",
+		"ttm/input-submit",
 		"ttm/input-tel",
 		"ttm/input-text",
 		"ttm/textarea"
@@ -73,7 +74,6 @@ export default function Edit({attributes, setAttributes}) {
 				</PanelBody>
 			</InspectorControls>
 			<InnerBlocks allowedBlocks={ allowedBlocks } />
-			<button disabled>Submit</button>
 		</div>
 	);
 }

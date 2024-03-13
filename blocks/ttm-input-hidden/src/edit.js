@@ -40,9 +40,7 @@ import './editor.scss';
  */
 export default function Edit( { attributes, setAttributes } ) {
 
-    const { label, value } = attributes;
-
-	let name =label.trim().replaceAll(":", "").toLowerCase();
+    const { name, value } = attributes;
 
 	return (
 		<div { ...useBlockProps() }>
@@ -53,9 +51,9 @@ export default function Edit( { attributes, setAttributes } ) {
 				>
 					<fieldset>
 						<TextControl
-							label="Label"
-							value={ label }
-							onChange={ ( value ) => setAttributes( { label: value } ) }
+							label="Name"
+							value={ name }
+							onChange={ ( value ) => setAttributes( { name: value } ) }
 						/>
 						<TextControl
 							label="Value"
@@ -65,7 +63,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					</fieldset>
 				</PanelBody>
 			</InspectorControls>
-			<label for={name}>{label}</label>
 			<input type="text" id={name} name={name} value={value} disabled></input>
 		</div>
 	);

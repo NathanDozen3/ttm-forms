@@ -16,6 +16,14 @@
 		"label": { 
 				"type": "string",
 				"default": "Password: "
+		},
+		"placeholder": { 
+				"type": "string",
+				"default": "Password: "
+		},
+		"sronly": { 
+				"type": "boolean",
+				"default": false
 		}
 	},
 	"parent": [ "ttm/form" ],

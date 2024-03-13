@@ -59,10 +59,9 @@ function Edit({
   setAttributes
 }) {
   const {
-    label,
+    name,
     value
   } = attributes;
-  let name = label.trim().replaceAll(":", "").toLowerCase();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
@@ -71,10 +70,10 @@ function Edit({
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'ttm-form'),
     initialOpen: true
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
-    label: "Label",
-    value: label,
+    label: "Name",
+    value: name,
     onChange: value => setAttributes({
-      label: value
+      name: value
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     label: "Value",
@@ -82,9 +81,7 @@ function Edit({
     onChange: value => setAttributes({
       value: value
     })
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: name
-  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "text",
     id: name,
     name: name,
@@ -185,15 +182,12 @@ function save({
   attributes
 }) {
   const {
-    label,
+    name,
     value
   } = attributes;
-  let name = label.trim().replaceAll(":", "").toLowerCase();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: name
-  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "hidden",
     id: name,
     name: name,
@@ -283,7 +277,7 @@ module.exports = window["wp"]["i18n"];
   \************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-hidden","version":"1.0.0","title":"Hidden","category":"widgets","icon":"hidden","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":""},"value":{"type":"string","default":""}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-hidden","version":"1.0.0","title":"Hidden","category":"widgets","icon":"hidden","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"name":{"type":"string","default":""},"value":{"type":"string","default":""}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
