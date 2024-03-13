@@ -20,7 +20,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-form/src/editor.scss");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-form/src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -35,6 +37,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 
@@ -74,15 +77,28 @@ function Edit({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     label: "To",
     value: to,
-    onChange: value => setAttributes({
-      to: value
-    })
+    onChange: value => {
+      setAttributes({
+        to: value
+      });
+      let post_id = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)("core/editor").getCurrentPostId();
+      setAttributes({
+        post_id: post_id
+      });
+    }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     label: "Subject",
     value: subject,
-    onChange: value => setAttributes({
-      subject: value
-    })
+    onChange: value => {
+      setAttributes({
+        subject: value
+      });
+      let post_id = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)("core/editor").getCurrentPostId();
+      console.log(post_id);
+      setAttributes({
+        post_id: post_id
+      });
+    }
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: allowedBlocks
   }));
@@ -158,8 +174,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -167,7 +181,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-
 
 
 /**
@@ -184,8 +197,8 @@ function save({
 }) {
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
   const innerBlocksProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps.save();
-  const post_id = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.select)("core/editor").getCurrentPostId();
   const {
+    post_id,
     to,
     subject
   } = attributes;
@@ -203,16 +216,6 @@ function save({
     id: "ttm_form",
     name: "ttm_form",
     value: "1"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "hidden",
-    id: "to",
-    name: "to",
-    value: to
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "hidden",
-    id: "subject",
-    name: "subject",
-    value: subject
   }), innerBlocksProps.children));
 }
 
@@ -308,7 +311,7 @@ module.exports = window["wp"]["i18n"];
   \****************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","example":{},"supports":{"html":false,"multiple":true},"attributes":{"to":{"type":"string","default":""},"subject":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","example":{},"supports":{"html":false,"multiple":true},"attributes":{"post_id":{"type":"string","default":""},"to":{"type":"string","default":""},"subject":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

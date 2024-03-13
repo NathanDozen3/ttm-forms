@@ -13,6 +13,10 @@
 		"multiple": true
 	},
 	"attributes": {
+		"post_id": { 
+				"type": "string",
+				"default": ""
+		},
 		"to": { 
 				"type": "string",
 				"default": ""

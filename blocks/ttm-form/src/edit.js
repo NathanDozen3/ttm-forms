@@ -22,6 +22,8 @@ import {
 	TextControl
 } from '@wordpress/components';
 
+import { select } from '@wordpress/data';
+
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -62,12 +64,21 @@ export default function Edit({attributes, setAttributes}) {
 						<TextControl
 							label="To"
 							value={ to }
-							onChange={ ( value ) => setAttributes( { to: value } ) }
+							onChange={ ( value ) => {
+								setAttributes( { to: value } );
+								let post_id = select("core/editor").getCurrentPostId();
+								setAttributes( { post_id: post_id } );
+							 } }
 						/>
 						<TextControl
 							label="Subject"
 							value={ subject }
-							onChange={ ( value ) => setAttributes( { subject: value } ) }
+							onChange={ ( value ) => {
+								setAttributes( { subject: value } );
+								let post_id = select("core/editor").getCurrentPostId();
+								console.log(post_id);
+								setAttributes( { post_id: post_id } );
+							} }
 						/>
 					</fieldset>
 				</PanelBody>

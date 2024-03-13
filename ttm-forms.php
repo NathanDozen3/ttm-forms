@@ -166,8 +166,6 @@ function process_form() {
 	$posted = $_POST;
 	unset( $posted[ 'ttm_form' ] );
 	unset( $posted[ 'post_id' ] );
-	unset( $posted[ 'to' ] );
-	unset( $posted[ 'subject' ] );
 
 	$keys = array_keys( $posted );
 	sort( $keys );
