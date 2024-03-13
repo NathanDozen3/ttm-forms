@@ -157,15 +157,61 @@ add_action( 'init', __NAMESPACE__ . '\register_shortcodes' );
  */
 function process_form() {
 	if(
-		empty( $_POST[ 'ttm_form' ] ) ||
-		empty( $_POST[ 'to' ] )
+		empty( $_POST[ 'post_id' ] ) ||
+		empty( $_POST[ 'ttm_form' ] )
 	) {
 		return;
 	}
-	$keys = preg_grep( "/^ttm_form$/i", array_keys( $_POST ) );
+	
+	$posted = $_POST;
+	unset( $posted[ 'ttm_form' ] );
+	unset( $posted[ 'post_id' ] );
+	unset( $posted[ 'to' ] );
+	unset( $posted[ 'subject' ] );
 
-	$to = is_email( $_POST[ 'to' ] );
-	$subject = sanitize_text_field( $_POST[ 'subject' ] );
+	$keys = array_keys( $posted );
+	sort( $keys );
+
+	$post_id = (int) $_POST[ 'post_id' ];
+	$post = get_post( $post_id );
+	$blocks = parse_blocks( $post->post_content );
+
+	$attrs = [];
+	foreach( $blocks as $block ) {
+		if( ! str_starts_with( $block[ 'blockName' ], 'ttm/form' ) ) {
+			continue;
+		}
+
+		$fields = [];
+		$innerBlocks = $block[ 'innerBlocks' ];
+		foreach( $innerBlocks as $innerBlock ) {
+			if( str_starts_with( $innerBlock[ 'blockName' ], 'ttm/input-submit' ) ) {
+				continue;
+			}
+
+			$label = $innerBlock[ 'attrs' ][ 'label' ] ?? '';
+			if( str_starts_with( $innerBlock[ 'blockName' ], 'ttm/input-hidden' ) ) {
+				$label = $innerBlock[ 'attrs' ][ 'name' ] ?? '';
+			}
+			$name = strtolower( str_replace( [ ':', ' ' ], [ '', '' ], $label ) );
+			if( $name !== '' ) {
+				$fields[] = $name;
+			}
+		}
+		sort( $fields );
+
+		if(
+			$fields === $keys &&
+			is_array( $block[ 'attrs' ] )
+		) {
+			$attrs = $block[ 'attrs' ];
+			break;
+		}
+	}
+
+	$to = is_email( $attrs[ 'to' ] );
+	$subject = sanitize_text_field( $attrs[ 'subject' ] );
+
 	$message = '';
 	$headers = [];
 
@@ -173,6 +219,7 @@ function process_form() {
 		if( $key === 'ttm_form' ) {
 			continue;
 		}
+		$value = sanitize_text_field( $value );
 		$message .= " $key: $value";
 	}
 	wp_mail( $to, $subject, $message, $headers );

@@ -6,6 +6,8 @@
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
+import { select } from '@wordpress/data';
+
 /**
  * The save function defines the way in which the different attributes should
  * be combined into the final markup, which is then serialized by the block
@@ -18,12 +20,14 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 export default function save({ attributes }) {
 	const blockProps = useBlockProps.save();
 	const innerBlocksProps = useInnerBlocksProps.save();
+	const post_id = select("core/editor").getCurrentPostId();
 
     const { to, subject } = attributes;
 
 	return (
 		<div { ...blockProps }>
             <form method="post">
+                <input type="hidden" id="post_id" name="post_id" value={post_id}/>
                 <input type="hidden" id="ttm_form" name="ttm_form" value="1"/>
                 <input type="hidden" id="to" name="to" value={to}/>
                 <input type="hidden" id="subject" name="subject" value={subject}/>

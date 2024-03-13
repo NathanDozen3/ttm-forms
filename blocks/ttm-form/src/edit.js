@@ -14,12 +14,11 @@ import { __ } from '@wordpress/i18n';
 import {
 	InnerBlocks,
 	useBlockProps,
-	InspectorControls
+	InspectorControls,
 } from '@wordpress/block-editor';
 
 import {
 	PanelBody,
-	SelectControl,
 	TextControl
 } from '@wordpress/components';
 
