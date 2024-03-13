@@ -156,14 +156,17 @@ add_action( 'init', __NAMESPACE__ . '\register_shortcodes' );
  * 
  */
 function process_form() {
-	if( empty( $_POST[ 'ttm_form' ] ) ) {
+	if(
+		empty( $_POST[ 'ttm_form' ] ) ||
+		empty( $_POST[ 'to' ] )
+	) {
 		return;
 	}
 	$keys = preg_grep( "/^ttm_form$/i", array_keys( $_POST ) );
 
-	$to = 'nathan@dozen3.com';
-	$subject = 'TTM Forms';
-	$message = 'Testing the wp_mail() function.';
+	$to = is_email( $_POST[ 'to' ] );
+	$subject = sanitize_text_field( $_POST[ 'subject' ] );
+	$message = '';
 	$headers = [];
 
 	foreach( $_POST as $key => $value ) {
@@ -178,7 +181,12 @@ function process_form() {
 }
 add_action( 'plugins_loaded', __NAMESPACE__ . '\process_form' );
 
-add_action( 'init', function(){
+/**
+ * 
+ */
+function register_blocks() {
 	register_block_type( __DIR__ . '/blocks/ttm-form/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-input/build' );
-} );
+	register_block_type( __DIR__ . '/blocks/ttm-textarea/build' );
+}
+add_action( 'init', __NAMESPACE__ . '\register_blocks' );

@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./blocks/ttm-form/src/edit.js":
-/*!*************************************!*\
-  !*** ./blocks/ttm-form/src/edit.js ***!
-  \*************************************/
+/***/ "./blocks/ttm-textarea/src/edit.js":
+/*!*****************************************!*\
+  !*** ./blocks/ttm-textarea/src/edit.js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-form/src/editor.scss");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-textarea/src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -58,53 +58,53 @@ function Edit({
   attributes,
   setAttributes
 }) {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const allowedBlocks = ["ttm/input", "ttm/textarea"];
   const {
-    to,
-    subject
+    label,
+    name
   } = attributes;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "setting"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'ttm-form'),
     initialOpen: true
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
-    label: "To",
-    value: to,
+    label: "Input Label",
+    value: label,
     onChange: value => setAttributes({
-      to: value
+      label: value
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
-    label: "Subject",
-    value: subject,
+    label: "Input Name",
+    value: name,
     onChange: value => setAttributes({
-      subject: value
+      name: value
     })
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
-    allowedBlocks: allowedBlocks
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    for: name
+  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
+    id: name,
+    name: name,
     disabled: true
-  }, "Submit"));
+  }));
 }
 
 /***/ }),
 
-/***/ "./blocks/ttm-form/src/index.js":
-/*!**************************************!*\
-  !*** ./blocks/ttm-form/src/index.js ***!
-  \**************************************/
+/***/ "./blocks/ttm-textarea/src/index.js":
+/*!******************************************!*\
+  !*** ./blocks/ttm-textarea/src/index.js ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./blocks/ttm-form/src/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./blocks/ttm-form/src/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./blocks/ttm-form/src/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./blocks/ttm-form/src/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./blocks/ttm-textarea/src/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./blocks/ttm-textarea/src/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./blocks/ttm-textarea/src/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./blocks/ttm-textarea/src/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -146,10 +146,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./blocks/ttm-form/src/save.js":
-/*!*************************************!*\
-  !*** ./blocks/ttm-form/src/save.js ***!
-  \*************************************/
+/***/ "./blocks/ttm-textarea/src/save.js":
+/*!*****************************************!*\
+  !*** ./blocks/ttm-textarea/src/save.js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -181,45 +181,26 @@ __webpack_require__.r(__webpack_exports__);
 function save({
   attributes
 }) {
-  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
-  const innerBlocksProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps.save();
   const {
-    to,
-    subject
+    label,
+    name
   } = attributes;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
-    method: "post"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...innerBlocksProps
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "hidden",
-    id: "ttm_form",
-    name: "ttm_form",
-    value: "1"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "hidden",
-    id: "to",
-    name: "to",
-    value: to
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "hidden",
-    id: "subject",
-    name: "subject",
-    value: subject
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "submit",
-    value: "Submit"
-  })));
+    ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    for: name
+  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
+    id: name,
+    name: name
+  }));
 }
 
 /***/ }),
 
-/***/ "./blocks/ttm-form/src/editor.scss":
-/*!*****************************************!*\
-  !*** ./blocks/ttm-form/src/editor.scss ***!
-  \*****************************************/
+/***/ "./blocks/ttm-textarea/src/editor.scss":
+/*!*********************************************!*\
+  !*** ./blocks/ttm-textarea/src/editor.scss ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -228,10 +209,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./blocks/ttm-form/src/style.scss":
-/*!****************************************!*\
-  !*** ./blocks/ttm-form/src/style.scss ***!
-  \****************************************/
+/***/ "./blocks/ttm-textarea/src/style.scss":
+/*!********************************************!*\
+  !*** ./blocks/ttm-textarea/src/style.scss ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -290,13 +271,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./blocks/ttm-form/src/block.json":
-/*!****************************************!*\
-  !*** ./blocks/ttm-form/src/block.json ***!
-  \****************************************/
+/***/ "./blocks/ttm-textarea/src/block.json":
+/*!********************************************!*\
+  !*** ./blocks/ttm-textarea/src/block.json ***!
+  \********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","example":{},"supports":{"html":false,"multiple":true},"attributes":{"to":{"type":"string","default":""},"subject":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/textarea","version":"1.0.0","title":"Text Area","category":"widgets","icon":"text","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":""},"name":{"type":"string","default":""},"type":{"type":"string","default":"text"}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
@@ -461,7 +442,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./blocks/ttm-form/src/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./blocks/ttm-textarea/src/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

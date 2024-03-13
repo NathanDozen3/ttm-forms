@@ -1,4 +1,12 @@
 /*!*******************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./blocks/ttm-form/src/style.scss ***!
   \*******************************************************************************************************************************************************************************************************************************************************/
+.wp-block-ttm-form input[type=submit] {
+  border: 1px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 0;
+  padding: 5px;
+}
 
+/*# sourceMappingURL=style-index.css.map*/

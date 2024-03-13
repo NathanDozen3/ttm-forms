@@ -12,14 +12,13 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import {
-	InnerBlocks,
-	useBlockProps,
-	InspectorControls
+    useBlockProps,
+    InspectorControls,
 } from '@wordpress/block-editor';
+
 
 import {
 	PanelBody,
-	SelectControl,
 	TextControl
 } from '@wordpress/components';
 
@@ -39,15 +38,12 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit({attributes, setAttributes}) {
-	const blockProps = useBlockProps();
-	const allowedBlocks = [
-		"ttm/input",
-		"ttm/textarea"
-	];
-	const { to, subject } = attributes;
+export default function Edit( { attributes, setAttributes } ) {
+
+    const { label, name } = attributes;
+
 	return (
-		<div { ...blockProps }>
+		<div { ...useBlockProps() }>
 			<InspectorControls key="setting">
 				<PanelBody
 					title = {__( 'Settings', 'ttm-form' ) }
@@ -55,20 +51,20 @@ export default function Edit({attributes, setAttributes}) {
 				>
 					<fieldset>
 						<TextControl
-							label="To"
-							value={ to }
-							onChange={ ( value ) => setAttributes( { to: value } ) }
+							label="Input Label"
+							value={ label }
+							onChange={ ( value ) => setAttributes( { label: value } ) }
 						/>
 						<TextControl
-							label="Subject"
-							value={ subject }
-							onChange={ ( value ) => setAttributes( { subject: value } ) }
+							label="Input Name"
+							value={ name }
+							onChange={ ( value ) => setAttributes( { name: value } ) }
 						/>
 					</fieldset>
 				</PanelBody>
 			</InspectorControls>
-			<InnerBlocks allowedBlocks={ allowedBlocks } />
-			<button disabled>Submit</button>
+			<label for={name}>{label}</label>
+			<textarea id={name} name={name} disabled />
 		</div>
 	);
 }
