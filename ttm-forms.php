@@ -186,7 +186,12 @@ add_action( 'plugins_loaded', __NAMESPACE__ . '\process_form' );
  */
 function register_blocks() {
 	register_block_type( __DIR__ . '/blocks/ttm-form/build' );
-	register_block_type( __DIR__ . '/blocks/ttm-input/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input-date/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input-email/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input-hidden/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input-password/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input-tel/build' );
+	register_block_type( __DIR__ . '/blocks/ttm-input-text/build' );
 	register_block_type( __DIR__ . '/blocks/ttm-textarea/build' );
 }
 add_action( 'init', __NAMESPACE__ . '\register_blocks' );

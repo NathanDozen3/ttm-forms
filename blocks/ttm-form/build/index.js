@@ -59,7 +59,7 @@ function Edit({
   setAttributes
 }) {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const allowedBlocks = ["ttm/input", "ttm/textarea"];
+  const allowedBlocks = ["ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
   const {
     to,
     subject
@@ -191,9 +191,7 @@ function save({
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
     method: "post"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...innerBlocksProps
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, innerBlocksProps.children, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "hidden",
     id: "ttm_form",
     name: "ttm_form",

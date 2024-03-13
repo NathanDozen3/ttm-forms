@@ -24,7 +24,7 @@ export default function save({ attributes }) {
 	return (
 		<div { ...blockProps }>
             <form method="post">
-    			<div {...innerBlocksProps}></div>
+                { innerBlocksProps.children }
                 <input type="hidden" id="ttm_form" name="ttm_form" value="1"/>
                 <input type="hidden" id="to" name="to" value={to}/>
                 <input type="hidden" id="subject" name="subject" value={subject}/>

@@ -40,7 +40,8 @@ import './editor.scss';
  */
 export default function Edit( { attributes, setAttributes } ) {
 
-    const { label, name } = attributes;
+    const { label } = attributes;
+	let name =label.trim().replaceAll(":", "").toLowerCase();
 
 	return (
 		<div { ...useBlockProps() }>
@@ -54,11 +55,6 @@ export default function Edit( { attributes, setAttributes } ) {
 							label="Input Label"
 							value={ label }
 							onChange={ ( value ) => setAttributes( { label: value } ) }
-						/>
-						<TextControl
-							label="Input Name"
-							value={ name }
-							onChange={ ( value ) => setAttributes( { name: value } ) }
 						/>
 					</fieldset>
 				</PanelBody>

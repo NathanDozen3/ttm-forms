@@ -42,7 +42,12 @@ import './editor.scss';
 export default function Edit({attributes, setAttributes}) {
 	const blockProps = useBlockProps();
 	const allowedBlocks = [
-		"ttm/input",
+		"ttm/input-date",
+		"ttm/input-email",
+		"ttm/input-hidden",
+		"ttm/input-password",
+		"ttm/input-tel",
+		"ttm/input-text",
 		"ttm/textarea"
 	];
 	const { to, subject } = attributes;

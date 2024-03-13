@@ -16,7 +16,9 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save( { attributes } ) {
-    const { label, name } = attributes;
+    const { label } = attributes;
+    let name =label.trim().replaceAll(":", "").toLowerCase();
+
     return (
         <div { ...useBlockProps.save() }>
             <label for={name}>{label}</label>
