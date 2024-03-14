@@ -1,6 +1,9 @@
 /*!*******************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./blocks/ttm-form/src/style.scss ***!
   \*******************************************************************************************************************************************************************************************************************************************************/
+.wp-block-ttm-form {
+  --ttm--color--light: #999999;
+}
 .wp-block-ttm-form .sr-only {
   border-width: 0;
   clip: rect(0, 0, 0, 0);
@@ -17,7 +20,7 @@
 }
 .wp-block-ttm-form input,
 .wp-block-ttm-form textarea {
-  border: 1px solid #999;
+  border: 1px solid var(--ttm--color--light);
   border-radius: 0.5rem;
   box-sizing: border-box;
   display: block;
@@ -25,6 +28,15 @@
   max-width: 100%;
   padding: 0.5rem;
   width: 100%;
+}
+.wp-block-ttm-form input::-moz-placeholder, .wp-block-ttm-form textarea::-moz-placeholder {
+  color: var(--ttm--color--light);
+  font-style: italic;
+}
+.wp-block-ttm-form input::placeholder,
+.wp-block-ttm-form textarea::placeholder {
+  color: var(--ttm--color--light);
+  font-style: italic;
 }
 .wp-block-ttm-form input[type=submit] {
   cursor: pointer;

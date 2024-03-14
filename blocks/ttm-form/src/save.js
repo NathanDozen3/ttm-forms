@@ -15,10 +15,10 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  *
  * @return {Element} Element to render.
  */
-export default function save({ attributes }) {
+export default function save( {attributes} ) {
 	const blockProps = useBlockProps.save();
 	const innerBlocksProps = useInnerBlocksProps.save();
-    const { post_id, to, subject } = attributes;
+	const { post_id } = attributes;
 
 	return (
 		<div { ...blockProps }>

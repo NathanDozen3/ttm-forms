@@ -10,13 +10,24 @@
 	"example": {},
 	"supports": {
 		"align": [ "wide", "full" ],
+		"color": {
+			"background": true,
+			"gradients": false,
+			"link": false,
+			"text": false
+		},
 		"html": false,
-		"multiple": true
+		"multiple": true,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		}
 	},
 	"attributes": {
 		"post_id": { 
-				"type": "string",
-				"default": ""
+				"type": "number",
+				"default": 0
 		},
 		"to": { 
 				"type": "string",

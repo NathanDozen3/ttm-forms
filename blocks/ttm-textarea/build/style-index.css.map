@@ -1,1 +1,1 @@
-{"version":3,"file":"./style-index.css","mappings":";;;AACI;EACI;AAAR,C","sources":["webpack://ttm-forms/./blocks/ttm-textarea/src/style.scss"],"sourcesContent":[".wp-block-ttm-textarea {\n    textarea {\n        height: 200px;\n    }\n}\n"],"names":[],"sourceRoot":""}
+{"version":3,"file":"./style-index.css","mappings":";;;AACI;EACI;EACA;AAAR,C","sources":["webpack://ttm-forms/./blocks/ttm-textarea/src/style.scss"],"sourcesContent":[".wp-block-ttm-textarea {\n    textarea {\n        height: 200px;\n        resize: none;\n    }\n}\n"],"names":[],"sourceRoot":""}

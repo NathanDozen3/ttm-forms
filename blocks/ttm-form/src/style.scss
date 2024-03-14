@@ -1,4 +1,6 @@
 .wp-block-ttm-form {
+    --ttm--color--light: #999999;
+
     .sr-only {
         border-width: 0;
         clip: rect(0, 0, 0, 0);
@@ -15,7 +17,7 @@
     }
     input,
     textarea {
-        border: 1px solid #999;
+        border: 1px solid var(--ttm--color--light);
         border-radius: 0.5rem;
         box-sizing: border-box;
         display: block;
@@ -23,6 +25,11 @@
         max-width: 100%;
         padding: 0.5rem;
         width: 100%;
+
+        &::placeholder {
+            color: var(--ttm--color--light);
+            font-style: italic;
+        }
     }
     input[type=submit] {
         cursor: pointer;

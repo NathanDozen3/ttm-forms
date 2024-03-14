@@ -55,6 +55,15 @@ export default function Edit({attributes, setAttributes}) {
 		"ttm/textarea"
 	];
 	const { to, subject } = attributes;
+	let { post_id } = attributes;
+
+	if( post_id == '' ) {
+		post_id = select('core/editor').getCurrentPostId();
+		if( Number.isInteger( post_id ) && post_id >= 1 ) {
+			setAttributes( { post_id: post_id } )
+		}
+	}
+	
 	return (
 		<div { ...blockProps }>
 			<InspectorControls key="setting">
@@ -66,26 +75,18 @@ export default function Edit({attributes, setAttributes}) {
 						<TextControl
 							label="To"
 							value={ to }
-							onChange={ ( value ) => {
-								setAttributes( { to: value } );
-								let post_id = select("core/editor").getCurrentPostId();
-								setAttributes( { post_id: post_id } );
-							 } }
+							onChange={ ( value ) => setAttributes( { to: value } ) }
 						/>
 						<TextControl
 							label="Subject"
 							value={ subject }
-							onChange={ ( value ) => {
-								setAttributes( { subject: value } );
-								let post_id = select("core/editor").getCurrentPostId();
-								console.log(post_id);
-								setAttributes( { post_id: post_id } );
-							} }
+							onChange={ ( value ) => setAttributes( { subject: value } ) }
 						/>
 					</fieldset>
 				</PanelBody>
 			</InspectorControls>
-			<InnerBlocks allowedBlocks={ allowedBlocks } />
+			{ ( ! to || ! subject ) && <p>Make sure to set the to and subject in the form settings.</p>}
+			{ ( to && subject ) && <InnerBlocks allowedBlocks={ allowedBlocks } /> }
 		</div>
 	);
 }

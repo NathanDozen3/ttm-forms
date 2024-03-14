@@ -152,6 +152,37 @@ function register_shortcodes(){
 }
 add_action( 'init', __NAMESPACE__ . '\register_shortcodes' );
 
+
+/**
+ * 
+ */
+function process_inner_blocks( array $blocks ) : array {
+	$innerBlocks = [];
+
+	foreach( $blocks as $block ) {
+
+		if(
+			! str_starts_with( $block[ 'blockName' ], 'ttm/' ) ||
+			str_starts_with( $block[ 'blockName' ], 'ttm/input-submit' )
+		) {
+			continue;
+		}
+
+		if( ! empty( $block[ 'innerBlocks' ] ) ) {
+			$innerBlocks = array_merge( $innerBlocks, process_inner_blocks( $block[ 'innerBlocks' ] ) );
+		}
+		else {
+			$label = $block[ 'attrs' ][ 'label' ] ?? '';
+			if( str_starts_with( $block[ 'blockName' ], 'ttm/input-hidden' ) ) {
+				$label = $block[ 'attrs' ][ 'name' ] ?? '';
+			}
+			$name = strtolower( str_replace( [ ':', ' ' ], [ '', '' ], $label ) );
+			$innerBlocks[] = $name;
+		}
+	}
+	return $innerBlocks;
+}
+
 /**
  * 
  */
@@ -180,22 +211,7 @@ function process_form() {
 			continue;
 		}
 
-		$fields = [];
-		$innerBlocks = $block[ 'innerBlocks' ];
-		foreach( $innerBlocks as $innerBlock ) {
-			if( str_starts_with( $innerBlock[ 'blockName' ], 'ttm/input-submit' ) ) {
-				continue;
-			}
-
-			$label = $innerBlock[ 'attrs' ][ 'label' ] ?? '';
-			if( str_starts_with( $innerBlock[ 'blockName' ], 'ttm/input-hidden' ) ) {
-				$label = $innerBlock[ 'attrs' ][ 'name' ] ?? '';
-			}
-			$name = strtolower( str_replace( [ ':', ' ' ], [ '', '' ], $label ) );
-			if( $name !== '' ) {
-				$fields[] = $name;
-			}
-		}
+		$fields = process_inner_blocks( $block[ 'innerBlocks' ] );
 		sort( $fields );
 
 		if(
