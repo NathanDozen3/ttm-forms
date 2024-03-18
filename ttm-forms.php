@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: TTM Forms
- * Plugin URI: 
+ * Plugin URI:
  * Description: Another form plugin.
  * Version: 1.0.0
  * Requires at least: 6.4

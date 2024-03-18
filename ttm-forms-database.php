@@ -3,12 +3,12 @@
 namespace ttm\forms;
 
 /**
- * 
+ *
  */
 class Database {
 
     /**
-     * 
+     *
      */
     private function process_inner_blocks( array $blocks ) : array {
         $innerBlocks = [];
@@ -38,7 +38,7 @@ class Database {
     }
 
     /**
-     * 
+     *
      */
     public function process_form() {
         if(
@@ -111,7 +111,7 @@ class Database {
 
         $date = date( 'Y-m-d' );
         $url = get_the_permalink( $attrs[ 'post_id' ] );
-        
+
         $this->insert_record_into_table( $date, $url, $fields );
 
         wp_mail( $to, $subject, $message, $headers );
@@ -120,7 +120,7 @@ class Database {
     }
 
     /**
-     * 
+     *
      */
     private function insert_record_into_table( $date, $url, $fields ) {
 
@@ -139,7 +139,7 @@ class Database {
     }
 
     /**
-     * 
+     *
      */
     public function create_database_table() {
         global $wpdb;

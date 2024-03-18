@@ -3,12 +3,12 @@
 namespace ttm\forms;
 
 /**
- * 
+ *
  */
 class Blocks {
 
     /**
-     * 
+     *
      */
     public function register_blocks() {
         register_block_type( TTM_FORMS_DIR . '/blocks/ttm-column/build' );
