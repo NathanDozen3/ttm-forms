@@ -62,7 +62,6 @@ function Edit({
   attributes,
   setAttributes
 }) {
-  var _parentAttributes$pos, _parentAttributes$ref;
   const {
     label,
     placeholder,
@@ -72,10 +71,19 @@ function Edit({
   const name = label.trim().replaceAll(":", "").toLowerCase();
   const parentClientId = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)('core/block-editor').getBlockHierarchyRootClientId(clientId);
   const parentAttributes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)('core/block-editor').getBlockAttributes(parentClientId);
-  const parentID = String((_parentAttributes$pos = parentAttributes.post_id) !== null && _parentAttributes$pos !== void 0 ? _parentAttributes$pos : (_parentAttributes$ref = parentAttributes.ref) !== null && _parentAttributes$ref !== void 0 ? _parentAttributes$ref : '');
-  setAttributes({
-    parentID: parentID
-  });
+  let parentID = '';
+  if (parentAttributes != null) {
+    if ('post_id' in parentAttributes) {
+      parentID = String(parentAttributes.post_id);
+    } else if ('ref' in parentAttributes) {
+      parentID = String(parentAttributes.ref);
+    }
+  }
+  if (parentID != '') {
+    setAttributes({
+      parentID: parentID
+    });
+  }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {

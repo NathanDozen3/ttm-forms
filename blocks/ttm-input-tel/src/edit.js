@@ -49,9 +49,20 @@ export default function Edit( { clientId, attributes, setAttributes } ) {
 
 	const parentClientId = select( 'core/block-editor' ).getBlockHierarchyRootClientId(clientId);
 	const parentAttributes = select('core/block-editor').getBlockAttributes( parentClientId );
-	const parentID = String( parentAttributes.post_id ?? (parentAttributes.ref ?? '') );
 
-	setAttributes( { parentID: parentID } )
+	let parentID = '';
+	if (parentAttributes != null) {
+		if ('post_id' in parentAttributes) {
+			parentID = String( parentAttributes.post_id );
+		}
+		else if ('ref' in parentAttributes) {
+			parentID = String( parentAttributes.ref );
+		}
+	}
+
+	if(parentID != '') {
+		setAttributes( { parentID: parentID } )
+	}
 
 	return (
 		<div { ...useBlockProps() }>
