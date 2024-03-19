@@ -37,6 +37,43 @@ class Database {
         return $innerBlocks;
     }
 
+	/**
+	 *
+	 */
+	private function process_individual_block( array $block, array $keys, array $attrs = [] ) {
+		if( $attrs !== [] ) {
+			return $attrs;
+		}
+
+		if( ! str_starts_with( $block[ 'blockName' ], 'ttm/form' ) ) {
+			return [];
+		}
+
+		$fields = $this->process_inner_blocks( $block[ 'innerBlocks' ] );
+		sort( $fields );
+
+		$fields = array_filter( $fields, function( $val ) {
+			return ! empty( $val );
+		} );
+
+		$insert = true;
+		foreach( $fields as $field ) {
+			if( ! in_array( $field, $keys ) ) {
+				$insert = false;
+			}
+		}
+
+		if( $insert ) {
+			$block[ 'attrs' ] = array_filter( $block[ 'attrs' ], function( $key ) {
+				return in_array( $key, [ 'post_id', 'to', 'subject' ] );
+			}, ARRAY_FILTER_USE_KEY );
+			$attrs = $block[ 'attrs' ];
+			return $attrs;
+		}
+
+		return [];
+	}
+
     /**
      *
      */
@@ -49,8 +86,10 @@ class Database {
         }
 
         $posted = $_POST;
+		$posted[ 'url' ] = get_the_permalink( $posted[ 'post_id' ] ?? null );
+
         unset( $posted[ 'ttm_form' ] );
-        unset( $posted[ 'post_id' ] );
+        // unset( $posted[ 'post_id' ] );
 
         $keys = array_keys( $posted );
         sort( $keys );
@@ -61,56 +100,52 @@ class Database {
 
         $attrs = [];
         foreach( $blocks as $block ) {
-            if( ! str_starts_with( $block[ 'blockName' ], 'ttm/form' ) ) {
-                continue;
-            }
+			if ( str_starts_with( $block[ 'blockName' ], 'core/block' ) ) {
+				$ref = $block[ 'attrs' ][ 'ref' ];
+				$reusable_block = get_post( $ref );
+				$newBlocks = parse_blocks( $reusable_block->post_content );
 
-            $fields = $this->process_inner_blocks( $block[ 'innerBlocks' ] );
-            sort( $fields );
-
-            $fields = array_filter( $fields, function( $val ) {
-                return ! empty( $val );
-            } );
-
-            $insert = true;
-            foreach( $fields as $field ) {
-                if( ! in_array( $field, $keys ) ) {
-                    $insert = false;
-                }
-            }
-
-            if( $insert ) {
-                $block[ 'attrs' ] = array_filter( $block[ 'attrs' ], function( $key ) {
-                    return in_array( $key, [ 'post_id', 'to', 'subject' ] );
-                }, ARRAY_FILTER_USE_KEY );
-                $attrs = $block[ 'attrs' ];
-                break;
-            }
+				foreach( $newBlocks as $newBlock ) {
+					$attrs = $this->process_individual_block( $newBlock, $keys, $attrs );
+				}
+			}
+			else {
+				$attrs = $this->process_individual_block( $block, $keys, $attrs );
+			}
         }
 
         $attrs[ 'to' ] = is_email( $attrs[ 'to' ] );
         $to = is_email( $attrs[ 'to' ] );
         $attrs[ 'subject' ] = sanitize_text_field( $attrs[ 'subject' ] );
         $subject = sanitize_text_field( $attrs[ 'subject' ] );
+		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
 
-        $message = '';
-        $headers = [];
-        $fields = $attrs;
+		$fields = $attrs;
+		$n = 0;
 
-        foreach( $_POST as $key => $value ) {
-            $key = sanitize_text_field( $key );
-            $value = sanitize_text_field( $value );
-            $fields[ $key ] = $value;
+		$message = '<table>';
 
+        foreach( $posted as $key => $value ) {
             if( $key === 'ttm_form' ) {
                 continue;
             }
-            $message .= " $key: $value";
+			$key = sanitize_text_field( $key );
+            $value = sanitize_text_field( $value );
+            $fields[ $key ] = $value;
+
+			$color = $n % 2 === 0 ? '#ffffff' : '#f0f0f0';
+
+			$message .= "<tr style='background-color:$color;'>";
+			$message .= "<td style='padding:5px;'>$key</td>";
+			$message .= "<td>$value</td>";
+			$message .= "</tr>";
+			$n++;
         }
+		$message .= '</table>';
         $fields = json_encode( json_decode( json_encode( $fields ) ) );
 
         $date = date( 'Y-m-d' );
-        $url = get_the_permalink( $attrs[ 'post_id' ] );
+        $url = $posted[ 'url' ];
 
         $this->insert_record_into_table( $date, $url, $fields );
 

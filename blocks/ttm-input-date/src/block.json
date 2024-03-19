@@ -13,11 +13,15 @@
 		"multiple": true
 	},
 	"attributes": {
-		"label": { 
+		"parentID": {
+			"type": "string",
+			"default": ""
+		},
+		"label": {
 				"type": "string",
 				"default": "Date: "
 		},
-		"sronly": { 
+		"sronly": {
 				"type": "boolean",
 				"default": false
 		}

@@ -32,6 +32,18 @@ import { select } from '@wordpress/data';
  */
 import './editor.scss';
 
+String.prototype.hashCode = function() {
+	var hash = 0,
+	  i, chr;
+	if (this.length === 0) return hash;
+	for (i = 0; i < this.length; i++) {
+	  chr = this.charCodeAt(i);
+	  hash = ((hash << 5) - hash) + chr;
+	  hash |= 0; // Convert to 32bit integer
+	}
+	return hash;
+  }
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -57,13 +69,12 @@ export default function Edit({attributes, setAttributes}) {
 	const { to, subject } = attributes;
 	let { post_id } = attributes;
 
-	if( post_id == '' ) {
-		post_id = select('core/editor').getCurrentPostId();
-		if( Number.isInteger( post_id ) && post_id >= 1 ) {
-			setAttributes( { post_id: post_id } )
-		}
+	post_id = String(post_id);
+	if( ! post_id.startsWith( 'block' ) ) {
+		post_id =blockProps.id;
+		setAttributes( { post_id: post_id } )
 	}
-	
+
 	return (
 		<div { ...blockProps }>
 			<InspectorControls key="setting">

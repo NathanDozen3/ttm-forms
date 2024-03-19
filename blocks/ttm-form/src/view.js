@@ -21,5 +21,6 @@
  */
 
 (function(){
-	
+	let ids = document.querySelectorAll("[name='post_id']");
+	ids.forEach(id => { id.setAttribute('value', ttm_post_id);});
 })();

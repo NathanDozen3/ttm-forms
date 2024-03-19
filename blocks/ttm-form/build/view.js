@@ -25,7 +25,12 @@ var __webpack_exports__ = {};
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#view-script
  */
 
-(function () {})();
+(function () {
+  let ids = document.querySelectorAll("[name='post_id']");
+  ids.forEach(id => {
+    id.setAttribute('value', ttm_post_id);
+  });
+})();
 /******/ })()
 ;
 //# sourceMappingURL=view.js.map

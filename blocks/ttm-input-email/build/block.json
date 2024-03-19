@@ -13,13 +13,17 @@
     "multiple": true
   },
   "attributes": {
+    "parentID": {
+      "type": "string",
+      "default": ""
+    },
     "label": {
       "type": "string",
       "default": "Email: "
     },
     "placeholder": {
       "type": "string",
-      "default": "Email: "
+      "default": "Email"
     },
     "sronly": {
       "type": "boolean",

@@ -13,15 +13,19 @@
 		"multiple": true
 	},
 	"attributes": {
-		"label": { 
+		"parentID": {
+			"type": "string",
+			"default": ""
+		},
+		"label": {
 				"type": "string",
 				"default": "Password: "
 		},
-		"placeholder": { 
+		"placeholder": {
 				"type": "string",
 				"default": "Password: "
 		},
-		"sronly": { 
+		"sronly": {
 				"type": "boolean",
 				"default": false
 		}

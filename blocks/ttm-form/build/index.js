@@ -48,6 +48,18 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 
+String.prototype.hashCode = function () {
+  var hash = 0,
+    i,
+    chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr = this.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -70,13 +82,12 @@ function Edit({
   let {
     post_id
   } = attributes;
-  if (post_id == '') {
-    post_id = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)('core/editor').getCurrentPostId();
-    if (Number.isInteger(post_id) && post_id >= 1) {
-      setAttributes({
-        post_id: post_id
-      });
-    }
+  post_id = String(post_id);
+  if (!post_id.startsWith('block')) {
+    post_id = blockProps.id;
+    setAttributes({
+      post_id: post_id
+    });
   }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
@@ -204,12 +215,11 @@ function save({
     method: "post"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "hidden",
-    id: "post_id",
-    name: "post_id",
-    value: post_id
+    id: post_id + "_post_id",
+    name: "post_id"
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "hidden",
-    id: "ttm_form",
+    id: post_id + "_ttm_form",
     name: "ttm_form",
     value: "1"
   }), innerBlocksProps.children));
@@ -307,7 +317,7 @@ module.exports = window["wp"]["i18n"];
   \****************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","example":{},"supports":{"align":["wide","full"],"color":{"background":true,"gradients":false,"link":false,"text":false},"html":false,"multiple":true,"spacing":{"margin":true,"padding":true,"blockGap":true}},"attributes":{"post_id":{"type":"number","default":0},"to":{"type":"string","default":""},"subject":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","example":{},"supports":{"align":["wide","full"],"color":{"background":true,"gradients":false,"link":false,"text":false},"html":false,"multiple":true,"spacing":{"margin":true,"padding":true,"blockGap":true}},"attributes":{"post_id":{"type":"string","default":0},"to":{"type":"string","default":""},"subject":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

@@ -16,14 +16,14 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save( { attributes } ) {
-    const { label, placeholder, sronly } = attributes;
+    const { parentID, label, placeholder, sronly } = attributes;
     const className = sronly ? 'sr-only' : '';
     const name =label.trim().replaceAll(":", "").toLowerCase();
 
     return (
         <div { ...useBlockProps.save() }>
-            <label class={className} for={name}>{label}</label>
-			<input type="password" id={name} name={name} placeholder={placeholder}></input>
+            <label class={className} for={parentID + "_" + name}>{label}</label>
+			<input type="password" id={parentID + "_" + name} name={name} placeholder={placeholder}></input>
         </div>
     );
 }

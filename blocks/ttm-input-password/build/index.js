@@ -20,7 +20,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-input-password/src/editor.scss");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-input-password/src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -35,6 +37,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 
@@ -55,9 +58,11 @@ __webpack_require__.r(__webpack_exports__);
  * @return {Element} Element to render.
  */
 function Edit({
+  clientId,
   attributes,
   setAttributes
 }) {
+  var _parentAttributes$pos, _parentAttributes$ref;
   const {
     label,
     placeholder,
@@ -65,6 +70,12 @@ function Edit({
   } = attributes;
   const className = sronly ? 'sr-only' : '';
   const name = label.trim().replaceAll(":", "").toLowerCase();
+  const parentClientId = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)('core/block-editor').getBlockHierarchyRootClientId(clientId);
+  const parentAttributes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)('core/block-editor').getBlockAttributes(parentClientId);
+  const parentID = String((_parentAttributes$pos = parentAttributes.post_id) !== null && _parentAttributes$pos !== void 0 ? _parentAttributes$pos : (_parentAttributes$ref = parentAttributes.ref) !== null && _parentAttributes$ref !== void 0 ? _parentAttributes$ref : '');
+  setAttributes({
+    parentID: parentID
+  });
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
@@ -195,6 +206,7 @@ function save({
   attributes
 }) {
   const {
+    parentID,
     label,
     placeholder,
     sronly
@@ -205,10 +217,10 @@ function save({
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     class: className,
-    for: name
+    for: parentID + "_" + name
   }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "password",
-    id: name,
+    id: parentID + "_" + name,
     name: name,
     placeholder: placeholder
   }));
@@ -280,6 +292,16 @@ module.exports = window["wp"]["components"];
 
 /***/ }),
 
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -296,7 +318,7 @@ module.exports = window["wp"]["i18n"];
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-password","version":"1.0.0","title":"Password","category":"widgets","icon":"lock","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"label":{"type":"string","default":"Password: "},"placeholder":{"type":"string","default":"Password: "},"sronly":{"type":"boolean","default":false}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-password","version":"1.0.0","title":"Password","category":"widgets","icon":"lock","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"parentID":{"type":"string","default":""},"label":{"type":"string","default":"Password: "},"placeholder":{"type":"string","default":"Password: "},"sronly":{"type":"boolean","default":false}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

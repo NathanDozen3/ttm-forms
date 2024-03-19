@@ -25,15 +25,15 @@
 		}
 	},
 	"attributes": {
-		"post_id": { 
-				"type": "number",
+		"post_id": {
+				"type": "string",
 				"default": 0
 		},
-		"to": { 
+		"to": {
 				"type": "string",
 				"default": ""
 		},
-		"subject": { 
+		"subject": {
 				"type": "string",
 				"default": ""
 		}

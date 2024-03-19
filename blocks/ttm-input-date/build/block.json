@@ -13,6 +13,10 @@
     "multiple": true
   },
   "attributes": {
+    "parentID": {
+      "type": "string",
+      "default": ""
+    },
     "label": {
       "type": "string",
       "default": "Date: "

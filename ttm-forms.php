@@ -26,3 +26,11 @@ require TTM_FORMS_DIR . '/ttm-forms-database.php';
 $ttm_forms_database = new Database();
 add_action( 'plugins_loaded', [ $ttm_forms_database, 'process_form' ] );
 register_activation_hook( TTM_FORMS_FILE, [ $ttm_forms_database, 'create_database_table' ] );
+
+add_action( 'wp_enqueue_scripts', function() {
+	?>
+	<script>
+		var ttm_post_id = <?php echo get_the_ID(); ?>;
+	</script>
+	<?php
+});

@@ -23,6 +23,8 @@ import {
 	ToggleControl
 } from '@wordpress/components';
 
+import { select } from "@wordpress/data";
+
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -39,11 +41,17 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { clientId, attributes, setAttributes } ) {
 
     const { label, placeholder, sronly } = attributes;
 	const className = sronly ? 'sr-only' : '';
 	const name =label.trim().replaceAll(":", "").toLowerCase();
+
+	const parentClientId = select( 'core/block-editor' ).getBlockHierarchyRootClientId(clientId);
+	const parentAttributes = select('core/block-editor').getBlockAttributes( parentClientId );
+	const parentID = String( parentAttributes.post_id ?? (parentAttributes.ref ?? '') );
+
+	setAttributes( { parentID: parentID } );
 
 	return (
 		<div { ...useBlockProps() }>

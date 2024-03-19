@@ -23,8 +23,8 @@ export default function save( {attributes} ) {
 	return (
 		<div { ...blockProps }>
             <form method="post">
-                <input type="hidden" id="post_id" name="post_id" value={post_id}/>
-                <input type="hidden" id="ttm_form" name="ttm_form" value="1"/>
+                <input type="hidden" id={post_id + "_post_id"} name="post_id"/>
+                <input type="hidden" id={post_id + "_ttm_form"} name="ttm_form" value="1"/>
                 { innerBlocksProps.children }
             </form>
 		</div>
