@@ -86,15 +86,25 @@ class Database {
         }
 
         $posted = $_POST;
-		$posted[ 'url' ] = get_the_permalink( $posted[ 'post_id' ] ?? null );
+
+		$exploded = explode( '_', $posted[ 'post_id' ] );
+		if( count( $exploded ) == 2 ) {
+			$posted[ 'url' ] = get_term_link( (int) $exploded[1], $exploded[0] );
+		}
+		else {
+			$posted[ 'url' ] = get_the_permalink( $posted[ 'post_id' ] ?? null );
+		}
 
         unset( $posted[ 'ttm_form' ] );
-        // unset( $posted[ 'post_id' ] );
 
         $keys = array_keys( $posted );
         sort( $keys );
 
-        $post_id = (int) $_POST[ 'post_id' ];
+        $post_id = (int) $posted[ 'post_id' ];
+		if( isset( $posted[ 'ttm_form_ref' ] ) ) {
+			$post_id = (int) $posted[ 'ttm_form_ref' ];
+		}
+
         $post = get_post( $post_id );
         $blocks = parse_blocks( $post->post_content );
 

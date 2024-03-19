@@ -7,6 +7,7 @@
 	"category": "widgets",
 	"icon": "text",
 	"description": "Add form.",
+	"keywords": [ "form" ],
 	"example": {},
 	"supports": {
 		"align": [ "wide", "full" ],

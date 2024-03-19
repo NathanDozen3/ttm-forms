@@ -22,8 +22,6 @@ import {
 	TextControl
 } from '@wordpress/components';
 
-import { select } from '@wordpress/data';
-
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -52,7 +50,8 @@ String.prototype.hashCode = function() {
  *
  * @return {Element} Element to render.
  */
-export default function Edit({attributes, setAttributes}) {
+export default function Edit( { attributes, setAttributes } ) {
+
 	const blockProps = useBlockProps();
 	const allowedBlocks = [
 		"core/heading",
@@ -71,7 +70,7 @@ export default function Edit({attributes, setAttributes}) {
 
 	post_id = String(post_id);
 	if( ! post_id.startsWith( 'block' ) ) {
-		post_id =blockProps.id;
+		post_id = blockProps.id;
 		setAttributes( { post_id: post_id } )
 	}
 
