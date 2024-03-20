@@ -1,0 +1,1 @@
+{"version":3,"file":"./style-index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://ttm-forms/./blocks/ttm-input-radio/src/style.scss"],"sourcesContent":[".wp-block-ttm-input-radio {\n\tdisplay: flex;\n}\n"],"names":[],"sourceRoot":""}

@@ -53,7 +53,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 function Edit() {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const allowedBlocks = ["ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
+  const allowedBlocks = ["ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-radio", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {

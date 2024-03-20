@@ -20,6 +20,8 @@
 		"start:ttm-input-email": "wp-scripts start --webpack-src-dir=blocks/ttm-input-email/src --output-path=blocks/ttm-input-email/build",
 		"start:ttm-input-hidden": "wp-scripts start --webpack-src-dir=blocks/ttm-input-hidden/src --output-path=blocks/ttm-input-hidden/build",
 		"start:ttm-input-password": "wp-scripts start --webpack-src-dir=blocks/ttm-input-password/src --output-path=blocks/ttm-input-password/build",
+		"start:ttm-input-radio": "wp-scripts start --webpack-src-dir=blocks/ttm-input-radio/src --output-path=blocks/ttm-input-radio/build",
+		"start:ttm-input-radio-item": "wp-scripts start --webpack-src-dir=blocks/ttm-input-radio-item/src --output-path=blocks/ttm-input-radio-item/build",
 		"start:ttm-input-submit": "wp-scripts start --webpack-src-dir=blocks/ttm-input-submit/src --output-path=blocks/ttm-input-submit/build",
 		"start:ttm-input-tel": "wp-scripts start --webpack-src-dir=blocks/ttm-input-tel/src --output-path=blocks/ttm-input-tel/build",
 		"start:ttm-input-text": "wp-scripts start --webpack-src-dir=blocks/ttm-input-text/src --output-path=blocks/ttm-input-text/build",

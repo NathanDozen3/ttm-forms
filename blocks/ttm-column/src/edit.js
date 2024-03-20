@@ -39,6 +39,7 @@ export default function Edit() {
 		"ttm/input-email",
 		"ttm/input-hidden",
 		"ttm/input-password",
+		"ttm/input-radio",
 		"ttm/input-submit",
 		"ttm/input-tel",
 		"ttm/input-text",

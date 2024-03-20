@@ -12,15 +12,18 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import {
+    useBlockProps,
+    InspectorControls,
 	InnerBlocks,
-	useBlockProps,
-	InspectorControls,
 } from '@wordpress/block-editor';
+
 
 import {
 	PanelBody,
 	TextControl
 } from '@wordpress/components';
+
+import { select } from "@wordpress/data";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -30,18 +33,6 @@ import {
  */
 import './editor.scss';
 
-String.prototype.hashCode = function() {
-	var hash = 0,
-	  i, chr;
-	if (this.length === 0) return hash;
-	for (i = 0; i < this.length; i++) {
-	  chr = this.charCodeAt(i);
-	  hash = ((hash << 5) - hash) + chr;
-	  hash |= 0; // Convert to 32bit integer
-	}
-	return hash;
-  }
-
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -50,33 +41,35 @@ String.prototype.hashCode = function() {
  *
  * @return {Element} Element to render.
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { clientId, attributes, setAttributes } ) {
 
 	const blockProps = useBlockProps();
 	const allowedBlocks = [
-		"core/heading",
-		"ttm/columns",
-		"ttm/input-date",
-		"ttm/input-email",
-		"ttm/input-hidden",
-		"ttm/input-password",
-		"ttm/input-radio",
-		"ttm/input-submit",
-		"ttm/input-tel",
-		"ttm/input-text",
-		"ttm/textarea"
+		"ttm/ttm-radio-item"
 	];
-	const { to, subject } = attributes;
-	let { post_id } = attributes;
 
-	post_id = String(post_id);
-	if( ! post_id.startsWith( 'block' ) ) {
-		post_id = blockProps.id;
-		setAttributes( { post_id: post_id } )
+    const { label } = attributes;
+	const name =label.trim().replaceAll(":", "").toLowerCase();
+
+	const parentClientId = select( 'core/block-editor' ).getBlockHierarchyRootClientId(clientId);
+	const parentAttributes = select('core/block-editor').getBlockAttributes( parentClientId );
+
+	let parentID = '';
+	if (parentAttributes != null) {
+		if ('post_id' in parentAttributes) {
+			parentID = String( parentAttributes.post_id );
+		}
+		else if ('ref' in parentAttributes) {
+			parentID = String( parentAttributes.ref );
+		}
+	}
+
+	if(parentID != '') {
+		setAttributes( { parentID: parentID } )
 	}
 
 	return (
-		<div { ...blockProps }>
+		<div { ...useBlockProps() }>
 			<InspectorControls key="setting">
 				<PanelBody
 					title = {__( 'Settings', 'ttm-form' ) }
@@ -84,20 +77,19 @@ export default function Edit( { attributes, setAttributes } ) {
 				>
 					<fieldset>
 						<TextControl
-							label="To"
-							value={ to }
-							onChange={ ( value ) => setAttributes( { to: value } ) }
-						/>
-						<TextControl
-							label="Subject"
-							value={ subject }
-							onChange={ ( value ) => setAttributes( { subject: value } ) }
+							label="Label"
+							value={ label }
+							onChange={ ( value ) => setAttributes( { label: value } ) }
 						/>
 					</fieldset>
 				</PanelBody>
 			</InspectorControls>
-			{ ( ! to || ! subject ) && <p>Make sure to set the to and subject in the form settings.</p>}
-			{ ( to && subject ) && <InnerBlocks allowedBlocks={ allowedBlocks } /> }
+			<div { ...blockProps }>
+				<fieldset>
+					<legend>{label}</legend>
+					<InnerBlocks allowedBlocks={ allowedBlocks } />
+				</fieldset>
+			</div>
 		</div>
 	);
 }

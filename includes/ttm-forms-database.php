@@ -27,7 +27,11 @@ class Database {
             }
             else {
                 $label = $block[ 'attrs' ][ 'label' ] ?? '';
-                if( str_starts_with( $block[ 'blockName' ], 'ttm/input-hidden' ) ) {
+
+                if(
+					str_starts_with( $block[ 'blockName' ], 'ttm/input-hidden' ) ||
+					str_starts_with( $block[ 'blockName' ], 'ttm/input-radio-item' )
+				) {
                     $label = $block[ 'attrs' ][ 'name' ] ?? '';
                 }
                 $name = strtolower( str_replace( [ ':', ' ' ], [ '', '' ], $label ) );
@@ -136,7 +140,10 @@ class Database {
 		$message = '<table>';
 
         foreach( $posted as $key => $value ) {
-            if( $key === 'ttm_form' ) {
+            if(
+				$key === 'ttm_form' ||
+				$key === 'g-recaptcha-response'
+			) {
                 continue;
             }
 			$key = sanitize_text_field( $key );

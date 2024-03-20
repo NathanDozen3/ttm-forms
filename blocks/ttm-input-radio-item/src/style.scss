@@ -1,0 +1,11 @@
+.wp-block-ttm-input-radio-item {
+	display: flex;
+	justify-content: space-between;
+
+	input {
+
+		.wp-block-ttm-form & {
+			width: auto;
+		}
+	}
+}
