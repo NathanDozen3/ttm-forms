@@ -1,7 +1,7 @@
 {
 	"name": "ttm-forms",
 	"version": "1.0.0",
-	"description": "Another form plugin",
+	"description": "Create Gutenberg-first, mobile-first, accessibility-first forms and view entries in the WordPress admin.",
 	"author": "Twelve Three Media",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
@@ -23,6 +23,7 @@
 		"start:ttm-input-submit": "wp-scripts start --webpack-src-dir=blocks/ttm-input-submit/src --output-path=blocks/ttm-input-submit/build",
 		"start:ttm-input-tel": "wp-scripts start --webpack-src-dir=blocks/ttm-input-tel/src --output-path=blocks/ttm-input-tel/build",
 		"start:ttm-input-text": "wp-scripts start --webpack-src-dir=blocks/ttm-input-text/src --output-path=blocks/ttm-input-text/build",
+		"start:ttm-recaptcha": "wp-scripts start --webpack-src-dir=blocks/ttm-recaptcha/src --output-path=blocks/ttm-recaptcha/build",
 		"start:ttm-textarea": "wp-scripts start --webpack-src-dir=blocks/ttm-textarea/src --output-path=blocks/ttm-textarea/build"
 	},
 	"devDependencies": {

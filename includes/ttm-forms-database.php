@@ -157,10 +157,26 @@ class Database {
         $date = date( 'Y-m-d' );
         $url = $posted[ 'url' ];
 
-        $this->insert_record_into_table( $date, $url, $fields );
+		$options = get_option( 'ttm_forms' );
+		$secret = $options[ 'secret-key' ];
+		$response = $posted[ 'g-recaptcha-response' ];
+		$remoteip = '';
 
-        wp_mail( $to, $subject, $message, $headers );
-        header("Location: {$_SERVER[ 'REQUEST_URI' ]}");
+		$has_recaptcha = isset( $posted[ 'g-recaptcha-response' ]);
+
+		if( $has_recaptcha ) {
+			$recaptcha = ( new Recaptcha( $secret, $response, $remoteip ) )->get();
+			$body = json_decode( wp_remote_retrieve_body( $recaptcha ) );
+		}
+
+		if(
+			! $has_recaptcha ||
+			( $has_recaptcha && $body->success === true )
+		) {
+			$this->insert_record_into_table( $date, $url, $fields );
+			wp_mail( $to, $subject, $message, $headers );
+		}
+		header("Location: {$_SERVER[ 'REQUEST_URI' ]}");
         die;
     }
 
