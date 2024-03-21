@@ -51,18 +51,28 @@ class Options {
 	 *
 	 * @return void
 	 */
-	public function add_submenu_to_general_options() : void {
+	public function add_form_menu_to_admin_menu() : void {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		add_submenu_page(
-			'options-general.php',
-			'TTM Forms',
-			'TTM Forms',
+		add_menu_page(
+			__( 'TTM Forms', 'ttm-forms' ),
+			__( 'Forms', 'ttm-forms' ),
 			'manage_options',
 			'ttm-forms',
-			[ $this, 'render_options_page' ]
+			[ $this, 'render_options_page' ],
+			'dashicons-format-aside',
+			$position = 50
+		);
+
+		add_submenu_page(
+			'ttm-forms',
+			__( 'TTM Form Settings', 'ttm-forms' ),
+			__( 'Settings', 'ttm-forms' ),
+			'manage_options',
+			'ttm-forms-settings',
+			[ $this, 'render_settings_page' ]
 		);
 	}
 
@@ -77,7 +87,26 @@ class Options {
 			return;
 		}
 
+		if( ! class_exists( 'WP_List_Table' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+		}
+		require TTM_FORMS_DIR . '/includes/ttm-forms-list-table.php';
+
 		get_partial( 'options-page' );
+	}
+
+
+	/**
+	 * Print the TTM Forms settings page.
+	 *
+	 * @return void
+	 */
+	public function render_settings_page() : void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		get_partial( 'settings-page' );
 	}
 
 
@@ -149,7 +178,7 @@ class Options {
 
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
-			esc_url( admin_url( '/options-general.php?page=ttm-forms' ) ),
+			esc_url( admin_url( '/wp-admin/admin.php?page=ttm-forms-settings' ) ),
 			esc_html__( 'Settings', 'ttm-forms' )
 		);
 

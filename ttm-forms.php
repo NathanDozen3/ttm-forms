@@ -35,7 +35,7 @@ add_action( 'init', [ $ttm_forms_database, 'process_form' ] );
 register_activation_hook( TTM_FORMS_FILE, [ $ttm_forms_database, 'create_database_table' ] );
 
 $ttm_forms_options = new Options();
-add_action( 'admin_menu', [ $ttm_forms_options, 'add_submenu_to_general_options' ] );
+add_action( 'admin_menu', [ $ttm_forms_options, 'add_form_menu_to_admin_menu' ] );
 add_action( 'admin_init', [ $ttm_forms_options, 'register_ttm_forms_settings' ] );
 add_filter( 'plugin_action_links_ttm-forms/ttm-forms.php', [ $ttm_forms_options, 'add_settings_link_to_plugins_administration_page' ] );
-add_action( 'load-settings_page_ttm-forms', [ $ttm_forms_options, 'enqueue_ttm_form_settings_css' ] );
+add_action( 'load-forms_page_ttm-forms-settings', [ $ttm_forms_options, 'enqueue_ttm_form_settings_css' ] );
