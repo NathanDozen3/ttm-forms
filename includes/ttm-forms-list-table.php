@@ -107,7 +107,7 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 	public function prepare_items() : void {
 		global $wpdb;
 		$table_name = TTM_FORMS_TABLE_NAME;
-		$per_page = 10;
+		$per_page = get_user_option( TTM_FORMS_PER_PAGE_OPTIONS_NAME );
 
 		$columns = $this->get_columns();
 		$hidden = [];

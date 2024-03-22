@@ -188,6 +188,34 @@ class Options {
 
 
 	/**
+	 * Add per_page screen option.
+	 *
+	 * @return void
+	 */
+	public function add_per_page_options() : void {
+		add_screen_option( 'per_page' );
+	}
+
+
+	/**
+	 * Set per_page screen option.
+	 *
+	 * @param mixed $screen_option The value to save instead of the option value. Default false (to skip saving the current option).
+	 * @param string $option The option name.
+	 * @param int $value The option value.
+	 *
+	 * @return int
+	 */
+	public function set_per_page_option( $screen_option, $option, $value ) : int|false {
+		if( $option !== TTM_FORMS_PER_PAGE_OPTIONS_NAME ) {
+			return $screen_option;
+		}
+
+		return $value;
+	}
+
+
+	/**
 	 * Enqueue the TTM Forms settings CSS.
 	 *
 	 * @return void

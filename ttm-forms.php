@@ -17,6 +17,7 @@ global $wpdb;
 define( 'TTM_FORMS_FILE', __FILE__ );
 define( 'TTM_FORMS_DIR', __DIR__ );
 define( 'TTM_FORMS_TABLE_NAME', $wpdb->prefix . 'ttm_forms' );
+define( 'TTM_FORMS_PER_PAGE_OPTIONS_NAME', 'toplevel_page_ttm_forms_per_page' );
 
 require TTM_FORMS_DIR . '/includes/ttm-forms-blocks.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-database.php';
@@ -39,3 +40,5 @@ add_action( 'admin_menu', [ $ttm_forms_options, 'add_form_menu_to_admin_menu' ] 
 add_action( 'admin_init', [ $ttm_forms_options, 'register_ttm_forms_settings' ] );
 add_filter( 'plugin_action_links_ttm-forms/ttm-forms.php', [ $ttm_forms_options, 'add_settings_link_to_plugins_administration_page' ] );
 add_action( 'load-forms_page_ttm-forms-settings', [ $ttm_forms_options, 'enqueue_ttm_form_settings_css' ] );
+add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'add_per_page_options' ] );
+add_filter( 'set-screen-option', [ $ttm_forms_options, 'set_per_page_option' ], 11, 3);
