@@ -20,6 +20,7 @@ define( 'TTM_FORMS_FILE', __FILE__ );
 define( 'TTM_FORMS_DIR', __DIR__ );
 define( 'TTM_FORMS_TABLE_NAME', $wpdb->prefix . 'ttm_forms' );
 define( 'TTM_FORMS_PER_PAGE_OPTIONS_NAME', 'toplevel_page_ttm_forms_per_page' );
+define( 'TTM_FORMS_HONEYPOT_POST_VAR', 'url' );
 
 require TTM_FORMS_DIR . '/includes/ttm-forms-blocks.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-database.php';
@@ -32,6 +33,7 @@ add_action( 'init',  [ $ttm_forms_blocks, 'register_blocks' ] );
 add_action( 'enqueue_block_assets', [ $ttm_forms_blocks, 'enqueue_block_assets' ] );
 add_filter( 'render_block_ttm/recaptcha', [ $ttm_forms_blocks, 'add_recaptcha_site_key' ], 10, 3 );
 add_filter( 'render_block_core/block', [ $ttm_forms_blocks, 'add_hidden_field_to_ttm_form' ], 10, 3 );
+add_filter( 'render_block_ttm/form', [ $ttm_forms_blocks, 'add_honeypot_to_ttm_form' ], 20, 3 );
 
 $ttm_forms_database = new Database();
 add_action( 'init', [ $ttm_forms_database, 'process_form' ] );

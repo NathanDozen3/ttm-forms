@@ -4,6 +4,7 @@
 .wp-block-ttm-form {
   --ttm--color--light: #999999;
 }
+.wp-block-ttm-form .ttm\/form,
 .wp-block-ttm-form .sr-only {
   border-width: 0;
   clip: rect(0, 0, 0, 0);

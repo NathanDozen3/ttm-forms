@@ -86,6 +86,22 @@ class Blocks {
 	/**
 	 *
 	 */
+	function add_honeypot_to_ttm_form( $block_content, $block, $instance ) {
+		ob_start();
+		get_partial( 'honeypot' );
+		$honeypot = ob_get_clean();
+		$block_content = str_replace(
+			'<div class="wp-block-ttm-form"><form method="post">',
+			'<div class="wp-block-ttm-form"><form method="post">' . $honeypot,
+			$block_content
+		);
+		return $block_content;
+	}
+
+
+	/**
+	 *
+	 */
 	function reusable_block_has_ttm_form() : bool {
 
 		$p = get_post();

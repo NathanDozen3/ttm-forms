@@ -180,8 +180,14 @@ class Database {
 			! $has_recaptcha ||
 			( $has_recaptcha && $body->success === true )
 		) {
-			$this->insert_record_into_table( $date, $url, $fields );
-			wp_mail( $to, $subject, $message, $headers );
+
+			// Validate Honeypot
+			if(
+				isset( $_REQUEST[ TTM_FORMS_HONEYPOT_POST_VAR ] ) &&
+				empty( $_REQUEST[ TTM_FORMS_HONEYPOT_POST_VAR ] ) ) {
+					$this->insert_record_into_table( $date, $url, $fields );
+					wp_mail( $to, $subject, $message, $headers );
+			}
 		}
 		header("Location: {$_SERVER[ 'REQUEST_URI' ]}");
         die;
