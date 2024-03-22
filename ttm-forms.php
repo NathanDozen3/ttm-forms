@@ -8,6 +8,8 @@
  * Requires PHP: 8.0
  * Author: Twelve Three Media
  * Author URI: https://www.digitalmarketingcompany.com/
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: ttm-forms
  */
 
