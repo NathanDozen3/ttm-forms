@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ttm/input-checkbox-item",
+	"version": "1.0.0",
+	"title": "Checkbox Item",
+	"category": "widgets",
+	"icon": "editor-ul",
+	"description": "",
+	"example": {},
+	"supports": {
+		"html": false,
+		"multiple": true
+	},
+	"attributes": {
+		"parentID": {
+			"type": "string",
+			"default": ""
+		},
+		"label": {
+				"type": "string",
+				"default": ""
+		},
+		"name": {
+			"type": "string",
+			"default": ""
+	}
+	},
+	"usesContext": [ "ttm-form/label" ],
+	"parent": [ "ttm-form", "ttm/input-checkbox" ],
+	"textdomain": "ttm-form",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}

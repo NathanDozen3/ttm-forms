@@ -35,6 +35,7 @@ import './editor.scss';
 export default function Edit() {
 	const blockProps = useBlockProps();
 	const allowedBlocks = [
+		"ttm/input-checkbox",
 		"ttm/input-date",
 		"ttm/input-email",
 		"ttm/input-hidden",

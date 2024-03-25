@@ -30,6 +30,7 @@ class Database {
 
                 if(
 					str_starts_with( $block[ 'blockName' ], 'ttm/input-hidden' ) ||
+					str_starts_with( $block[ 'blockName' ], 'ttm/input-checkbox-item' ) ||
 					str_starts_with( $block[ 'blockName' ], 'ttm/input-radio-item' )
 				) {
                     $label = $block[ 'attrs' ][ 'name' ] ?? '';
@@ -146,8 +147,16 @@ class Database {
 			) {
                 continue;
             }
+
+			if( is_array( $value ) ) {
+				foreach( $value as $k => $v ) {
+					$value[ $k ] = sanitize_text_field( $v );
+				}
+				$value = json_encode( $value );
+			}
+
 			$key = sanitize_text_field( $key );
-            $value = sanitize_text_field( $value );
+			$value = sanitize_text_field( $value );
             $fields[ $key ] = $value;
 
 			$color = $n % 2 === 0 ? '#ffffff' : '#f0f0f0';

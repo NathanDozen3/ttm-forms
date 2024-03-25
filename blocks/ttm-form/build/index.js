@@ -71,7 +71,7 @@ function Edit({
   setAttributes
 }) {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const allowedBlocks = ["core/heading", "ttm/columns", "ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-radio", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
+  const allowedBlocks = ["core/heading", "ttm/columns", "ttm/input-checkbox", "ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-radio", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
   const {
     to,
     subject

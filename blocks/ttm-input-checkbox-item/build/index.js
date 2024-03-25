@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./blocks/ttm-column/src/edit.js":
-/*!***************************************!*\
-  !*** ./blocks/ttm-column/src/edit.js ***!
-  \***************************************/
+/***/ "./blocks/ttm-input-checkbox-item/src/edit.js":
+/*!****************************************************!*\
+  !*** ./blocks/ttm-input-checkbox-item/src/edit.js ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -18,7 +18,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-column/src/editor.scss");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-input-checkbox-item/src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -33,6 +37,8 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
+
 
 
 /**
@@ -51,31 +57,76 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {Element} Element to render.
  */
-function Edit() {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const allowedBlocks = ["ttm/input-checkbox", "ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-radio", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
+function Edit({
+  context,
+  clientId,
+  attributes,
+  setAttributes
+}) {
+  const {
+    label
+  } = attributes;
+  const slug = label.trim().replaceAll(":", "").replaceAll(" ", "-").toLowerCase();
+  const name = context['ttm-form/label'].trim().replaceAll(":", "").replaceAll(" ", "-").toLowerCase();
+  const parentClientId = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)('core/block-editor').getBlockHierarchyRootClientId(clientId);
+  const parentAttributes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)('core/block-editor').getBlockAttributes(parentClientId);
+  let parentID = '';
+  if (parentAttributes != null) {
+    if ('post_id' in parentAttributes) {
+      parentID = String(parentAttributes.post_id);
+    } else if ('ref' in parentAttributes) {
+      parentID = String(parentAttributes.ref);
+    }
+  }
+  if (parentID != '') {
+    setAttributes({
+      parentID: parentID
+    });
+  }
+  if (name != '') {
+    setAttributes({
+      name: name
+    });
+  }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
-    allowedBlocks: allowedBlocks
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
+    key: "setting"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'ttm-form'),
+    initialOpen: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    label: "Label",
+    value: label,
+    onChange: value => setAttributes({
+      label: value
+    })
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    for: name + "-" + slug
+  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "checkbox",
+    id: name + "-" + slug,
+    name: name + "[]",
+    value: slug,
+    disabled: true
   }));
 }
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/index.js":
-/*!****************************************!*\
-  !*** ./blocks/ttm-column/src/index.js ***!
-  \****************************************/
+/***/ "./blocks/ttm-input-checkbox-item/src/index.js":
+/*!*****************************************************!*\
+  !*** ./blocks/ttm-input-checkbox-item/src/index.js ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./blocks/ttm-column/src/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./blocks/ttm-column/src/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./blocks/ttm-column/src/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./blocks/ttm-column/src/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./blocks/ttm-input-checkbox-item/src/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./blocks/ttm-input-checkbox-item/src/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./blocks/ttm-input-checkbox-item/src/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./blocks/ttm-input-checkbox-item/src/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -117,10 +168,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/save.js":
-/*!***************************************!*\
-  !*** ./blocks/ttm-column/src/save.js ***!
-  \***************************************/
+/***/ "./blocks/ttm-input-checkbox-item/src/save.js":
+/*!****************************************************!*\
+  !*** ./blocks/ttm-input-checkbox-item/src/save.js ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -152,19 +203,29 @@ __webpack_require__.r(__webpack_exports__);
 function save({
   attributes
 }) {
-  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
-  const innerBlocksProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps.save();
+  const {
+    name,
+    label
+  } = attributes;
+  const slug = label.trim().replaceAll(":", "").replaceAll(" ", "-").toLowerCase();
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
-  }, innerBlocksProps.children);
+    ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    for: name + "-" + slug
+  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "checkbox",
+    id: name + "-" + slug,
+    name: name + "[]",
+    value: slug
+  }));
 }
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/editor.scss":
-/*!*******************************************!*\
-  !*** ./blocks/ttm-column/src/editor.scss ***!
-  \*******************************************/
+/***/ "./blocks/ttm-input-checkbox-item/src/editor.scss":
+/*!********************************************************!*\
+  !*** ./blocks/ttm-input-checkbox-item/src/editor.scss ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -173,10 +234,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/style.scss":
-/*!******************************************!*\
-  !*** ./blocks/ttm-column/src/style.scss ***!
-  \******************************************/
+/***/ "./blocks/ttm-input-checkbox-item/src/style.scss":
+/*!*******************************************************!*\
+  !*** ./blocks/ttm-input-checkbox-item/src/style.scss ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -215,6 +276,26 @@ module.exports = window["wp"]["blocks"];
 
 /***/ }),
 
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -225,13 +306,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/block.json":
-/*!******************************************!*\
-  !*** ./blocks/ttm-column/src/block.json ***!
-  \******************************************/
+/***/ "./blocks/ttm-input-checkbox-item/src/block.json":
+/*!*******************************************************!*\
+  !*** ./blocks/ttm-input-checkbox-item/src/block.json ***!
+  \*******************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/column","version":"1.0.0","title":"Column","category":"widgets","icon":"columns","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{},"parent":["ttm/columns"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-checkbox-item","version":"1.0.0","title":"Checkbox Item","category":"widgets","icon":"editor-ul","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"parentID":{"type":"string","default":""},"label":{"type":"string","default":""},"name":{"type":"string","default":""}},"usesContext":["ttm-form/label"],"parent":["ttm-form","ttm/input-checkbox"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
@@ -396,7 +477,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./blocks/ttm-column/src/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./blocks/ttm-input-checkbox-item/src/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
