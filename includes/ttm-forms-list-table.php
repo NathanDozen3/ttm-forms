@@ -27,7 +27,19 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 	 * @return string
 	 */
 	public function column_default( $item, $column_name ) : string {
-		return $item[ $column_name ] ?? '';
+		$fields = json_decode( $item[ 'fields' ] );
+		return $fields->$column_name ?? '';
+	}
+
+	/**
+	 * Return the column date.
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
+	public function column_date( array $item ) : string {
+		return $item[ 'date' ];
 	}
 
 
@@ -78,12 +90,31 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
-		return [
+
+		$user_fields = get_user_option( 'toplevel_page_ttm_forms_fields' ) ?: [];
+		if( is_string( $user_fields ) && json_validate( $user_fields ) ) {
+			$user_fields = json_decode( $user_fields );
+		}
+		else {
+			$user_fields = [];
+		}
+
+		$return = [
 			'cb' => '<input type="checkbox" />',
 			'date' => __( 'Date', 'ttm-forms' ),
-			'name' => __( 'Name', 'ttm-forms'),
-			'email' => __( 'Email', 'ttm-forms' ),
 		];
+
+		foreach( $user_fields as $field ) {
+			$field_title = strtolower( $field );
+			$field_title = str_replace(
+				[ '_', '-', 'id', 'url', 'ttm' ],
+				[ ' ', ' ', 'ID', 'URL', 'TTM' ],
+				$field_title
+			);
+			$field_title = ucwords( $field_title );
+			$return[ $field ] = $field_title;
+		}
+		return $return;
 	}
 
 
@@ -107,7 +138,7 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 	public function prepare_items() : void {
 		global $wpdb;
 		$table_name = TTM_FORMS_TABLE_NAME;
-		$per_page = get_user_option( TTM_FORMS_PER_PAGE_OPTIONS_NAME );
+		$per_page = get_user_option( TTM_FORMS_PER_PAGE_OPTIONS_NAME ) ?: 20;
 
 		$columns = $this->get_columns();
 		$hidden = [];

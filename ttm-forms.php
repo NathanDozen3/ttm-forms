@@ -46,3 +46,4 @@ add_filter( 'plugin_action_links_ttm-forms/ttm-forms.php', [ $ttm_forms_options,
 add_action( 'load-forms_page_ttm-forms-settings', [ $ttm_forms_options, 'enqueue_ttm_form_settings_css' ] );
 add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'add_per_page_options' ] );
 add_filter( 'set-screen-option', [ $ttm_forms_options, 'set_per_page_option' ], 11, 3);
+add_filter( 'screen_settings', [ $ttm_forms_options, 'screen_settings' ], 10, 2 );

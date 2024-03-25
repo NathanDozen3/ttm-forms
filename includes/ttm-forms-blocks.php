@@ -91,8 +91,8 @@ class Blocks {
 		get_partial( 'honeypot' );
 		$honeypot = ob_get_clean();
 		$block_content = str_replace(
-			'<div class="wp-block-ttm-form"><form method="post">',
-			'<div class="wp-block-ttm-form"><form method="post">' . $honeypot,
+			'<form method="post">',
+			'<form method="post">' . $honeypot,
 			$block_content
 		);
 		return $block_content;

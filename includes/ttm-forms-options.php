@@ -207,11 +207,15 @@ class Options {
 	 * @return int
 	 */
 	public function set_per_page_option( $screen_option, $option, $value ) : int|false {
-		if( $option !== TTM_FORMS_PER_PAGE_OPTIONS_NAME ) {
-			return $screen_option;
+
+		$fields = json_encode( $_POST[ 'fields' ] );
+		update_user_option( get_current_user_id(), 'toplevel_page_ttm_forms_fields', $fields );
+
+		if( $option === TTM_FORMS_PER_PAGE_OPTIONS_NAME ) {
+			return $value;
 		}
 
-		return $value;
+		return $screen_option;
 	}
 
 
@@ -223,4 +227,55 @@ class Options {
 	public function enqueue_ttm_form_settings_css() {
 		wp_enqueue_style( 'ttm-forms-settings', plugins_url() . '/ttm-forms/assets/css/ttm-forms-settings.css' );
 	}
+
+
+	/**
+	 * Add screen settings checkboxes.
+	 *
+	 * @param string $settings
+	 * @param \WP_Screen $screen
+	 *
+	 * @return string
+	 */
+	function screen_settings( string $settings, \WP_Screen $screen ) : string {
+		if( 'toplevel_page_ttm-forms' !== $screen->base ) {
+			return $settings;
+		}
+
+		$user_fields = get_user_option( 'toplevel_page_ttm_forms_fields' ) ?: [];
+		if( is_string( $user_fields ) && json_validate( $user_fields ) ) {
+			$user_fields = json_decode( $user_fields );
+		}
+		else {
+			$user_fields = [];
+		}
+
+		global $ttm_forms_database;
+		$fields = $ttm_forms_database->get_record_labels();
+
+		$text = '<fieldset class="screen-options">' .
+		'<legend>Fields</legend>';
+
+		foreach( $fields as $field ) {
+			$field_title = strtolower( $field );
+			$field_title = str_replace(
+				[ '_', '-', 'id', 'url', 'ttm' ],
+				[ ' ', ' ', 'ID', 'URL', 'TTM' ],
+				$field_title
+			);
+			$field_title = ucwords( $field_title );
+			$checked = in_array( $field, $user_fields ) ? 'checked="checked"' : '';
+			$t = sprintf(
+				'<label for="%1$s">%2$s:</label> <input type="checkbox" id="%1$s" value="%1$s" name="fields[]" %3$s>',
+				$field,
+				$field_title,
+				$checked
+			);
+			$text .= $t;
+		}
+
+		$text .= '</fieldset>';
+		return $text;
+	}
+
 }

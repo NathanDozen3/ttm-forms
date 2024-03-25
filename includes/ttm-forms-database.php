@@ -193,6 +193,40 @@ class Database {
         die;
     }
 
+
+	/**
+	 *
+	 *
+	 * @return array
+	 */
+	public function get_record_labels() : array {
+		global $wpdb;
+		$table_name = TTM_FORMS_TABLE_NAME;
+		$items = $wpdb->get_results(
+			"SELECT `fields` FROM $table_name", ARRAY_A
+		);
+		$dont_log = [
+			'date',
+			'ttm_form',
+			'g-recaptcha-response',
+		];
+
+		$fields = [];
+		foreach( $items as $item ) {
+			$fs = json_decode( $item[ 'fields' ] );
+			foreach( $fs as $k => $f ) {
+
+
+				if( in_array( $k, $dont_log ) ) {
+					continue;
+				}
+				$fields[ $k ] = true;
+			}
+		}
+		return array_keys( $fields );
+	}
+
+
     /**
      *
      */
