@@ -32,6 +32,8 @@ class Options {
 				$slug = $module->get( 'slug' );
 				$name = $module->get( 'name' );
 
+				$active_class = is_module_active( $slug ) ? 'show' : 'hide';
+
 				// Add Module Toggle
 				add_settings_field(
 					"ttm-forms-module-$slug",
@@ -52,7 +54,12 @@ class Options {
 						"ttm-forms-settings-section-$slug",
 						$name . ' ' . __( 'Settings', 'ttm-forms' ),
 						'__return_null',
-						'ttm-forms-settings'
+						'ttm-forms-settings',
+						[
+							'before_section' => '<div class="%s">',
+							'section_class' => 'module module-' . $slug . " " . $active_class,
+							'after_section' => '</div>',
+						]
 					);
 
 					// Add Settings Fields
@@ -200,6 +207,7 @@ class Options {
 	 */
 	public function enqueue_ttm_form_settings_css() {
 		wp_enqueue_style( 'ttm-forms-settings', plugins_url() . '/ttm-forms/assets/css/ttm-forms-settings.css' );
+		wp_enqueue_script( 'ttm-forms-settings', plugins_url() . '/ttm-forms/assets/js/ttm-forms-settings.js' );
 	}
 
 

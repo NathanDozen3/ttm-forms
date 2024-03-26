@@ -3,6 +3,14 @@
 	width: 100%;
 }
 
+.module.show {
+	display: block;
+}
+
+.module.hide {
+	display: none;
+}
+
 .fields {
 	box-sizing: border-box;
 	display: flex;
