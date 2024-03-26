@@ -13,36 +13,64 @@ class Options {
 	 * @return void
 	 */
 	public function register_ttm_forms_settings() : void {
+		global $ttm_forms_modules;
+
 		register_setting( 'ttm-forms-settings', 'ttm_forms' );
 
-		add_settings_section(
-			'ttm-forms-settings-section',
-			__( '', 'ttm-forms' ),
-			'__return_null',
-			'ttm-forms-settings'
-		);
+		$modules = $ttm_forms_modules->get();
 
-		add_settings_field(
-			'ttm-forms-site-key',
-			__( 'Site Key', 'ttm-forms' ),
-			[ $this, 'render_input_text_field' ],
-			'ttm-forms-settings',
-			'ttm-forms-settings-section',
-			[
-				'id' => 'site-key',
-			]
-		);
+		if( count( $modules ) > 0 ) {
+			add_settings_section(
+				'ttm-forms-settings-modules',
+				__( 'Modules', 'ttm-forms' ),
+				'__return_null',
+				'ttm-forms-settings'
+			);
 
-		add_settings_field(
-			'ttm-forms-secret-key',
-			__( 'Secret Key', 'ttm-forms' ),
-			[ $this, 'render_input_password_field' ],
-			'ttm-forms-settings',
-			'ttm-forms-settings-section',
-			[
-				'id' => 'secret-key',
-			]
-		);
+			foreach( $modules as $module ) {
+
+				$slug = $module->get( 'slug' );
+				$name = $module->get( 'name' );
+
+				// Add Module Toggle
+				add_settings_field(
+					"ttm-forms-module-$slug",
+					$name,
+					__NAMESPACE__ . '\render_input_checkbox',
+					'ttm-forms-settings',
+					'ttm-forms-settings-modules',
+					[
+						'id' => "module-$slug",
+					]
+				);
+
+				$fields = $module->get( 'fields' ) ?? [];
+				if( count( $fields ) > 0 ) {
+
+					// Add Settings Section
+					add_settings_section(
+						"ttm-forms-settings-section-$slug",
+						$name . ' ' . __( 'Settings', 'ttm-forms' ),
+						'__return_null',
+						'ttm-forms-settings'
+					);
+
+					// Add Settings Fields
+					foreach( $fields as $field_slug => $field ) {
+						add_settings_field(
+							"ttm-forms-$field_slug",
+							$field[ 'label' ],
+							$field[ 'callback' ],
+							'ttm-forms-settings',
+							"ttm-forms-settings-section-$slug",
+							[
+								'id' => $field_slug,
+							]
+						);
+					}
+				}
+			}
+		}
 	}
 
 
@@ -107,60 +135,6 @@ class Options {
 		}
 
 		get_partial( 'settings-page' );
-	}
-
-
-	/**
-	 * Print a text area field.
-	 *
-	 * @param array $args This is the description.
-	 *
-	 * @return void
-	 */
-	public function render_textarea_field( array $args ) : void {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$options = get_option( 'ttm_forms' );
-		$args[ 'value' ] = $options[ $args[ 'id' ] ] ?? '';
-		get_partial( 'textarea', $args );
-	}
-
-
-	/**
-	 * Print a text input field.
-	 *
-	 * @param array $args This is the description.
-	 *
-	 * @return void
-	 */
-	public function render_input_text_field( array $args ) : void {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$options = get_option( 'ttm_forms' );
-		$args[ 'value' ] = $options[ $args[ 'id' ] ] ?? '';
-		get_partial( 'input-text', $args );
-	}
-
-
-	/**
-	 * Print a password input field.
-	 *
-	 * @param array $args This is the description.
-	 *
-	 * @return void
-	 */
-	public function render_input_password_field( array $args ) : void {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$options = get_option( 'ttm_forms' );
-		$args[ 'value' ] = $options[ $args[ 'id' ] ] ?? '';
-		get_partial( 'input-password', $args );
 	}
 
 

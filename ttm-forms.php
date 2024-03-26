@@ -18,6 +18,7 @@ namespace ttm\forms;
 global $wpdb;
 define( 'TTM_FORMS_FILE', __FILE__ );
 define( 'TTM_FORMS_DIR', __DIR__ );
+define( 'TTM_FORMS_BLOCKS_DIR', TTM_FORMS_DIR . '/blocks/' );
 define( 'TTM_FORMS_TABLE_NAME', $wpdb->prefix . 'ttm_forms' );
 define( 'TTM_FORMS_PER_PAGE_OPTIONS_NAME', 'toplevel_page_ttm_forms_per_page' );
 define( 'TTM_FORMS_HONEYPOT_POST_VAR', 'url' );
@@ -25,18 +26,20 @@ define( 'TTM_FORMS_HONEYPOT_POST_VAR', 'url' );
 require TTM_FORMS_DIR . '/includes/ttm-forms-blocks.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-database.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-functions.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-module.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-modules.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-options.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-recaptcha.php';
 
 $ttm_forms_blocks = new Blocks();
-add_action( 'init',  [ $ttm_forms_blocks, 'register_blocks' ] );
+add_action( is_admin() ? 'admin_init' : 'init',  [ $ttm_forms_blocks, 'register_blocks' ], 20 );
 add_action( 'enqueue_block_assets', [ $ttm_forms_blocks, 'enqueue_block_assets' ] );
 add_filter( 'render_block_ttm/recaptcha', [ $ttm_forms_blocks, 'add_recaptcha_site_key' ], 10, 3 );
 add_filter( 'render_block_core/block', [ $ttm_forms_blocks, 'add_hidden_field_to_ttm_form' ], 10, 3 );
 add_filter( 'render_block_ttm/form', [ $ttm_forms_blocks, 'add_honeypot_to_ttm_form' ], 20, 3 );
 
 $ttm_forms_database = new Database();
-add_action( 'init', [ $ttm_forms_database, 'process_form' ] );
+add_action( 'init', [ $ttm_forms_database, 'process_form' ], -1 );
 register_activation_hook( TTM_FORMS_FILE, [ $ttm_forms_database, 'create_database_table' ] );
 
 $ttm_forms_options = new Options();
@@ -48,3 +51,6 @@ add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'enqueue_ttm_f
 add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'add_per_page_options' ] );
 add_filter( 'set-screen-option', [ $ttm_forms_options, 'set_per_page_option' ], 11, 3);
 add_filter( 'screen_settings', [ $ttm_forms_options, 'screen_settings' ], 10, 2 );
+
+$ttm_forms_modules = new Modules();
+add_action( 'init', [ $ttm_forms_modules, 'register_modules' ] );

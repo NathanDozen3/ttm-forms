@@ -84,6 +84,7 @@ class Database {
 	 */
 	public function process_form() {
 		if(
+			is_admin() ||
 			empty( $_POST[ 'post_id' ] ) ||
 			empty( $_POST[ 'ttm_form' ] )
 		) {

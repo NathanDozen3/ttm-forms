@@ -8,12 +8,42 @@ namespace ttm\forms;
 class Blocks {
 
 	/**
-	 * Register all blocks in the /blocks/ directory.
+	 *
 	 */
-	public function register_blocks() {
-		$dirs = array_filter( glob( TTM_FORMS_DIR . '/blocks/*' ), 'is_dir' );
+	private array $dirs = [
+		'ttm-column',
+		'ttm-columns',
+		'ttm-form',
+		'ttm-input-checkbox',
+		'ttm-input-checkbox-item',
+		'ttm-input-date',
+		'ttm-input-email',
+		'ttm-input-hidden',
+		'ttm-input-password',
+		'ttm-input-radio',
+		'ttm-input-radio-item',
+		'ttm-input-submit',
+		'ttm-input-tel',
+		'ttm-input-text',
+		'ttm-textarea',
+	];
+
+	/**
+	 * Register TTM Forms blocks.
+	 *
+	 * @return void
+	 */
+	public function register_blocks() : void {
+
+		/**
+		 * Filters the blocks to register.
+		 *
+		 * @param string[] $dirs An array of block directories to register.
+		 */
+		$dirs = apply_filters( 'ttm\forms\register_blocks', $this->dirs );
+
 		foreach( $dirs as $dir ) {
-			register_block_type( $dir . '/build' );
+			register_block_type( TTM_FORMS_BLOCKS_DIR . $dir . '/build' );
 		}
 	}
 
