@@ -254,7 +254,7 @@ class Options {
 		$fields = $ttm_forms_database->get_record_labels();
 
 		$text = '<fieldset class="screen-options">' .
-		'<legend>Fields</legend>';
+		'<legend>Fields</legend><div class="fields">';
 
 		foreach( $fields as $field ) {
 			$field_title = strtolower( $field );
@@ -266,7 +266,7 @@ class Options {
 			$field_title = ucwords( $field_title );
 			$checked = in_array( $field, $user_fields ) ? 'checked="checked"' : '';
 			$t = sprintf(
-				'<label for="%1$s">%2$s:</label> <input type="checkbox" id="%1$s" value="%1$s" name="fields[]" %3$s>',
+				'<div class="field"><label class="field-label" for="%1$s">%2$s:</label> <input type="checkbox" id="%1$s" value="%1$s" name="fields[]" %3$s></div>',
 				$field,
 				$field_title,
 				$checked
@@ -274,7 +274,7 @@ class Options {
 			$text .= $t;
 		}
 
-		$text .= '</fieldset>';
+		$text .= '</div></fieldset>';
 		return $text;
 	}
 

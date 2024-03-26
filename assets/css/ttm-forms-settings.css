@@ -2,3 +2,28 @@
 .ttm-forms--text {
 	width: 100%;
 }
+
+.fields {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+.field {
+	align-items: center;
+	background-color: #efefef;
+	box-sizing: border-box;
+	display: flex;
+	flex: 100% 0 0;
+	justify-content: space-between;
+	padding: 0.5rem;
+}
+.field-label {
+	width: 100%;
+}
+
+@media(min-width:768px) {
+	.field {
+		flex: calc(25% - 0.5rem) 0 0;
+	}
+}

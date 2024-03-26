@@ -7,40 +7,40 @@ namespace ttm\forms;
  */
 class Database {
 
-    /**
-     *
-     */
-    private function process_inner_blocks( array $blocks ) : array {
-        $innerBlocks = [];
+	/**
+	 *
+	 */
+	private function process_inner_blocks( array $blocks ) : array {
+		$innerBlocks = [];
 
-        foreach( $blocks as $block ) {
+		foreach( $blocks as $block ) {
 
-            if(
-                ! str_starts_with( $block[ 'blockName' ], 'ttm/' ) ||
-                str_starts_with( $block[ 'blockName' ], 'ttm/input-submit' )
-            ) {
-                continue;
-            }
+			if(
+				! str_starts_with( $block[ 'blockName' ], 'ttm/' ) ||
+				str_starts_with( $block[ 'blockName' ], 'ttm/input-submit' )
+			) {
+				continue;
+			}
 
-            if( ! empty( $block[ 'innerBlocks' ] ) ) {
-                $innerBlocks = array_merge( $innerBlocks, $this->process_inner_blocks( $block[ 'innerBlocks' ] ) );
-            }
-            else {
-                $label = $block[ 'attrs' ][ 'label' ] ?? '';
+			if( ! empty( $block[ 'innerBlocks' ] ) ) {
+				$innerBlocks = array_merge( $innerBlocks, $this->process_inner_blocks( $block[ 'innerBlocks' ] ) );
+			}
+			else {
+				$label = $block[ 'attrs' ][ 'label' ] ?? '';
 
-                if(
+				if(
 					str_starts_with( $block[ 'blockName' ], 'ttm/input-hidden' ) ||
 					str_starts_with( $block[ 'blockName' ], 'ttm/input-checkbox-item' ) ||
 					str_starts_with( $block[ 'blockName' ], 'ttm/input-radio-item' )
 				) {
-                    $label = $block[ 'attrs' ][ 'name' ] ?? '';
-                }
-                $name = strtolower( str_replace( [ ':', ' ' ], [ '', '' ], $label ) );
-                $innerBlocks[] = $name;
-            }
-        }
-        return $innerBlocks;
-    }
+					$label = $block[ 'attrs' ][ 'name' ] ?? '';
+				}
+				$name = strtolower( str_replace( [ ':', ' ' ], [ '', '' ], $label ) );
+				$innerBlocks[] = $name;
+			}
+		}
+		return $innerBlocks;
+	}
 
 	/**
 	 *
@@ -79,18 +79,18 @@ class Database {
 		return [];
 	}
 
-    /**
-     *
-     */
-    public function process_form() {
-        if(
-            empty( $_POST[ 'post_id' ] ) ||
-            empty( $_POST[ 'ttm_form' ] )
-        ) {
-            return;
-        }
+	/**
+	 *
+	 */
+	public function process_form() {
+		if(
+			empty( $_POST[ 'post_id' ] ) ||
+			empty( $_POST[ 'ttm_form' ] )
+		) {
+			return;
+		}
 
-        $posted = $_POST;
+		$posted = $_POST;
 
 		$exploded = explode( '_', $posted[ 'post_id' ] );
 		if( count( $exploded ) == 2 ) {
@@ -100,21 +100,21 @@ class Database {
 			$posted[ 'url' ] = get_the_permalink( $posted[ 'post_id' ] ?? null );
 		}
 
-        unset( $posted[ 'ttm_form' ] );
+		unset( $posted[ 'ttm_form' ] );
 
-        $keys = array_keys( $posted );
-        sort( $keys );
+		$keys = array_keys( $posted );
+		sort( $keys );
 
-        $post_id = (int) $posted[ 'post_id' ];
+		$post_id = (int) $posted[ 'post_id' ];
 		if( isset( $posted[ 'ttm_form_ref' ] ) ) {
 			$post_id = (int) $posted[ 'ttm_form_ref' ];
 		}
 
-        $post = get_post( $post_id );
-        $blocks = parse_blocks( $post->post_content );
+		$post = get_post( $post_id );
+		$blocks = parse_blocks( $post->post_content );
 
-        $attrs = [];
-        foreach( $blocks as $block ) {
+		$attrs = [];
+		foreach( $blocks as $block ) {
 			if ( str_starts_with( $block[ 'blockName' ], 'core/block' ) ) {
 				$ref = $block[ 'attrs' ][ 'ref' ];
 				$reusable_block = get_post( $ref );
@@ -127,12 +127,12 @@ class Database {
 			else {
 				$attrs = $this->process_individual_block( $block, $keys, $attrs );
 			}
-        }
+		}
 
-        $attrs[ 'to' ] = is_email( $attrs[ 'to' ] );
-        $to = is_email( $attrs[ 'to' ] );
-        $attrs[ 'subject' ] = sanitize_text_field( $attrs[ 'subject' ] );
-        $subject = sanitize_text_field( $attrs[ 'subject' ] );
+		$attrs[ 'to' ] = is_email( $attrs[ 'to' ] );
+		$to = is_email( $attrs[ 'to' ] );
+		$attrs[ 'subject' ] = sanitize_text_field( $attrs[ 'subject' ] );
+		$subject = sanitize_text_field( $attrs[ 'subject' ] );
 		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
 
 		$fields = $attrs;
@@ -140,13 +140,13 @@ class Database {
 
 		$message = '<table>';
 
-        foreach( $posted as $key => $value ) {
-            if(
+		foreach( $posted as $key => $value ) {
+			if(
 				$key === 'ttm_form' ||
 				$key === 'g-recaptcha-response'
 			) {
-                continue;
-            }
+				continue;
+			}
 
 			if( is_array( $value ) ) {
 				foreach( $value as $k => $v ) {
@@ -157,7 +157,7 @@ class Database {
 
 			$key = sanitize_text_field( $key );
 			$value = sanitize_text_field( $value );
-            $fields[ $key ] = $value;
+			$fields[ $key ] = $value;
 
 			$color = $n % 2 === 0 ? '#ffffff' : '#f0f0f0';
 
@@ -166,12 +166,12 @@ class Database {
 			$message .= "<td>$value</td>";
 			$message .= "</tr>";
 			$n++;
-        }
+		}
 		$message .= '</table>';
-        $fields = json_encode( json_decode( json_encode( $fields ) ) );
+		$fields = json_encode( json_decode( json_encode( $fields ) ) );
 
-        $date = date( 'Y-m-d' );
-        $url = $posted[ 'url' ];
+		$date = date( 'Y-m-d H:i:s' );
+		$url = $posted[ 'url' ];
 
 		$options = get_option( 'ttm_forms' );
 		$secret = $options[ 'secret-key' ];
@@ -193,14 +193,17 @@ class Database {
 			// Validate Honeypot
 			if(
 				isset( $_REQUEST[ TTM_FORMS_HONEYPOT_POST_VAR ] ) &&
-				empty( $_REQUEST[ TTM_FORMS_HONEYPOT_POST_VAR ] ) ) {
+				empty( $_REQUEST[ TTM_FORMS_HONEYPOT_POST_VAR ] )
+			) {
+				$sent = wp_mail( $to, $subject, $message, $headers );
+				if( $sent ) {
 					$this->insert_record_into_table( $date, $url, $fields );
-					wp_mail( $to, $subject, $message, $headers );
+				}
 			}
 		}
 		header("Location: {$_SERVER[ 'REQUEST_URI' ]}");
-        die;
-    }
+		die;
+	}
 
 
 	/**
@@ -236,43 +239,43 @@ class Database {
 	}
 
 
-    /**
-     *
-     */
-    private function insert_record_into_table( $date, $url, $fields ) {
+	/**
+	 *
+	 */
+	private function insert_record_into_table( $date, $url, $fields ) {
 
-        global $wpdb;
+		global $wpdb;
 
-        $table_name = TTM_FORMS_TABLE_NAME;
+		$table_name = TTM_FORMS_TABLE_NAME;
 
-        $wpdb->insert(
-            $table_name,
-            [
-                'date' => $date,
-                'url' => $url,
-                'fields' => $fields,
-            ]
-        );
-    }
+		$wpdb->insert(
+			$table_name,
+			[
+				'date' => $date,
+				'url' => $url,
+				'fields' => $fields,
+			]
+		);
+	}
 
-    /**
-     *
-     */
-    public function create_database_table() {
-        global $wpdb;
+	/**
+	 *
+	 */
+	public function create_database_table() {
+		global $wpdb;
 
-        $table_name = TTM_FORMS_TABLE_NAME;
-        $charset_collate = $wpdb->get_charset_collate();
+		$table_name = TTM_FORMS_TABLE_NAME;
+		$charset_collate = $wpdb->get_charset_collate();
 
-        $sql = "CREATE TABLE $table_name (
-            id mediumint(9) NOT NULL AUTO_INCREMENT,
-            date date DEFAULT '0000-00-00' NOT NULL,
-            url varchar(55) DEFAULT '' NOT NULL,
-            fields text NOT NULL,
-            PRIMARY KEY  (id)
-        ) $charset_collate;";
+		$sql = "CREATE TABLE $table_name (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			date datetime DEFAULT '0000-00-00' NOT NULL,
+			url varchar(55) DEFAULT '' NOT NULL,
+			fields text NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
 
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        dbDelta( $sql );
-    }
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql );
+	}
 }

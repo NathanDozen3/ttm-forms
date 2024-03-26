@@ -44,6 +44,7 @@ add_action( 'admin_menu', [ $ttm_forms_options, 'add_form_menu_to_admin_menu' ] 
 add_action( 'admin_init', [ $ttm_forms_options, 'register_ttm_forms_settings' ] );
 add_filter( 'plugin_action_links_ttm-forms/ttm-forms.php', [ $ttm_forms_options, 'add_settings_link_to_plugins_administration_page' ] );
 add_action( 'load-forms_page_ttm-forms-settings', [ $ttm_forms_options, 'enqueue_ttm_form_settings_css' ] );
+add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'enqueue_ttm_form_settings_css' ] );
 add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'add_per_page_options' ] );
 add_filter( 'set-screen-option', [ $ttm_forms_options, 'set_per_page_option' ], 11, 3);
 add_filter( 'screen_settings', [ $ttm_forms_options, 'screen_settings' ], 10, 2 );
