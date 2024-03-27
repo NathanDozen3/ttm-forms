@@ -225,10 +225,7 @@ class Options {
 		}
 
 		$user_fields = get_user_option( 'toplevel_page_ttm_forms_fields' ) ?: [];
-		if( is_string( $user_fields ) && json_validate( $user_fields ) ) {
-			$user_fields = json_decode( $user_fields );
-		}
-		else {
+		if( ! is_string( $user_fields ) || ! $user_fields = json_decode( $user_fields ) ) {
 			$user_fields = [];
 		}
 

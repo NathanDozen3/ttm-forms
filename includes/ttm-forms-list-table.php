@@ -19,6 +19,22 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 
 
 	/**
+	 * Gets a list of CSS classes for the WP_List_Table table tag.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return string[] Array of CSS classes for the table tag.
+	 */
+	protected function get_table_classes() {
+		$mode = get_user_setting( 'posts_list_mode', 'list' );
+
+		$mode_class = esc_attr( 'table-view-' . $mode );
+
+		return [ 'widefat', 'striped', $mode_class, $this->_args[ 'plural' ] ];
+	}
+
+
+	/**
 	 * Return the default column value.
 	 *
 	 * @param array $item
@@ -92,10 +108,7 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 	public function get_columns() {
 
 		$user_fields = get_user_option( 'toplevel_page_ttm_forms_fields' ) ?: [];
-		if( is_string( $user_fields ) && json_validate( $user_fields ) ) {
-			$user_fields = json_decode( $user_fields );
-		}
-		else {
+		if( ! is_string( $user_fields ) || ! $user_fields = json_decode( $user_fields ) ) {
 			$user_fields = [];
 		}
 
