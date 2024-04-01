@@ -64,6 +64,7 @@ function Edit({
 }) {
   const {
     label,
+    required,
     sronly
   } = attributes;
   const className = sronly ? 'sr-only' : '';
@@ -93,7 +94,13 @@ function Edit({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'ttm-form'),
     initialOpen: true
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: "Required",
+    checked: required,
+    onChange: value => setAttributes({
+      required: value
+    })
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     label: "Label",
     value: label,
     onChange: value => setAttributes({
@@ -113,6 +120,7 @@ function Edit({
     type: "date",
     id: name,
     name: name,
+    required: required,
     disabled: true
   }));
 }
@@ -211,19 +219,25 @@ function save({
   const {
     parentID,
     label,
+    required,
     sronly
   } = attributes;
   const className = sronly ? 'sr-only' : '';
   const name = label.trim().replaceAll(":", "").toLowerCase();
+  let atts = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
+  if (required) {
+    atts.className = atts.className + " required";
+  }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
+    ...atts
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     class: className,
     for: parentID + "_" + name
   }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "date",
     id: parentID + "_" + name,
-    name: name
+    name: name,
+    required: required
   }));
 }
 
@@ -319,7 +333,7 @@ module.exports = window["wp"]["i18n"];
   \**********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-date","version":"1.0.0","title":"Date","category":"widgets","icon":"calendar","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"parentID":{"type":"string","default":""},"label":{"type":"string","default":"Date: "},"sronly":{"type":"boolean","default":false}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/input-date","version":"1.0.0","title":"Date","category":"widgets","icon":"calendar","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"parentID":{"type":"string","default":""},"label":{"type":"string","default":"Date: "},"required":{"type":"boolean","default":false},"sronly":{"type":"boolean","default":false}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

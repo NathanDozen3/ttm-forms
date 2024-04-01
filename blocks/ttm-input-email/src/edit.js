@@ -43,7 +43,7 @@ import './editor.scss';
  */
 export default function Edit( { clientId, attributes, setAttributes } ) {
 
-    const { label, placeholder, sronly } = attributes;
+    const { label, placeholder, required, sronly } = attributes;
 	const className = sronly ? 'sr-only' : '';
 	const name =label.trim().replaceAll(":", "").toLowerCase();
 
@@ -72,6 +72,11 @@ export default function Edit( { clientId, attributes, setAttributes } ) {
 					initialOpen = { true }
 				>
 					<fieldset>
+						<ToggleControl
+							label="Required"
+							checked={ required }
+							onChange={ ( value ) => setAttributes( { required: value }  ) }
+						/>
 						<TextControl
 							label="Label"
 							value={ label }
@@ -96,7 +101,7 @@ export default function Edit( { clientId, attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 			<label class={className} for={parentID + "_" +name}>{label}</label>
-			<input type="email" id={parentID + "_" + name} name={name} placeholder={placeholder} disabled></input>
+			<input type="email" id={parentID + "_" + name} name={name} placeholder={placeholder} required={required} disabled></input>
 		</div>
 	);
 }

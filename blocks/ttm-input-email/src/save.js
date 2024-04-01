@@ -16,14 +16,19 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save( { attributes } ) {
-    const { parentID, label, placeholder, sronly } = attributes;
+    const { parentID, label, placeholder, required, sronly } = attributes;
     const className = sronly ? 'sr-only' : '';
     const name =label.trim().replaceAll(":", "").toLowerCase();
 
+	let atts = useBlockProps.save();
+	if( required ) {
+		atts.className = atts.className + " required";
+	}
+
     return (
-        <div { ...useBlockProps.save() }>
+        <div { ...atts }>
             <label class={className} for={parentID + "_" + name}>{label}</label>
-			<input type="email" id={parentID + "_" + name} name={name} placeholder={placeholder}></input>
+			<input type="email" id={parentID + "_" + name} name={name} placeholder={placeholder} required={required}></input>
         </div>
     );
 }

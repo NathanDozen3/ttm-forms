@@ -21,6 +21,10 @@
 				"type": "string",
 				"default": "Date: "
 		},
+		"required": {
+			"type": "boolean",
+			"default": false
+		},
 		"sronly": {
 				"type": "boolean",
 				"default": false

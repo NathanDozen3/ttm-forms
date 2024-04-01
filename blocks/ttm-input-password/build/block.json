@@ -25,6 +25,10 @@
       "type": "string",
       "default": "Password: "
     },
+    "required": {
+      "type": "boolean",
+      "default": false
+    },
     "sronly": {
       "type": "boolean",
       "default": false
