@@ -85,6 +85,32 @@ function is_module_active( string $module ) : bool {
 	}
 	return $active;
 }
-add_action( 'admin_init', function() {
-	is_module_active( 'recaptcha' );
-}, 50 );
+
+/**
+ * Register TTM Form module.
+ *
+ * @param string $slug
+ * @param string $name
+ * @param array $fields
+ * @param string $block
+ *
+ * @return Module
+ */
+function register_module( string $slug, string $name, array $fields = [], string $block = '' ) : Module {
+	global $ttm_forms_modules;
+
+	$module = new Module( $slug );
+	$module->name( $name );
+
+	foreach( $fields as $field ) {
+		$module->field( $field[ 'slug' ], $field[ 'label' ], $field[ 'callback' ] ?? null );
+	}
+
+	if( ! empty( $block ) ) {
+		$module->block( $block );
+	}
+
+	$ttm_forms_modules->register( $module );
+
+	return $module;
+}

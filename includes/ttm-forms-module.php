@@ -15,7 +15,7 @@ class Module {
 	/**
 	 *
 	 */
-	private array $fields;
+	private array $fields = [];
 
 	/**
 	 *

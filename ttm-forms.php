@@ -53,4 +53,27 @@ add_filter( 'set-screen-option', [ $ttm_forms_options, 'set_per_page_option' ], 
 add_filter( 'screen_settings', [ $ttm_forms_options, 'screen_settings' ], 10, 2 );
 
 $ttm_forms_modules = new Modules();
-add_action( 'init', [ $ttm_forms_modules, 'register_modules' ] );
+
+register_module(
+	slug: 'recaptcha',
+	name: __( 'reCAPTCHA', 'ttm-forms' ),
+	block: 'ttm-recaptcha',
+	fields: [
+		[
+			'slug' => 'site-key',
+			'label' => __( 'Site Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+		[
+			'slug' => 'secret-key',
+			'label' => __( 'Secret Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_password_field',
+		],
+	],
+);
+
+register_module(
+	slug: 'credit-card',
+	name: __( 'Credit Card', 'ttm-forms' ),
+	block: 'ttm-credit-card',
+);
