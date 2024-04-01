@@ -7,80 +7,113 @@ namespace ttm\forms;
  */
 class Database {
 
-	/**
-	 *
-	 */
-	private function process_inner_blocks( array $blocks ) : array {
-		$innerBlocks = [];
-
-		foreach( $blocks as $block ) {
-
-			if(
-				! str_starts_with( $block[ 'blockName' ], 'ttm/' ) ||
-				str_starts_with( $block[ 'blockName' ], 'ttm/input-submit' )
-			) {
-				continue;
-			}
-
-			if( ! empty( $block[ 'innerBlocks' ] ) ) {
-				$innerBlocks = array_merge( $innerBlocks, $this->process_inner_blocks( $block[ 'innerBlocks' ] ) );
-			}
-			else {
-				$label = $block[ 'attrs' ][ 'label' ] ?? '';
-
-				if(
-					str_starts_with( $block[ 'blockName' ], 'ttm/input-hidden' ) ||
-					str_starts_with( $block[ 'blockName' ], 'ttm/input-checkbox-item' ) ||
-					str_starts_with( $block[ 'blockName' ], 'ttm/input-radio-item' )
-				) {
-					$label = $block[ 'attrs' ][ 'name' ] ?? '';
-				}
-				$name = strtolower( str_replace( [ ':', ' ' ], [ '', '' ], $label ) );
-				$innerBlocks[] = $name;
-			}
-		}
-		return $innerBlocks;
-	}
 
 	/**
 	 *
+	 *
+	 * @param array $block
+	 * @param array $attrs
+	 *
+	 * @return array
 	 */
-	private function process_individual_block( array $block, array $keys, array $attrs = [] ) {
-		if( $attrs !== [] ) {
-			return $attrs;
-		}
+	private function do_block( array $block, $attrs = [] ) : array {
 
-		if( ! str_starts_with( $block[ 'blockName' ], 'ttm/form' ) ) {
+		// Only allow TTM blocks
+		if( ! str_starts_with( $block[ 'blockName' ], 'ttm/' ) ) {
 			return [];
 		}
 
-		$fields = $this->process_inner_blocks( $block[ 'innerBlocks' ] );
-		sort( $fields );
-
-		$fields = array_filter( $fields, function( $val ) {
-			return ! empty( $val );
-		} );
-
-		$insert = true;
-		foreach( $fields as $field ) {
-			if( ! in_array( $field, $keys ) ) {
-				$insert = false;
+		if( isset( $block[ 'innerBlocks' ] ) && ! empty( $block[ 'innerBlocks' ] ) ) {
+			foreach( $block[ 'innerBlocks' ] as $innerBlock ) {
+				$attrs = array_merge( $attrs, $this->do_block( $innerBlock, $attrs ) );
 			}
 		}
-
-		if( $insert ) {
-			$block[ 'attrs' ] = array_filter( $block[ 'attrs' ], function( $key ) {
-				return in_array( $key, [ 'post_id', 'to', 'subject' ] );
-			}, ARRAY_FILTER_USE_KEY );
-			$attrs = $block[ 'attrs' ];
-			return $attrs;
+		else if( $block[ 'blockName' ] === 'ttm/recaptcha' ) {
+			$attrs[] = 'g-recaptcha-response';
 		}
+		else {
+			$html = $block[ 'innerHTML' ] ?? '';
 
-		return [];
+			$dom = new \DOMDocument();
+			$dom->loadHTML($html);
+
+
+			$xpath = new \DOMXPath($dom);
+
+			$tags = $xpath->query('//input');
+			foreach( $tags as $tag ) {
+				$name = trim( $tag->getAttribute( 'name' ) );
+				if( ! empty( $name ) ) {
+					$attrs[] = $name;
+				}
+			}
+
+			$tags = $xpath->query('//textarea');
+			foreach( $tags as $tag ) {
+				$name = trim( $tag->getAttribute( 'name' ) );
+				if( ! empty( $name ) ) {
+					$attrs[] = $name;
+				}
+			}
+		}
+		return array_unique( $attrs );
 	}
 
 	/**
 	 *
+	 *
+	 * @param int $post_id
+	 * @param array $fields
+	 *
+	 * @return array
+	 */
+	private function validate_form( int $post_id, array $fields ) : array {
+		$the_fields = $fields;
+		unset( $the_fields[ 'url' ] );
+		unset( $the_fields[ 'post_id' ] );
+		unset( $the_fields[ 'ttm_form' ] );
+		unset( $the_fields[ 'ttm_form_ref' ] );
+		$keys = array_keys( $the_fields );
+		unset( $the_fields );
+
+		$post = get_post( $post_id );
+		$blocks = parse_blocks( $post->post_content );
+
+		// Loop through all blocks in a post
+		foreach( $blocks as $block ) {
+
+			// Skip non-ttm/form blocks
+			if( $block[ 'blockName' ] !== 'ttm/form' ) {
+				continue;
+			}
+
+			// Get all the form fields in the ttm/form block
+			$attrs = $this->do_block( $block );
+
+			// Add to and subject fields from ttm/form block
+			$attrs[ 'to' ] = is_email( $block[ 'attrs' ][ 'to' ] ?? '' );
+			$attrs[ 'subject' ] = sanitize_text_field( $block[ 'attrs' ][ 'subject' ] ?? '' );
+
+			// Block validation
+			$is_block = true;
+			foreach( $keys as $key ) {
+				if( ! in_array( $key, $attrs ) ) {
+					$is_block = false;
+					break;
+				}
+			}
+			if( $is_block ) {
+				return $attrs;
+			}
+		}
+		return [];
+	}
+
+
+	/**
+	 *
+	 *
+	 * @return never
 	 */
 	public function process_form() {
 		if(
@@ -93,59 +126,62 @@ class Database {
 
 		$posted = $_POST;
 
-		$exploded = explode( '_', $posted[ 'post_id' ] );
-		if( count( $exploded ) == 2 ) {
-			$posted[ 'url' ] = get_term_link( (int) $exploded[1], $exploded[0] );
-		}
-		else {
-			$posted[ 'url' ] = get_the_permalink( $posted[ 'post_id' ] ?? null );
-		}
-
-		unset( $posted[ 'ttm_form' ] );
-
-		$keys = array_keys( $posted );
-		sort( $keys );
-
+		// Get the ID
 		$post_id = (int) $posted[ 'post_id' ];
-		if( isset( $posted[ 'ttm_form_ref' ] ) ) {
+		if( isset( $posted[ 'ttm_form_ref' ] ) && ! empty( $posted[ 'ttm_form_ref' ] ) ) {
 			$post_id = (int) $posted[ 'ttm_form_ref' ];
 		}
 
-		$post = get_post( $post_id );
-		$blocks = parse_blocks( $post->post_content );
+		$validated_fields = [
+			'fields' => [],
+		];
+		$fields = $this->validate_form( $post_id, $posted );
 
-		$attrs = [];
-		foreach( $blocks as $block ) {
-			if ( str_starts_with( $block[ 'blockName' ], 'core/block' ) ) {
-				$ref = $block[ 'attrs' ][ 'ref' ];
-				$reusable_block = get_post( $ref );
-				$newBlocks = parse_blocks( $reusable_block->post_content );
-
-				foreach( $newBlocks as $newBlock ) {
-					$attrs = $this->process_individual_block( $newBlock, $keys, $attrs );
-				}
+		foreach( $fields as $key => $field ) {
+			if( in_array( $field, [ 'g-recaptcha-response' ] ) ) {
+				continue;
 			}
-			else {
-				$attrs = $this->process_individual_block( $block, $keys, $attrs );
+			if( in_array( $key, [ 'to', 'subject' ] ) ) {
+				$validated_fields[ $key ] = $field;
+			}
+			else if( ! empty( $posted[ $field ] ) ) {
+				$validated_fields[ 'fields' ][ $field ] = $posted[ $field ];
 			}
 		}
 
-		$attrs[ 'to' ] = is_email( $attrs[ 'to' ] );
-		$to = is_email( $attrs[ 'to' ] );
-		$attrs[ 'subject' ] = sanitize_text_field( $attrs[ 'subject' ] );
-		$subject = sanitize_text_field( $attrs[ 'subject' ] );
-		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+		// Get URL, account for terms
+		$exploded = explode( '_', $posted[ 'post_id' ] );
+		if( count( $exploded ) == 2 ) {
+			$validated_fields[ 'url' ] = get_term_link( (int) $exploded[1], $exploded[0] );
+		}
+		else {
+			$validated_fields[ 'url' ] = get_the_permalink( $posted[ 'post_id' ] ?? null );
+		}
+
+		$validated_fields[ 'to' ] = is_email( $validated_fields[ 'to' ] );
+		$validated_fields[ 'subject' ] = sanitize_text_field( $validated_fields[ 'subject' ] );
+		$validated_fields[ 'headers' ] = [ 'Content-Type: text/html; charset=UTF-8' ];
 
 		$fields = $attrs;
 		$n = 0;
 
 		$message = '<table>';
 
-		foreach( $posted as $key => $value ) {
-			if(
-				$key === 'ttm_form' ||
-				$key === 'g-recaptcha-response'
-			) {
+		$dont_save = [
+			'ttm_form',
+			'g-recaptcha-response',
+			'credit-card_number',
+			'credit-card_cvv',
+			'credit-card_zip'
+		];
+
+		/**
+		 *
+		 */
+		$dont_save = apply_filters( 'ttm\forms\dont_save', $dont_save );
+
+		foreach( $validated_fields[ 'fields' ] as $key => $value ) {
+			if( in_array( $key, $dont_save ) ) {
 				continue;
 			}
 
@@ -169,11 +205,14 @@ class Database {
 			$n++;
 		}
 		$message .= '</table>';
-		$fields = json_encode( json_decode( json_encode( $fields ) ) );
 
-		$date = date( 'Y-m-d H:i:s' );
-		$url = $posted[ 'url' ];
+		$validated_fields[ 'fields' ] = (array) apply_filters( 'ttm\forms\fields\pre_insert', $fields );
+		$validated_fields[ 'fields' ] = json_encode( json_decode( json_encode( $fields ) ) );
 
+		$validated_fields[ 'date' ] = date( 'Y-m-d H:i:s' );
+		$validated_fields[ 'message' ] = $message;
+
+		// Validate reCAPTCHA
 		$options = get_option( 'ttm_forms' );
 		$secret = $options[ 'secret-key' ];
 		$response = $posted[ 'g-recaptcha-response' ];
@@ -196,9 +235,9 @@ class Database {
 				isset( $_REQUEST[ TTM_FORMS_HONEYPOT_POST_VAR ] ) &&
 				empty( $_REQUEST[ TTM_FORMS_HONEYPOT_POST_VAR ] )
 			) {
-				$sent = wp_mail( $to, $subject, $message, $headers );
+				$sent = wp_mail( $validated_fields[ 'to' ], $validated_fields[ 'subject' ], $validated_fields[ 'message' ], $validated_fields[ 'headers' ] );
 				if( $sent ) {
-					$this->insert_record_into_table( $date, $url, $fields );
+					$this->insert_record_into_table( $validated_fields[ 'date' ], $validated_fields[ 'url' ], $validated_fields[ 'fields' ] );
 				}
 			}
 		}

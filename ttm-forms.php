@@ -39,7 +39,7 @@ add_filter( 'render_block_core/block', [ $ttm_forms_blocks, 'add_hidden_field_to
 add_filter( 'render_block_ttm/form', [ $ttm_forms_blocks, 'add_honeypot_to_ttm_form' ], 20, 3 );
 
 $ttm_forms_database = new Database();
-add_action( 'init', [ $ttm_forms_database, 'process_form' ], -1 );
+add_action( 'init', [ $ttm_forms_database, 'process_form' ], 0 );
 register_activation_hook( TTM_FORMS_FILE, [ $ttm_forms_database, 'create_database_table' ] );
 
 $ttm_forms_options = new Options();

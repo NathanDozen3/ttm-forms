@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./blocks/ttm-column/src/edit.js":
-/*!***************************************!*\
-  !*** ./blocks/ttm-column/src/edit.js ***!
-  \***************************************/
+/***/ "./blocks/ttm-credit-card/src/edit.js":
+/*!********************************************!*\
+  !*** ./blocks/ttm-credit-card/src/edit.js ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -18,7 +18,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-column/src/editor.scss");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-credit-card/src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -33,6 +35,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 /**
@@ -51,31 +54,78 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {Element} Element to render.
  */
-function Edit() {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const allowedBlocks = ["ttm/credit-card", "ttm/input-checkbox", "ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-radio", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
+function Edit({
+  clientId,
+  setAttributes
+}) {
+  const name = "credit-card";
+  const parentClientId = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.select)('core/block-editor').getBlockHierarchyRootClientId(clientId);
+  const parentAttributes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.select)('core/block-editor').getBlockAttributes(parentClientId);
+  let parentID = '';
+  if (parentAttributes != null) {
+    if ('post_id' in parentAttributes) {
+      parentID = String(parentAttributes.post_id);
+    } else if ('ref' in parentAttributes) {
+      parentID = String(parentAttributes.ref);
+    }
+  }
+  if (parentID != '') {
+    setAttributes({
+      parentID: parentID
+    });
+  }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
-    allowedBlocks: allowedBlocks
-  }));
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: "sr-only",
+    for: parentID + "_" + name
+  }, "Credit Card Number"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    class: "wp-block-ttm-credit-card--number",
+    type: "text",
+    id: parentID + "_" + name,
+    name: name + "_number",
+    placeholder: "4012 8888 8888 1881",
+    disabled: true
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "wp-block-ttm-credit-card--flex"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: "sr-only",
+    for: parentID + "_" + name + "_cvv"
+  }, "Credit Card CVV"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    class: "wp-block-ttm-credit-card--cvv",
+    type: "text",
+    id: parentID + "_" + name + "_cvv",
+    name: name + "_cvv",
+    placeholder: "CVV",
+    disabled: true
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: "sr-only",
+    for: parentID + "_" + name + "_zip"
+  }, "Credit Card ZIP"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    class: "wp-block-ttm-credit-card--zip",
+    type: "text",
+    id: parentID + "_" + name + "_zip",
+    name: name + "_zip",
+    placeholder: "Zip",
+    disabled: true
+  })));
 }
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/index.js":
-/*!****************************************!*\
-  !*** ./blocks/ttm-column/src/index.js ***!
-  \****************************************/
+/***/ "./blocks/ttm-credit-card/src/index.js":
+/*!*********************************************!*\
+  !*** ./blocks/ttm-credit-card/src/index.js ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./blocks/ttm-column/src/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./blocks/ttm-column/src/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./blocks/ttm-column/src/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./blocks/ttm-column/src/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./blocks/ttm-credit-card/src/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./blocks/ttm-credit-card/src/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./blocks/ttm-credit-card/src/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./blocks/ttm-credit-card/src/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -117,10 +167,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/save.js":
-/*!***************************************!*\
-  !*** ./blocks/ttm-column/src/save.js ***!
-  \***************************************/
+/***/ "./blocks/ttm-credit-card/src/save.js":
+/*!********************************************!*\
+  !*** ./blocks/ttm-credit-card/src/save.js ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -152,19 +202,50 @@ __webpack_require__.r(__webpack_exports__);
 function save({
   attributes
 }) {
-  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
-  const innerBlocksProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps.save();
+  const {
+    parentID
+  } = attributes;
+  const name = "credit-card";
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    ...blockProps
-  }, innerBlocksProps.children);
+    ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: "sr-only",
+    for: parentID + "_" + name
+  }, "Credit Card Number"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    class: "wp-block-ttm-credit-card--number",
+    type: "text",
+    id: parentID + "_" + name,
+    name: name + "_number",
+    placeholder: "4012 8888 8888 1881"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "wp-block-ttm-credit-card--flex"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: "sr-only",
+    for: parentID + "_" + name + "_cvv"
+  }, "Credit Card CVV"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    class: "wp-block-ttm-credit-card--cvv",
+    type: "text",
+    id: parentID + "_" + name + "_cvv",
+    name: name + "_cvv",
+    placeholder: "CVV"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    class: "sr-only",
+    for: parentID + "_" + name + "_zip"
+  }, "Credit Card ZIP"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    class: "wp-block-ttm-credit-card--zip",
+    type: "text",
+    id: parentID + "_" + name + "_zip",
+    name: name + "_zip",
+    placeholder: "Zip"
+  })));
 }
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/editor.scss":
-/*!*******************************************!*\
-  !*** ./blocks/ttm-column/src/editor.scss ***!
-  \*******************************************/
+/***/ "./blocks/ttm-credit-card/src/editor.scss":
+/*!************************************************!*\
+  !*** ./blocks/ttm-credit-card/src/editor.scss ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -173,10 +254,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/style.scss":
-/*!******************************************!*\
-  !*** ./blocks/ttm-column/src/style.scss ***!
-  \******************************************/
+/***/ "./blocks/ttm-credit-card/src/style.scss":
+/*!***********************************************!*\
+  !*** ./blocks/ttm-credit-card/src/style.scss ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -215,6 +296,16 @@ module.exports = window["wp"]["blocks"];
 
 /***/ }),
 
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -225,13 +316,13 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "./blocks/ttm-column/src/block.json":
-/*!******************************************!*\
-  !*** ./blocks/ttm-column/src/block.json ***!
-  \******************************************/
+/***/ "./blocks/ttm-credit-card/src/block.json":
+/*!***********************************************!*\
+  !*** ./blocks/ttm-credit-card/src/block.json ***!
+  \***********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/column","version":"1.0.0","title":"Column","category":"widgets","icon":"columns","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{},"parent":["ttm/columns"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/credit-card","version":"1.0.0","title":"Credit Card","category":"widgets","icon":"money-alt","description":"","example":{},"supports":{"html":false,"multiple":true},"attributes":{"parentID":{"type":"string","default":""},"label":{"type":"string","default":""},"sronly":{"type":"boolean","default":false}},"parent":["ttm/form"],"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
@@ -396,7 +487,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./blocks/ttm-column/src/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./blocks/ttm-credit-card/src/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

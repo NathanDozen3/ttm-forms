@@ -15,6 +15,7 @@
 		"start": "wp-scripts start --webpack-copy-php",
 		"start:ttm-column": "wp-scripts start --webpack-src-dir=blocks/ttm-column/src --output-path=blocks/ttm-column/build",
 		"start:ttm-columns": "wp-scripts start --webpack-src-dir=blocks/ttm-columns/src --output-path=blocks/ttm-columns/build",
+		"start:ttm-credit-card": "wp-scripts start --webpack-src-dir=blocks/ttm-credit-card/src --output-path=blocks/ttm-credit-card/build",
 		"start:ttm-form": "wp-scripts start --webpack-src-dir=blocks/ttm-form/src --output-path=blocks/ttm-form/build",
 		"start:ttm-input-checkbox": "wp-scripts start --webpack-src-dir=blocks/ttm-input-checkbox/src --output-path=blocks/ttm-input-checkbox/build",
 		"start:ttm-input-checkbox-item": "wp-scripts start --webpack-src-dir=blocks/ttm-input-checkbox-item/src --output-path=blocks/ttm-input-checkbox-item/build",

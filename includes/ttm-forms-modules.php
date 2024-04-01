@@ -30,6 +30,10 @@ class Modules {
 				->field( 'site-key', __( 'Site Key', 'ttm-forms' ), __NAMESPACE__ . '\render_input_text_field' )
 				->field( 'secret-key', __( 'Secret Key', 'ttm-forms' ), __NAMESPACE__ . '\render_input_password_field' )
 				->block( 'ttm-recaptcha' ),
+
+			'ttm\forms\credit-card' => ( new module( 'credit-card' ) )
+				->name( __( 'Credit Card', 'ttm-forms' ) )
+				->block( 'ttm-credit-card' ),
 		];
 	}
 
@@ -43,6 +47,7 @@ class Modules {
 		 *
 		 */
 		$modules = apply_filters( 'ttm\forms\modules', $this->modules );
+		sort( $modules );
 		foreach( $modules as $module ) {
 			$this->register( $module );
 		}
