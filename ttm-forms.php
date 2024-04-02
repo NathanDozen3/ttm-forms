@@ -25,6 +25,7 @@ define( 'TTM_FORMS_HONEYPOT_POST_VAR', 'url' );
 
 require 'vendor/autoload.php';
 
+require TTM_FORMS_DIR . '/includes/ttm-forms-akismet.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-blocks.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-database.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-functions.php';
@@ -63,6 +64,9 @@ $ttm_forms_sendgrid = new Sendgrid();
 add_action( 'pre_wp_mail', [ $ttm_forms_sendgrid, 'pre_wp_mail' ], 10, 2 );
 
 $ttm_forms_modules = new Modules();
+
+$akismet = new Akismet();
+add_filter( 'ttm\forms\fields\pre_insert', [ $akismet, 'pre_insert' ] );
 
 register_module(
 	slug: 'recaptcha',
@@ -106,6 +110,18 @@ register_module(
 			'slug' => 'sendgrid-from-name',
 			'label' => __( 'From Name', 'ttm-forms' ),
 			'callback' => '\ttm\forms\render_input_text_field',
+		],
+	],
+);
+
+register_module(
+	slug: 'akismet',
+	name: __( 'Akismet', 'ttm-forms' ),
+	fields: [
+		[
+			'slug' => 'akismet-api-key',
+			'label' => __( 'API Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_password_field',
 		],
 	],
 );

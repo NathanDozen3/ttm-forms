@@ -248,8 +248,13 @@ class Database {
 		}
 		$message .= '</table>';
 
+		/**
+		 * Filter fields before inserting into database.
+		 *
+		 * @param array $fields
+		 */
 		$validated_fields[ 'fields' ] = (array) apply_filters( 'ttm\forms\fields\pre_insert', $fields );
-		$validated_fields[ 'fields' ] = json_encode( json_decode( json_encode( $fields ) ) );
+		$validated_fields[ 'fields' ] = json_encode( json_decode( json_encode( $validated_fields[ 'fields' ] ) ) );
 
 		$validated_fields[ 'date' ] = date( 'Y-m-d H:i:s' );
 		$validated_fields[ 'message' ] = $message;
