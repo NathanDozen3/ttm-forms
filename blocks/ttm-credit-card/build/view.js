@@ -29,7 +29,6 @@ var __webpack_exports__ = {};
   document.addEventListener('DOMContentLoaded', function () {
     let cc = document.getElementById('block-c13fdcdd-018d-4be6-838a-f892939d8ce2_credit-card');
     cc.setAttribute('data-cc', '4444 0000 0000 0000');
-    console.log(cc);
   });
 })();
 /******/ })()

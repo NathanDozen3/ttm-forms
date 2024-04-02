@@ -9,7 +9,7 @@ class Database {
 
 
 	/**
-	 *
+	 * Do each block and return the attributes.
 	 *
 	 * @param array $block
 	 * @param array $attrs
@@ -60,7 +60,7 @@ class Database {
 	}
 
 	/**
-	 *
+	 * Validate completed form.
 	 *
 	 * @param int $post_id
 	 * @param array $fields
@@ -111,9 +111,44 @@ class Database {
 
 
 	/**
+	 * Validate the incomplete form.
 	 *
+	 * @param int $post_id
+	 * @param array $posted
 	 *
-	 * @return never
+	 * @return array
+	 */
+	public function process_incomplete_form( int $post_id, array $posted ) : array {
+
+		$validated_fields = [
+			'partial' => $posted[ 'partial' ],
+			'fields' => [],
+		];
+		$partial = $posted[ 'partial' ];
+		unset( $posted[ 'partial' ] );
+
+		$fields = $this->validate_form( $post_id, $posted );
+
+		foreach( $fields as $key => $field ) {
+			if( in_array( $field, [ 'g-recaptcha-response' ] ) ) {
+				continue;
+			}
+			if( in_array( $key, [ 'to', 'subject' ] ) ) {
+				$validated_fields[ $key ] = $field;
+			}
+			else if( ! empty( $posted[ $field ] ) ) {
+				$validated_fields[ 'fields' ][ $field ] = $posted[ $field ];
+			}
+		}
+
+		return $validated_fields;
+	}
+
+
+	/**
+	 * Process the form.
+	 *
+	 * @return void
 	 */
 	public function process_form() {
 		if(
@@ -125,6 +160,9 @@ class Database {
 		}
 
 		$posted = $_POST;
+
+		$partial = $posted[ 'partial' ] ?? '';
+		unset( $posted[ 'partial' ] );
 
 		// Get the ID
 		$post_id = (int) $posted[ 'post_id' ];
@@ -176,7 +214,9 @@ class Database {
 		];
 
 		/**
+		 * Array of values that will not get saved to the database.
 		 *
+		 * @param array $dont_save
 		 */
 		$dont_save = apply_filters( 'ttm\forms\dont_save', $dont_save );
 
@@ -237,7 +277,7 @@ class Database {
 			) {
 				$sent = wp_mail( $validated_fields[ 'to' ], $validated_fields[ 'subject' ], $validated_fields[ 'message' ], $validated_fields[ 'headers' ] );
 				if( $sent ) {
-					$this->insert_record_into_table( $validated_fields[ 'date' ], $validated_fields[ 'url' ], $validated_fields[ 'fields' ] );
+					$this->maybe_insert_record_into_table( $validated_fields[ 'date' ], $validated_fields[ 'url' ], $partial, $validated_fields[ 'fields' ] );
 				}
 			}
 		}
@@ -247,7 +287,7 @@ class Database {
 
 
 	/**
-	 *
+	 * Return all the records.
 	 *
 	 * @return array
 	 */
@@ -280,9 +320,74 @@ class Database {
 
 
 	/**
+	 * Insert or update partial record.
 	 *
+	 * @param string $id
+	 * @param array $params
+	 *
+	 * @return void
 	 */
-	private function insert_record_into_table( $date, $url, $fields ) {
+	public function update_partial_by_id( string $id, array $params ) : void {
+		global $wpdb;
+		$table_name = TTM_FORMS_TABLE_NAME;
+		$rows = $wpdb->get_results( "SELECT * FROM $table_name WHERE `url` LIKE '$id'" );
+
+		if( count( $rows ) === 0 ) {
+			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $id, json_encode( $params ) );
+		}
+		if( count( $rows ) === 1 ) {
+			$row = $rows[0];
+			$fields = json_encode( $params );
+			$sql = "UPDATE `$table_name` SET `id` = '$row->id', `date` = '$row->date', `url` = '$row->url', `fields` = '$fields' WHERE `id` = '$row->id'";
+			$wpdb->get_results( $sql );
+		}
+		else {
+			$wpdb->get_results( "DELETE FROM $table_name WHERE `url` LIKE '$id'" );
+			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $id, json_encode( $params ) );
+		}
+	}
+
+
+	/**
+	 * Insert or update record in table based on partial string.
+	 *
+	 * @param string $date
+	 * @param string $url
+	 * @param string $partial
+	 * @param string $fields
+	 *
+	 * @return void
+	 */
+	public function maybe_insert_record_into_table( string $date, string $url, string $partial, string $fields ) : void {
+		global $wpdb;
+		$table_name = TTM_FORMS_TABLE_NAME;
+		$rows = $wpdb->get_results( "SELECT * FROM $table_name WHERE `url` LIKE '$partial'" );
+
+		if( count( $rows ) === 0 ) {
+			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $id, json_encode( $params ) );
+		}
+		if( count( $rows ) === 1 ) {
+			$row = $rows[0];
+			$sql = "UPDATE `$table_name` SET `id` = '$row->id', `date` = '$row->date', `url` = '$url', `fields` = '$fields' WHERE `id` = '$row->id'";
+			$wpdb->get_results( $sql );
+		}
+		else {
+			$wpdb->get_results( "DELETE FROM $table_name WHERE `url` LIKE '$id'" );
+			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $id, json_encode( $params ) );
+		}
+	}
+
+
+	/**
+	 * Insert a record into the database table.
+	 *
+	 * @param string $date
+	 * @param string $url
+	 * @param string $fields
+	 *
+	 * @return void
+	 */
+	public function insert_record_into_table( string $date, string $url, string $fields ) : void {
 
 		global $wpdb;
 
@@ -299,9 +404,11 @@ class Database {
 	}
 
 	/**
+	 * Create the TTM Forms database table.
 	 *
+	 * @return void
 	 */
-	public function create_database_table() {
+	public function create_database_table() : void {
 		global $wpdb;
 
 		$table_name = TTM_FORMS_TABLE_NAME;

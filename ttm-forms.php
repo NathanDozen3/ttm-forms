@@ -30,6 +30,7 @@ require TTM_FORMS_DIR . '/includes/ttm-forms-module.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-modules.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-options.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-recaptcha.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-rest.php';
 
 $ttm_forms_blocks = new Blocks();
 add_action( is_admin() ? 'admin_init' : 'init',  [ $ttm_forms_blocks, 'register_blocks' ], 20 );
@@ -77,3 +78,6 @@ register_module(
 	name: __( 'Credit Card', 'ttm-forms' ),
 	block: 'ttm-credit-card',
 );
+
+$ttm_forms_rest = new Rest();
+add_action( 'rest_api_init', [ $ttm_forms_rest, 'register_routes' ] );
