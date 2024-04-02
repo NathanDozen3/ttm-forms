@@ -114,3 +114,15 @@ function register_module( string $slug, string $name, array $fields = [], string
 
 	return $module;
 }
+
+/**
+ * Return the TTM Forms option.
+ *
+ * @param string $name
+ *
+ * @return string
+ */
+function get_ttm_forms_options( string $name ) {
+	$options = get_option( 'ttm_forms' );
+	return $options[ $name ] ?? '';
+}

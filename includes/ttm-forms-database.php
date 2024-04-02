@@ -364,7 +364,7 @@ class Database {
 		$rows = $wpdb->get_results( "SELECT * FROM $table_name WHERE `url` LIKE '$partial'" );
 
 		if( count( $rows ) === 0 ) {
-			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $id, json_encode( $params ) );
+			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $url, json_encode( $params ) );
 		}
 		if( count( $rows ) === 1 ) {
 			$row = $rows[0];
@@ -373,7 +373,7 @@ class Database {
 		}
 		else {
 			$wpdb->get_results( "DELETE FROM $table_name WHERE `url` LIKE '$id'" );
-			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $id, json_encode( $params ) );
+			$this->insert_record_into_table( date( 'Y-m-d H:i:s' ), $url, json_encode( $params ) );
 		}
 	}
 

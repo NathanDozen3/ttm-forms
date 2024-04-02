@@ -23,6 +23,8 @@ define( 'TTM_FORMS_TABLE_NAME', $wpdb->prefix . 'ttm_forms' );
 define( 'TTM_FORMS_PER_PAGE_OPTIONS_NAME', 'toplevel_page_ttm_forms_per_page' );
 define( 'TTM_FORMS_HONEYPOT_POST_VAR', 'url' );
 
+require 'vendor/autoload.php';
+
 require TTM_FORMS_DIR . '/includes/ttm-forms-blocks.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-database.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-functions.php';
@@ -31,6 +33,7 @@ require TTM_FORMS_DIR . '/includes/ttm-forms-modules.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-options.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-recaptcha.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-rest.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-sendgrid.php';
 
 $ttm_forms_blocks = new Blocks();
 add_action( is_admin() ? 'admin_init' : 'init',  [ $ttm_forms_blocks, 'register_blocks' ], 20 );
@@ -52,6 +55,12 @@ add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'enqueue_ttm_f
 add_action( 'load-toplevel_page_ttm-forms', [ $ttm_forms_options, 'add_per_page_options' ] );
 add_filter( 'set-screen-option', [ $ttm_forms_options, 'set_per_page_option' ], 11, 3);
 add_filter( 'screen_settings', [ $ttm_forms_options, 'screen_settings' ], 10, 2 );
+
+$ttm_forms_rest = new Rest();
+add_action( 'rest_api_init', [ $ttm_forms_rest, 'register_routes' ] );
+
+$ttm_forms_sendgrid = new Sendgrid();
+add_action( 'pre_wp_mail', [ $ttm_forms_sendgrid, 'pre_wp_mail' ], 10, 2 );
 
 $ttm_forms_modules = new Modules();
 
@@ -79,5 +88,24 @@ register_module(
 	block: 'ttm-credit-card',
 );
 
-$ttm_forms_rest = new Rest();
-add_action( 'rest_api_init', [ $ttm_forms_rest, 'register_routes' ] );
+register_module(
+	slug: 'sendgrid',
+	name: __( 'SendGrid', 'ttm-forms' ),
+	fields: [
+		[
+			'slug' => 'sendgrid-api-key',
+			'label' => __( 'API Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_password_field',
+		],
+		[
+			'slug' => 'sendgrid-from-email',
+			'label' => __( 'From Email', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+		[
+			'slug' => 'sendgrid-from-name',
+			'label' => __( 'From Name', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+	],
+);
