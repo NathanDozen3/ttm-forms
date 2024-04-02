@@ -42,6 +42,10 @@
     "subject": {
       "type": "string",
       "default": ""
+    },
+    "thankYouLink": {
+      "type": "string",
+      "default": ""
     }
   },
   "textdomain": "ttm-form",

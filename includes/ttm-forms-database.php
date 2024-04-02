@@ -93,6 +93,7 @@ class Database {
 			// Add to and subject fields from ttm/form block
 			$attrs[ 'to' ] = is_email( $block[ 'attrs' ][ 'to' ] ?? '' );
 			$attrs[ 'subject' ] = sanitize_text_field( $block[ 'attrs' ][ 'subject' ] ?? '' );
+			$attrs[ 'thank-you-link' ] = $block[ 'attrs' ][ 'thankYouLink' ] ?? '';
 
 			// Block validation
 			$is_block = true;
@@ -133,7 +134,7 @@ class Database {
 			if( in_array( $field, [ 'g-recaptcha-response' ] ) ) {
 				continue;
 			}
-			if( in_array( $key, [ 'to', 'subject' ] ) ) {
+			if( in_array( $key, [ 'to', 'subject', 'thank-you-link' ] ) ) {
 				$validated_fields[ $key ] = $field;
 			}
 			else if( ! empty( $posted[ $field ] ) ) {
@@ -176,10 +177,11 @@ class Database {
 		$fields = $this->validate_form( $post_id, $posted );
 
 		foreach( $fields as $key => $field ) {
+
 			if( in_array( $field, [ 'g-recaptcha-response' ] ) ) {
 				continue;
 			}
-			if( in_array( $key, [ 'to', 'subject' ] ) ) {
+			if( in_array( $key, [ 'to', 'subject', 'thank-you-link' ] ) ) {
 				$validated_fields[ $key ] = $field;
 			}
 			else if( ! empty( $posted[ $field ] ) ) {
@@ -281,7 +283,12 @@ class Database {
 				}
 			}
 		}
-		header("Location: {$_SERVER[ 'REQUEST_URI' ]}");
+
+		$redirect = $_SERVER[ 'REQUEST_URI' ];
+		if( isset( $validated_fields[ 'thank-you-link' ] ) && ! empty( $validated_fields[ 'thank-you-link' ] ) ) {
+			$redirect = $validated_fields[ 'thank-you-link' ];
+		}
+		header("Location: {$redirect}");
 		die;
 	}
 

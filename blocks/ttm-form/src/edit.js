@@ -19,7 +19,9 @@ import {
 
 import {
 	PanelBody,
-	TextControl
+	TextControl,
+	ToggleControl,
+	TextareaControl,
 } from '@wordpress/components';
 
 /**
@@ -67,7 +69,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		"ttm/input-text",
 		"ttm/textarea"
 	];
-	const { to, subject } = attributes;
+	const { to, subject, thankYouLink } = attributes;
 	let { post_id } = attributes;
 
 	post_id = String(post_id);
@@ -93,6 +95,11 @@ export default function Edit( { attributes, setAttributes } ) {
 							label="Subject"
 							value={ subject }
 							onChange={ ( value ) => setAttributes( { subject: value } ) }
+						/>
+						<TextControl
+							label="Thank You Link"
+							value={ thankYouLink }
+							onChange={ ( value ) => setAttributes( { thankYouLink: value }  ) }
 						/>
 					</fieldset>
 				</PanelBody>

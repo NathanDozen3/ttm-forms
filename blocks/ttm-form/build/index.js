@@ -74,7 +74,8 @@ function Edit({
   const allowedBlocks = ["core/heading", "ttm/columns", "ttm/input-checkbox", "ttm/input-date", "ttm/input-email", "ttm/input-hidden", "ttm/input-password", "ttm/input-radio", "ttm/input-submit", "ttm/input-tel", "ttm/input-text", "ttm/textarea"];
   const {
     to,
-    subject
+    subject,
+    thankYouLink
   } = attributes;
   let {
     post_id
@@ -104,6 +105,12 @@ function Edit({
     value: subject,
     onChange: value => setAttributes({
       subject: value
+    })
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    label: "Thank You Link",
+    value: thankYouLink,
+    onChange: value => setAttributes({
+      thankYouLink: value
     })
   })))), (!to || !subject) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Make sure to set the to and subject in the form settings."), to && subject && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: allowedBlocks
@@ -304,7 +311,7 @@ module.exports = window["wp"]["i18n"];
   \****************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","keywords":["form"],"example":{},"supports":{"align":["wide","full"],"color":{"background":true,"gradients":false,"link":false,"text":false},"html":false,"multiple":true,"spacing":{"margin":true,"padding":true,"blockGap":true}},"attributes":{"post_id":{"type":"string","default":0},"to":{"type":"string","default":""},"subject":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","keywords":["form"],"example":{},"supports":{"align":["wide","full"],"color":{"background":true,"gradients":false,"link":false,"text":false},"html":false,"multiple":true,"spacing":{"margin":true,"padding":true,"blockGap":true}},"attributes":{"post_id":{"type":"string","default":0},"to":{"type":"string","default":""},"subject":{"type":"string","default":""},"thankYouLink":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
