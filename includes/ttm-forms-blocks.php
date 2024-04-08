@@ -26,6 +26,7 @@ class Blocks {
 		'ttm-input-tel',
 		'ttm-input-text',
 		'ttm-textarea',
+		'ttm-webhook',
 	];
 
 	/**

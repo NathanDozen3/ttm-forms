@@ -95,6 +95,11 @@ class Database {
 			$attrs[ 'subject' ] = sanitize_text_field( $block[ 'attrs' ][ 'subject' ] ?? '' );
 			$attrs[ 'thank-you-link' ] = $block[ 'attrs' ][ 'thankYouLink' ] ?? '';
 
+			// Skip webhooks in block validation
+			$keys = array_filter( $keys, function( $value ) {
+				return ! str_starts_with( $value, 'webhooks' );
+			});
+
 			// Block validation
 			$is_block = true;
 			foreach( $keys as $key ) {
@@ -285,6 +290,11 @@ class Database {
 				$sent = wp_mail( $validated_fields[ 'to' ], $validated_fields[ 'subject' ], $validated_fields[ 'message' ], $validated_fields[ 'headers' ] );
 				if( $sent ) {
 					$this->maybe_insert_record_into_table( $validated_fields[ 'date' ], $validated_fields[ 'url' ], $partial, $validated_fields[ 'fields' ] );
+
+					/**
+					 *
+					 */
+					do_action( 'ttm\forms\email\sent', $validated_fields );
 				}
 			}
 		}

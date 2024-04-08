@@ -35,6 +35,7 @@ require TTM_FORMS_DIR . '/includes/ttm-forms-options.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-recaptcha.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-rest.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-sendgrid.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-webhooks.php';
 
 $ttm_forms_blocks = new Blocks();
 add_action( is_admin() ? 'admin_init' : 'init',  [ $ttm_forms_blocks, 'register_blocks' ], 20 );
@@ -65,8 +66,14 @@ add_action( 'pre_wp_mail', [ $ttm_forms_sendgrid, 'pre_wp_mail' ], 10, 2 );
 
 $ttm_forms_modules = new Modules();
 
-$akismet = new Akismet();
-add_filter( 'ttm\forms\fields\pre_insert', [ $akismet, 'pre_insert' ] );
+$ttm_forms_akismet = new Akismet();
+add_filter( 'ttm\forms\fields\pre_insert', [ $ttm_forms_akismet, 'pre_insert' ] );
+
+$ttm_forms_webhooks = new Webhooks();
+add_filter( 'get_to_ping', [ $ttm_forms_webhooks, 'get_to_ping' ] );
+add_action( 'pre_ping', [ $ttm_forms_webhooks, 'pre_ping' ], 10, 3 );
+add_filter( 'enclosure_links', [ $ttm_forms_webhooks, 'enclosure_links' ] );
+add_action( 'ttm\forms\email\sent', [ $ttm_forms_webhooks, 'process_webhooks' ] );
 
 register_module(
 	slug: 'recaptcha',
@@ -122,6 +129,18 @@ register_module(
 			'slug' => 'akismet-api-key',
 			'label' => __( 'API Key', 'ttm-forms' ),
 			'callback' => '\ttm\forms\render_input_password_field',
+		],
+	],
+);
+
+register_module(
+	slug: 'webhooks',
+	name: __( 'Webhooks', 'ttm-forms' ),
+	fields: [
+		[
+			'slug' => 'webhooks-api-key',
+			'label' => __( 'API Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
 		],
 	],
 );

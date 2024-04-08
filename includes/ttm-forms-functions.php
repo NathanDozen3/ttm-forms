@@ -126,3 +126,36 @@ function get_ttm_forms_options( string $name ) {
 	$options = get_option( 'ttm_forms' );
 	return $options[ $name ] ?? '';
 }
+
+/**
+ * Trigger a webhook via HTTP POST request.
+ *
+ * @param string $url
+ * @param array $body
+ *
+ * @return bool Whether the HTTP Post request responded with a 200 code.
+ */
+function webhook_trigger( string $url, array $body ) : bool {
+	$args = [
+		'body' => $body,
+	];
+	$response = wp_safe_remote_post( $url, $args );
+	$code = wp_remote_retrieve_response_code( $response );
+	return $code === 200;
+}
+
+/**
+ * Process an incoming webhook.
+ *
+ * @param \WP_REST_Request $request
+ *
+ * @return bool Whether the incoming webhook was processed correctly.
+ */
+function webhook_action( \WP_REST_Request $request ) : bool {
+
+	/**
+	 * Filter the REST request
+	 */
+	return apply_filters( 'ttm\forms\process_rest_request', false, $request->get_headers(), $request->get_params() );
+}
+

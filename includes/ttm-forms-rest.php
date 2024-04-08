@@ -17,6 +17,13 @@ class Rest {
 		register_rest_route( 'ttm-forms/v1', '/partial', array(
 			'methods' => 'POST',
 			'callback' => [ $this, 'process_partial' ],
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( 'ttm-forms/v1', '/webhook', array(
+			'methods' => 'POST',
+			'callback' => '\ttm\forms\webhook_action',
+			'permission_callback' => '__return_true',
 		) );
 	}
 
@@ -26,7 +33,7 @@ class Rest {
 	 *
 	 * @return array
 	 */
-	public function process_partial( $data ) {
+	public function process_partial( \WP_REST_Request $data ) {
 		$params = [];
 		foreach( $data->get_params() as $key => $param ) {
 			$params[ sanitize_title( $key ) ] = sanitize_text_field( $param );

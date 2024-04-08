@@ -67,7 +67,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		"ttm/input-submit",
 		"ttm/input-tel",
 		"ttm/input-text",
-		"ttm/textarea"
+		"ttm/textarea",
+		"ttm/webhook"
 	];
 	const { to, subject, thankYouLink } = attributes;
 	let { post_id } = attributes;

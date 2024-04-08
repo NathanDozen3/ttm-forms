@@ -1,0 +1,1 @@
+{"version":3,"file":"index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://ttm-forms/./blocks/ttm-webhook/src/editor.scss"],"sourcesContent":[".wp-block-ttm-webhook {\n\tdisplay: block;\n}\n"],"names":[],"sourceRoot":""}

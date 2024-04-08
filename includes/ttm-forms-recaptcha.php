@@ -30,6 +30,6 @@ class Recaptcha {
 				'remoteip' => $this->remoteip,
 			],
 		];
-		return wp_remote_post( $this->endpoint, $args );
+		return wp_safe_remote_post( $this->endpoint, $args );
 	}
 }
