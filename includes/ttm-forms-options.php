@@ -24,7 +24,12 @@ class Options {
 				'ttm-forms-settings-modules',
 				__( 'Modules', 'ttm-forms' ),
 				'__return_null',
-				'ttm-forms-settings'
+				'ttm-forms-settings',
+				[
+					'before_section' => '<div class="%s">',
+					'section_class' => 'modules',
+					'after_section' => '</div>',
+				]
 			);
 
 			foreach( $modules as $module ) {
@@ -43,6 +48,7 @@ class Options {
 					'ttm-forms-settings-modules',
 					[
 						'id' => "module-$slug",
+						'name' => $name,
 					]
 				);
 

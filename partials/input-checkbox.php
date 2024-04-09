@@ -1,3 +1,4 @@
+<label for="<?php echo esc_attr( $args[ 'id' ] ?: '' ); ?>"><?php echo esc_attr( $args[ 'name' ] ?: '' ); ?></label>
 <input
 	type="checkbox"
 	id="<?php echo esc_attr( $args[ 'id' ] ?: '' ); ?>"

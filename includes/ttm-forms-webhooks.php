@@ -44,4 +44,15 @@ class Webhooks {
 			webhook_trigger( $url, $args );
 		}
 	}
+
+	public function verify_github_signature() : bool {
+		$headers = getallheaders();
+		if( ! isset( $headers[ 'X-Hub-Signature-256' ] ) ) {
+			return false;
+		}
+
+		$body = file_get_contents( "php://input" );
+		$secret = get_ttm_forms_options( 'webhooks-api-key' );
+		return hash_equals( 'sha256=' . hash_hmac( 'sha256', $body, $secret ), $headers[ 'X-Hub-Signature-256' ] );
+	  }
 }

@@ -3,6 +3,42 @@
 	width: 100%;
 }
 
+.modules {
+	box-sizing: border-box;
+}
+
+.modules tbody {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.modules tr {
+    background: #fff;
+    border: 1px solid #8c8f94;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.modules th {
+    display: none;
+}
+
+.modules td {
+    align-items: center;
+	display: flex;
+    justify-content: space-between;
+	margin-bottom: 0;
+    padding: 0;
+}
+
+.modules label {
+	cursor: pointer;
+	display: inline-block;
+	font-weight: 600;
+	width: 200px;
+}
+
 .module.show {
 	display: block;
 }
