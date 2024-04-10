@@ -145,6 +145,8 @@
 		backdrop.classList.add('show');
 		document.body.append(backdrop);
 
+		document.body.classList.add('no-scroll');
+
 		modalButton.addEventListener('click',function() {
 
 			let modal = getParentByClassName(this,'modal');
@@ -199,6 +201,7 @@
 			}
 
 			modal.remove();
+			document.body.classList.remove('no-scroll');
 
 			let bgs = document.getElementsByClassName("modal-backdrop")
 			for (let bg of bgs) {

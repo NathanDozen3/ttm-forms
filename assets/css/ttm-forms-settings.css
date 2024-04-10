@@ -1,3 +1,8 @@
+body.no-scroll {
+	height: 100vh !important;
+	overflow: hidden !important;
+}
+
 .ttm-forms--password,
 .ttm-forms--text {
 	width: 100%;
@@ -111,7 +116,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 9990;
+	z-index: 999999;
 	display: none;
 	width: 100%;
 	height: 100%;
