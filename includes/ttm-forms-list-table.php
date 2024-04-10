@@ -55,7 +55,12 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 	 * @return string
 	 */
 	public function column_date( array $item ) : string {
-		return $item[ 'date' ];
+		return sprintf(
+			'<button type="button" class="edit-row" data-id="%1$s" data-entry=\'%2$s\'>%3$s</button>',
+			$item[ 'id' ],
+			$item[ 'fields' ],
+			$item[ 'date' ],
+		);
 	}
 
 
@@ -159,7 +164,7 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 
 		$this->_column_headers = [ $columns, $hidden, $sortable ];
 
-		$total_items = $wpdb->get_var( "SELECT COUNT(id) FROM $table_name" );
+		$total_items = $wpdb->get_var( "SELECT COUNT(id) FROM $table_name WHERE `url` LIKE 'http%'" );
 
 		$paged = isset( $_REQUEST[ 'paged' ] ) ? max( 0, intval( $_REQUEST[ 'paged' ] - 1 ) * $per_page ) : 0;
 		$orderby = ( isset( $_REQUEST[ 'orderby' ] ) && in_array( $_REQUEST[ 'orderby' ], array_keys( $this->get_sortable_columns() ) ) ) ? $_REQUEST[ 'orderby' ] : 'date';
@@ -167,7 +172,7 @@ class TTM_Forms_List_Table extends \WP_List_Table {
 
 		$this->items = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM $table_name ORDER BY $orderby $order LIMIT %d OFFSET %d",
+				"SELECT * FROM $table_name WHERE `url` LIKE 'http%' ORDER BY $orderby $order LIMIT %d OFFSET %d",
 				$per_page,
 				$paged
 			), ARRAY_A

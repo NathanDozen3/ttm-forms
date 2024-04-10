@@ -263,4 +263,8 @@ class Options {
 		return $text;
 	}
 
+	public function enqueue_wp_api() {
+		wp_enqueue_script( 'wp-api' );
+	}
+
 }

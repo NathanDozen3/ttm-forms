@@ -369,6 +369,37 @@ class Database {
 		}
 	}
 
+	/**
+	 *
+	 */
+	public function update_entry( string $id, array $params ) : void {
+		global $wpdb;
+		$table_name = TTM_FORMS_TABLE_NAME;
+
+		$wpdb->prepare(
+			"SELECT * FROM %s WHERE `id` LIKE %s",
+			$table_name,
+			$id
+		);
+
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM `$table_name` WHERE `id` LIKE '%s'",
+				$id
+			)
+		);
+
+		if( count( $rows ) === 1 ) {
+			$row = $rows[0];
+			$fields = json_encode( $params );
+
+			$wpdb->get_results( $wpdb->prepare(
+				"UPDATE `$table_name` SET `id` = '$row->id', `date` = '$row->date', `url` = '$row->url', `fields` = '%s' WHERE `id` = '$row->id'",
+				$fields
+			 ) );
+		}
+	}
+
 
 	/**
 	 * Insert or update record in table based on partial string.
