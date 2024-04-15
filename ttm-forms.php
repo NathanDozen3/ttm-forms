@@ -29,6 +29,7 @@ require TTM_FORMS_DIR . '/includes/ttm-forms-akismet.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-blocks.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-database.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-functions.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-mailgun.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-module.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-modules.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-options.php';
@@ -64,6 +65,9 @@ add_action( 'rest_api_init', [ $ttm_forms_rest, 'register_routes' ] );
 
 $ttm_forms_sendgrid = new Sendgrid();
 add_action( 'pre_wp_mail', [ $ttm_forms_sendgrid, 'pre_wp_mail' ], 10, 2 );
+
+$ttm_forms_mailgun = new Mailgun_SMTP();
+add_action( 'pre_wp_mail', [ $ttm_forms_mailgun, 'pre_wp_mail' ], 10, 2 );
 
 $ttm_forms_modules = new Modules();
 
@@ -141,6 +145,28 @@ register_module(
 		[
 			'slug' => 'webhooks-api-key',
 			'label' => __( 'API Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+	],
+);
+
+register_module(
+	slug: 'mailgun',
+	name: __( 'Mailgun', 'ttm-forms' ),
+	fields: [
+		[
+			'slug' => 'mailgun-api-key',
+			'label' => __( 'API Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+		[
+			'slug' => 'mailgun-domain',
+			'label' => __( 'Domain', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+		[
+			'slug' => 'mailgun-from-email',
+			'label' => __( 'From Email', 'ttm-forms' ),
 			'callback' => '\ttm\forms\render_input_text_field',
 		],
 	],
