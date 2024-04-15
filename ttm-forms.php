@@ -33,6 +33,7 @@ require TTM_FORMS_DIR . '/includes/ttm-forms-mailgun.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-module.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-modules.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-options.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-postmark.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-recaptcha.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-rest.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-sendgrid.php';
@@ -68,6 +69,9 @@ add_action( 'pre_wp_mail', [ $ttm_forms_sendgrid, 'pre_wp_mail' ], 10, 2 );
 
 $ttm_forms_mailgun = new Mailgun_SMTP();
 add_action( 'pre_wp_mail', [ $ttm_forms_mailgun, 'pre_wp_mail' ], 10, 2 );
+
+$ttm_forms_postmark = new Postmark();
+add_action( 'pre_wp_mail', [ $ttm_forms_postmark, 'pre_wp_mail' ], 10, 2 );
 
 $ttm_forms_modules = new Modules();
 
@@ -166,6 +170,23 @@ register_module(
 		],
 		[
 			'slug' => 'mailgun-from-email',
+			'label' => __( 'From Email', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+	],
+);
+
+register_module(
+	slug: 'postmark',
+	name: __( 'Postmark', 'ttm-forms' ),
+	fields: [
+		[
+			'slug' => 'postmark-api-key',
+			'label' => __( 'API Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+		[
+			'slug' => 'postmark-from-email',
 			'label' => __( 'From Email', 'ttm-forms' ),
 			'callback' => '\ttm\forms\render_input_text_field',
 		],

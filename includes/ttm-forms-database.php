@@ -328,6 +328,14 @@ class Database {
 		$fields = [];
 		foreach( $items as $item ) {
 			$fs = json_decode( $item[ 'fields' ] );
+
+			if(
+				! is_array( $fs ) &&
+				! is_object( $fs )
+			) {
+				continue;
+			}
+
 			foreach( $fs as $k => $f ) {
 
 
