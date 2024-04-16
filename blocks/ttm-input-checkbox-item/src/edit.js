@@ -13,16 +13,11 @@ import { __ } from '@wordpress/i18n';
  */
 import {
     useBlockProps,
-    InspectorControls,
 } from '@wordpress/block-editor';
 
-
-import {
-	PanelBody,
-	TextControl
-} from '@wordpress/components';
-
 import { select } from "@wordpress/data";
+
+import Settings from '../../settings.js';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -68,20 +63,15 @@ export default function Edit( { context, clientId, attributes, setAttributes } )
 
 	return (
 		<div { ...useBlockProps() }>
-			<InspectorControls key="setting">
-				<PanelBody
-					title = {__( 'Settings', 'ttm-form' ) }
-					initialOpen = { true }
-				>
-					<fieldset>
-						<TextControl
-							label="Label"
-							value={ label }
-							onChange={ ( value ) => setAttributes( { label: value } ) }
-						/>
-					</fieldset>
-				</PanelBody>
-			</InspectorControls>
+			<Settings
+				attributes={attributes}
+				setAttributes={setAttributes}
+				settings={{
+					required: false,
+					sronly: false,
+					placeholder: false
+				}}
+			/>
 			<label for={name + "-" + slug}>{label}</label>
 			<input type="checkbox" id={name + "-" + slug} name={name + "[]"} value={slug} disabled></input>
 		</div>

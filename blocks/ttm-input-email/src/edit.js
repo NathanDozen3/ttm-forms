@@ -13,15 +13,7 @@ import { __ } from '@wordpress/i18n';
  */
 import {
     useBlockProps,
-    InspectorControls,
 } from '@wordpress/block-editor';
-
-
-import {
-	PanelBody,
-	TextControl,
-	ToggleControl
-} from '@wordpress/components';
 
 import { select } from "@wordpress/data";
 
@@ -32,6 +24,8 @@ import { select } from "@wordpress/data";
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './editor.scss';
+
+import Settings from '../../settings.js';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -66,40 +60,10 @@ export default function Edit( { clientId, attributes, setAttributes } ) {
 
 	return (
 		<div { ...useBlockProps() }>
-			<InspectorControls key="setting">
-				<PanelBody
-					title = {__( 'Settings', 'ttm-form' ) }
-					initialOpen = { true }
-				>
-					<fieldset>
-						<ToggleControl
-							label="Required"
-							checked={ required }
-							onChange={ ( value ) => setAttributes( { required: value }  ) }
-						/>
-						<TextControl
-							label="Label"
-							value={ label }
-							onChange={ ( value ) => setAttributes( { label: value } ) }
-						/>
-						<ToggleControl
-							label="Screen Reader Only"
-							help={
-								sronly
-									? 'Only shown to screen readers.'
-									: 'Shown to everyone.'
-							}
-							checked={ sronly }
-							onChange={ ( value ) => setAttributes( { sronly: value }  ) }
-						/>
-						<TextControl
-							label="Placeholder"
-							value={ placeholder }
-							onChange={ ( value ) => setAttributes( { placeholder: value } ) }
-						/>
-					</fieldset>
-				</PanelBody>
-			</InspectorControls>
+			<Settings
+				attributes={attributes}
+				setAttributes={setAttributes}
+			/>
 			<label class={className} for={parentID + "_" +name}>{label}</label>
 			<input type="email" id={parentID + "_" + name} name={name} placeholder={placeholder} required={required} disabled></input>
 		</div>

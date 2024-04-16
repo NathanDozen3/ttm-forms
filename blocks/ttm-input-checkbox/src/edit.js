@@ -13,15 +13,8 @@ import { __ } from '@wordpress/i18n';
  */
 import {
     useBlockProps,
-    InspectorControls,
 	InnerBlocks,
 } from '@wordpress/block-editor';
-
-
-import {
-	PanelBody,
-	TextControl
-} from '@wordpress/components';
 
 import { select } from "@wordpress/data";
 
@@ -32,6 +25,8 @@ import { select } from "@wordpress/data";
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './editor.scss';
+
+import Settings from '../../settings.js';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -70,20 +65,15 @@ export default function Edit( { clientId, attributes, setAttributes } ) {
 
 	return (
 		<div { ...useBlockProps() }>
-			<InspectorControls key="setting">
-				<PanelBody
-					title = {__( 'Settings', 'ttm-form' ) }
-					initialOpen = { true }
-				>
-					<fieldset>
-						<TextControl
-							label="Label"
-							value={ label }
-							onChange={ ( value ) => setAttributes( { label: value } ) }
-						/>
-					</fieldset>
-				</PanelBody>
-			</InspectorControls>
+			<Settings
+				attributes={attributes}
+				setAttributes={setAttributes}
+				settings={{
+					required: false,
+					sronly: false,
+					placeholder: false
+				}}
+			/>
 			<div { ...blockProps }>
 				<fieldset>
 					<legend>{label}</legend>

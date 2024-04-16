@@ -16,14 +16,14 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save( { attributes } ) {
-    const { parentID, label, placeholder, sronly } = attributes;
+    const { parentID, label, placeholder, required, sronly } = attributes;
     const className = sronly ? 'sr-only' : '';
     let name =label.trim().replaceAll(":", "").toLowerCase();
 
     return (
         <div { ...useBlockProps.save() }>
             <label class={className} for={parentID + "_" + name}>{label}</label>
-			<textarea id={parentID + "_" + name} name={name} placeholder={placeholder}/>
+			<textarea id={parentID + "_" + name} name={name} placeholder={placeholder} required={required}  />
         </div>
     );
 }

@@ -13,17 +13,11 @@ import { __ } from '@wordpress/i18n';
  */
 import {
     useBlockProps,
-    InspectorControls,
 } from '@wordpress/block-editor';
 
-
-import {
-	PanelBody,
-	TextControl,
-	ToggleControl
-} from '@wordpress/components';
-
 import { select } from "@wordpress/data";
+
+import Settings from '../../settings.js';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -66,40 +60,10 @@ export default function Edit( { clientId, attributes, setAttributes } ) {
 
 	return (
 		<div { ...useBlockProps() }>
-			<InspectorControls key="setting">
-				<PanelBody
-					title = {__( 'Settings', 'ttm-form' ) }
-					initialOpen = { true }
-				>
-					<fieldset>
-						<ToggleControl
-							label="Required"
-							checked={ required }
-							onChange={ ( value ) => setAttributes( { required: value }  ) }
-						/>
-						<TextControl
-							label="Label"
-							value={ label }
-							onChange={ ( value ) => setAttributes( { label: value } ) }
-						/>
-						<ToggleControl
-							label="Screen Reader Only"
-							help={
-								sronly
-									? 'Only shown to screen readers.'
-									: 'Shown to everyone.'
-							}
-							checked={ sronly }
-							onChange={ ( value ) => setAttributes( { sronly: value }  ) }
-						/>
-						<TextControl
-							label="Placeholder"
-							value={ placeholder }
-							onChange={ ( value ) => setAttributes( { placeholder: value } ) }
-						/>
-					</fieldset>
-				</PanelBody>
-			</InspectorControls>
+			<Settings
+				attributes={attributes}
+				setAttributes={setAttributes}
+			/>
 			<label class={className} for={name}>{label}</label>
 			<input type="password" id={name} name={name} placeholder={placeholder} required={required} disabled></input>
 		</div>

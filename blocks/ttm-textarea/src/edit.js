@@ -33,6 +33,8 @@ import { select } from "@wordpress/data";
  */
 import './editor.scss';
 
+import Settings from '../../settings.js';
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -43,7 +45,7 @@ import './editor.scss';
  */
 export default function Edit( { clientId, attributes, setAttributes } ) {
 
-    const { label, placeholder, sronly } = attributes;
+    const { label, placeholder, required, sronly } = attributes;
 	const className = sronly ? 'sr-only' : '';
 	const name =label.trim().replaceAll(":", "").toLowerCase();
 
@@ -66,37 +68,12 @@ export default function Edit( { clientId, attributes, setAttributes } ) {
 
 	return (
 		<div { ...useBlockProps() }>
-			<InspectorControls key="setting">
-				<PanelBody
-					title = {__( 'Settings', 'ttm-form' ) }
-					initialOpen = { true }
-				>
-					<fieldset>
-						<TextControl
-							label="Input Label"
-							value={ label }
-							onChange={ ( value ) => setAttributes( { label: value } ) }
-						/>
-						<ToggleControl
-							label="Screen Reader Only"
-							help={
-								sronly
-									? 'Only shown to screen readers.'
-									: 'Shown to everyone.'
-							}
-							checked={ sronly }
-							onChange={ ( value ) => setAttributes( { sronly: value }  ) }
-						/>
-						<TextControl
-							label="Placeholder"
-							value={ placeholder }
-							onChange={ ( value ) => setAttributes( { placeholder: value } ) }
-						/>
-					</fieldset>
-				</PanelBody>
-			</InspectorControls>
+			<Settings
+				attributes={attributes}
+				setAttributes={setAttributes}
+			/>
 			<label class={className} for={name}>{label}</label>
-			<textarea id={name} name={name}  placeholder={placeholder} disabled />
+			<textarea id={name} name={name}  placeholder={placeholder} required={required} disabled />
 		</div>
 	);
 }
