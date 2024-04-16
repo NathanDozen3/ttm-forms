@@ -46,6 +46,10 @@
     "thankYouLink": {
       "type": "string",
       "default": ""
+    },
+    "notifications": {
+      "type": "string",
+      "default": ""
     }
   },
   "textdomain": "ttm-form",

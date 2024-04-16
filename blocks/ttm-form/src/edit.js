@@ -20,9 +20,12 @@ import {
 import {
 	PanelBody,
 	TextControl,
-	ToggleControl,
 	TextareaControl,
 } from '@wordpress/components';
+
+import {
+	RepeaterControl,
+} from '../../RepeaterControl';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -102,6 +105,29 @@ export default function Edit( { attributes, setAttributes } ) {
 							value={ thankYouLink }
 							onChange={ ( value ) => setAttributes( { thankYouLink: value }  ) }
 						/>
+					</fieldset>
+				</PanelBody>
+				<PanelBody
+					title = {__( 'Notifications', 'ttm-form' ) }
+					initialOpen = { false }
+				>
+					<fieldset>
+						<RepeaterControl
+							saveElement="notifications"
+						>
+							<TextControl
+								label="To: "
+								name="to"
+							/>
+							<TextControl
+								label="Subject: "
+								name="subject"
+							/>
+							<TextareaControl
+								label="Message: "
+								name="message"
+							/>
+						</RepeaterControl>
 					</fieldset>
 				</PanelBody>
 			</InspectorControls>

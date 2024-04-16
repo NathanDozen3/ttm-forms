@@ -2,6 +2,85 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./blocks/RepeaterControl.js":
+/*!***********************************!*\
+  !*** ./blocks/RepeaterControl.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   RepeaterControl: () => (/* binding */ RepeaterControl)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+
+const {
+  Button
+} = wp.components;
+
+const {
+  updateBlockAttributes
+} = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.dispatch)('core/block-editor');
+
+const RepeaterControl = props => {
+  const {
+    saveElement
+  } = props;
+  const selectedBlock = wp.data.select('core/block-editor').getSelectedBlock();
+  let repeaterValues = selectedBlock.attributes[saveElement];
+  if (!repeaterValues) {
+    repeaterValues = '[]';
+  }
+  repeaterValues = JSON.parse(repeaterValues);
+  let children = props.children;
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, repeaterValues.map((row, index) => {
+    let useChildren = [];
+    children.map((e, i) => {
+      const child = (0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(children[i]);
+      useChildren.push(child);
+      useChildren[i].props.value = repeaterValues[index][e.props.name];
+      useChildren[i].props.onChange = function (value) {
+        e.props.value = value;
+        repeaterValues[index][e.props.name] = value;
+        let newVal = {};
+        newVal[saveElement] = JSON.stringify(repeaterValues);
+        updateBlockAttributes(selectedBlock.clientId, newVal);
+      };
+    });
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "repeater-item",
+      style: {
+        marginTop: "1rem",
+        marginBottom: "1rem"
+      }
+    }, useChildren, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Button, {
+      isLink: true,
+      isDestructive: true,
+      onClick: () => {
+        repeaterValues = repeaterValues.filter((obj, loopIndex) => loopIndex !== index);
+        let newVal = {};
+        newVal[saveElement] = JSON.stringify(repeaterValues);
+        updateBlockAttributes(selectedBlock.clientId, newVal);
+      }
+    }, "Remove"));
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Button, {
+    variant: "secondary",
+    onClick: () => {
+      repeaterValues.push({});
+      repeaterValues = repeaterValues.splice(0);
+      let newVal = {};
+      newVal[saveElement] = JSON.stringify(repeaterValues);
+      updateBlockAttributes(selectedBlock.clientId, newVal);
+    }
+  }, "Add Item")));
+};
+
+
+/***/ }),
+
 /***/ "./blocks/ttm-form/src/edit.js":
 /*!*************************************!*\
   !*** ./blocks/ttm-form/src/edit.js ***!
@@ -20,7 +99,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-form/src/editor.scss");
+/* harmony import */ var _RepeaterControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../RepeaterControl */ "./blocks/RepeaterControl.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./blocks/ttm-form/src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -35,6 +115,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 
@@ -112,7 +193,21 @@ function Edit({
     onChange: value => setAttributes({
       thankYouLink: value
     })
-  })))), (!to || !subject) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Make sure to set the to and subject in the form settings."), to && subject && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Notifications', 'ttm-form'),
+    initialOpen: false
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_RepeaterControl__WEBPACK_IMPORTED_MODULE_4__.RepeaterControl, {
+    saveElement: "notifications"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    label: "To: ",
+    name: "to"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    label: "Subject: ",
+    name: "subject"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextareaControl, {
+    label: "Message: ",
+    name: "message"
+  }))))), (!to || !subject) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Make sure to set the to and subject in the form settings."), to && subject && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: allowedBlocks
   }));
 }
@@ -295,6 +390,16 @@ module.exports = window["wp"]["components"];
 
 /***/ }),
 
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
 /***/ "@wordpress/i18n":
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -311,7 +416,7 @@ module.exports = window["wp"]["i18n"];
   \****************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","keywords":["form"],"example":{},"supports":{"align":["wide","full"],"color":{"background":true,"gradients":false,"link":false,"text":false},"html":false,"multiple":true,"spacing":{"margin":true,"padding":true,"blockGap":true}},"attributes":{"post_id":{"type":"string","default":0},"to":{"type":"string","default":""},"subject":{"type":"string","default":""},"thankYouLink":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"ttm/form","version":"1.0.0","title":"TTM Form","category":"widgets","icon":"text","description":"Add form.","keywords":["form"],"example":{},"supports":{"align":["wide","full"],"color":{"background":true,"gradients":false,"link":false,"text":false},"html":false,"multiple":true,"spacing":{"margin":true,"padding":true,"blockGap":true}},"attributes":{"post_id":{"type":"string","default":0},"to":{"type":"string","default":""},"subject":{"type":"string","default":""},"thankYouLink":{"type":"string","default":""},"notifications":{"type":"string","default":""}},"textdomain":"ttm-form","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
