@@ -131,6 +131,22 @@ class Blocks {
 
 
 	/**
+	 * Append content to the TTM Form
+	 */
+	function form_footer( $block_content, $block, $instance ) {
+		ob_start();
+
+		/**
+		 *
+		 */
+		do_action( 'ttm\forms\form_footer', $instance );
+		$content = ob_get_clean();
+
+		$block_content = str_replace( '</form>', $content . '</form>', $block_content );
+		return $block_content;
+	}
+
+	/**
 	 *
 	 */
 	function reusable_block_has_ttm_form() : bool {

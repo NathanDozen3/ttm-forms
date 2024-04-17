@@ -30,6 +30,7 @@
 		"start:ttm-input-text": "wp-scripts start --webpack-src-dir=blocks/ttm-input-text/src --output-path=blocks/ttm-input-text/build",
 		"start:ttm-recaptcha": "wp-scripts start --webpack-src-dir=blocks/ttm-recaptcha/src --output-path=blocks/ttm-recaptcha/build",
 		"start:ttm-textarea": "wp-scripts start --webpack-src-dir=blocks/ttm-textarea/src --output-path=blocks/ttm-textarea/build",
+		"start:ttm-turnstile": "wp-scripts start --webpack-src-dir=blocks/ttm-turnstile/src --output-path=blocks/ttm-turnstile/build",
 		"start:ttm-webhook": "wp-scripts start --webpack-src-dir=blocks/ttm-webhook/src --output-path=blocks/ttm-webhook/build"
 	},
 	"devDependencies": {

@@ -37,6 +37,7 @@ require TTM_FORMS_DIR . '/includes/ttm-forms-postmark.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-recaptcha.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-rest.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-sendgrid.php';
+require TTM_FORMS_DIR . '/includes/ttm-forms-turnstile.php';
 require TTM_FORMS_DIR . '/includes/ttm-forms-webhooks.php';
 
 $ttm_forms_blocks = new Blocks();
@@ -45,6 +46,7 @@ add_action( 'enqueue_block_assets', [ $ttm_forms_blocks, 'enqueue_block_assets' 
 add_filter( 'render_block_ttm/recaptcha', [ $ttm_forms_blocks, 'add_recaptcha_site_key' ], 10, 3 );
 add_filter( 'render_block_core/block', [ $ttm_forms_blocks, 'add_hidden_field_to_ttm_form' ], 10, 3 );
 add_filter( 'render_block_ttm/form', [ $ttm_forms_blocks, 'add_honeypot_to_ttm_form' ], 20, 3 );
+add_filter( 'render_block_ttm/form', [ $ttm_forms_blocks, 'form_footer' ], 20, 3 );
 
 $ttm_forms_database = new Database();
 add_action( 'init', [ $ttm_forms_database, 'process_form' ], 0 );
@@ -83,6 +85,9 @@ add_filter( 'get_to_ping', [ $ttm_forms_webhooks, 'get_to_ping' ] );
 add_action( 'pre_ping', [ $ttm_forms_webhooks, 'pre_ping' ], 10, 3 );
 add_filter( 'enclosure_links', [ $ttm_forms_webhooks, 'enclosure_links' ] );
 add_action( 'ttm\forms\email\sent', [ $ttm_forms_webhooks, 'process_webhooks' ] );
+
+$ttm_forms_turnstile = new Turnstile();
+add_filter( 'render_block_ttm/turnstile', [ $ttm_forms_turnstile, 'add_turnstile_site_key' ], 10, 3 );
 
 register_module(
 	slug: 'recaptcha',
@@ -128,6 +133,24 @@ register_module(
 			'slug' => 'webhooks-api-key',
 			'label' => __( 'API Key', 'ttm-forms' ),
 			'callback' => '\ttm\forms\render_input_text_field',
+		],
+	],
+);
+
+register_module(
+	slug: 'turnstile',
+	name: __( 'Turnstile', 'ttm-forms' ),
+	block: 'ttm-turnstile',
+	fields: [
+		[
+			'slug' => 'turnstile-site-key',
+			'label' => __( 'Site Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+		[
+			'slug' => 'turnstile-secret-key',
+			'label' => __( 'Secret Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_password_field',
 		],
 	],
 );

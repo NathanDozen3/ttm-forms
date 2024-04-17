@@ -71,6 +71,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		"ttm/input-tel",
 		"ttm/input-text",
 		"ttm/textarea",
+		"ttm/turnstile",
 		"ttm/webhook"
 	];
 	const { to, subject, thankYouLink } = attributes;

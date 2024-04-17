@@ -31,6 +31,9 @@ class Database {
 		else if( $block[ 'blockName' ] === 'ttm/recaptcha' ) {
 			$attrs[] = 'g-recaptcha-response';
 		}
+		else if( $block[ 'blockName' ] === 'ttm/turnstile' ) {
+			$attrs[] = 'cf-turnstile-response';
+		}
 		else {
 			$html = $block[ 'innerHTML' ] ?? '';
 
@@ -215,6 +218,7 @@ class Database {
 		$dont_save = [
 			'ttm_form',
 			'g-recaptcha-response',
+			'cf-turnstile-response',
 			'credit-card_number',
 			'credit-card_cvv',
 			'credit-card_zip'
@@ -277,9 +281,18 @@ class Database {
 			$body = json_decode( wp_remote_retrieve_body( $recaptcha ) );
 		}
 
+		$has_turnstile = isset( $posted[ 'cf-turnstile-response' ] );
+		if( $has_turnstile ) {
+			global $ttm_forms_turnstile;
+			$turnstile_secret = get_ttm_forms_options( 'turnstile-secret-key' );
+			$turnstile_response = $posted[ 'cf-turnstile-response' ];
+			$turnstile = $ttm_forms_turnstile->get( $turnstile_secret, $turnstile_response );
+			$turnstile_body = json_decode( wp_remote_retrieve_body( $turnstile ) );
+		}
+
 		if(
-			! $has_recaptcha ||
-			( $has_recaptcha && $body->success === true )
+			( ! $has_recaptcha || ( $has_recaptcha && $body->success === true ) ) &&
+			( ! $has_turnstile || ( $has_turnstile && $turnstile_body->success === true ) )
 		) {
 
 			// Validate Honeypot
@@ -323,6 +336,7 @@ class Database {
 			'date',
 			'ttm_form',
 			'g-recaptcha-response',
+			'cf-turnstile-response',
 		];
 
 		$fields = [];
