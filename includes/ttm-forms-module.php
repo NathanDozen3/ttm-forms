@@ -15,6 +15,11 @@ class Module {
 	/**
 	 *
 	 */
+	private string $parent;
+
+	/**
+	 *
+	 */
 	private array $fields = [];
 
 	/**
@@ -49,10 +54,11 @@ class Module {
 	 *
 	 * @return self
 	 */
-	public function field( string $slug, string $label, $callback = null ) : self {
+	public function field( string $slug, string $label, $callback = null, array $args = [] ) : self {
 		$this->fields[ $slug ] = [
 			'label' => $label,
 			'callback' => $callback,
+			'args' => $args,
 		];
 		return $this;
 	}
@@ -73,6 +79,19 @@ class Module {
 				return $blocks;
 			});
 		}
+		return $this;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param string $parent
+	 *
+	 * @return self
+	 */
+	public function parent( string $parent ) : self {
+		$this->parent = $parent;
 		return $this;
 	}
 

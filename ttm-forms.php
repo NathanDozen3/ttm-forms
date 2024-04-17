@@ -109,28 +109,6 @@ register_module(
 );
 
 register_module(
-	slug: 'sendgrid',
-	name: __( 'SendGrid', 'ttm-forms' ),
-	fields: [
-		[
-			'slug' => 'sendgrid-api-key',
-			'label' => __( 'API Key', 'ttm-forms' ),
-			'callback' => '\ttm\forms\render_input_password_field',
-		],
-		[
-			'slug' => 'sendgrid-from-email',
-			'label' => __( 'From Email', 'ttm-forms' ),
-			'callback' => '\ttm\forms\render_input_text_field',
-		],
-		[
-			'slug' => 'sendgrid-from-name',
-			'label' => __( 'From Name', 'ttm-forms' ),
-			'callback' => '\ttm\forms\render_input_text_field',
-		],
-	],
-);
-
-register_module(
 	slug: 'akismet',
 	name: __( 'Akismet', 'ttm-forms' ),
 	fields: [
@@ -155,8 +133,54 @@ register_module(
 );
 
 register_module(
+	slug: 'smtp',
+	name: __( 'SMTP', 'ttm-forms' ),
+	fields: [
+		[
+			'slug' => 'smtp',
+			'label' => __( 'SMTP Solution', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_radio_field',
+			'args' => [
+				'name' => 'smtp',
+				'description' => '',
+				'options' => [
+					'sendgrid' => 'SendGrid',
+					'mailgun' => 'Mailgun',
+					'postmark' => 'Postmark',
+					'custom' => 'Custom',
+				],
+			],
+		],
+	],
+);
+
+register_submodule(
+	slug: 'sendgrid',
+	name: __( 'SendGrid', 'ttm-forms' ),
+	parent: 'smtp',
+	fields: [
+		[
+			'slug' => 'sendgrid-api-key',
+			'label' => __( 'API Key', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_password_field',
+		],
+		[
+			'slug' => 'sendgrid-from-email',
+			'label' => __( 'From Email', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+		[
+			'slug' => 'sendgrid-from-name',
+			'label' => __( 'From Name', 'ttm-forms' ),
+			'callback' => '\ttm\forms\render_input_text_field',
+		],
+	],
+);
+
+register_submodule(
 	slug: 'mailgun',
 	name: __( 'Mailgun', 'ttm-forms' ),
+	parent: 'smtp',
 	fields: [
 		[
 			'slug' => 'mailgun-api-key',
@@ -176,9 +200,10 @@ register_module(
 	],
 );
 
-register_module(
+register_submodule(
 	slug: 'postmark',
 	name: __( 'Postmark', 'ttm-forms' ),
+	parent: 'smtp',
 	fields: [
 		[
 			'slug' => 'postmark-api-key',

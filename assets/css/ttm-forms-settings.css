@@ -25,6 +25,14 @@ body.no-scroll {
 	border-radius: 5px;
 }
 
+.modules tr:has([data-parent]) {
+	display: none;
+}
+
+.modules tr:has([data-parent].show) {
+	display: block;
+}
+
 .modules th {
 	display: none;
 }
@@ -38,7 +46,6 @@ body.no-scroll {
 }
 
 .modules label {
-	cursor: pointer;
 	display: inline-block;
 	font-weight: 600;
 	width: 200px;
@@ -193,4 +200,8 @@ input.modal-label,
 	flex-wrap: wrap;
 	justify-content: flex-end;
 	padding: 1rem;
+}
+
+label[for] {
+    cursor: pointer;
 }

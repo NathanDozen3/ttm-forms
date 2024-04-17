@@ -240,6 +240,37 @@
 			module.addEventListener('click',toggleSettings);
 		});
 
+
+		let parents = document.querySelectorAll( "[data-parent]" );
+		let theParents = [];
+		parents.forEach(function(parent){
+			let theParent = parent.dataset[ 'parent' ];
+			if( -1 === theParents.indexOf(theParent) ) {
+				theParents.push( theParent );
+			}
+		})
+
+		theParents.forEach(function(parent){
+			let children = document.querySelectorAll( "[name='ttm_forms["+parent+"]']" );
+			children.forEach(function(child){
+				child.addEventListener('click',function(){
+
+					let cs = document.querySelectorAll( "[data-parent='"+parent+"']" );
+					cs.forEach(function(c){
+						if( c.checked ) {
+							c.click();
+						}
+					})
+
+					let module = child.value;
+					let el = document.getElementById( 'module-' + module );
+					if( el ) {
+						el.click();
+					}
+				});
+			});
+		})
+
 		let entries = document.querySelectorAll( ".edit-row[data-entry]" );
 		entries.forEach(function(entry){
 			entry.addEventListener('click',function() {

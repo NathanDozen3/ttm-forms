@@ -37,6 +37,8 @@ class Options {
 				$slug = $module->get( 'slug' );
 				$name = $module->get( 'name' );
 
+				$parent = $module->get( 'parent' );
+
 				$active_class = is_module_active( $slug ) ? 'show' : 'hide';
 
 				// Add Module Toggle
@@ -49,6 +51,9 @@ class Options {
 					[
 						'id' => "module-$slug",
 						'name' => $name,
+						'dataset' => [
+							'parent' => $parent,
+						],
 					]
 				);
 
@@ -78,6 +83,8 @@ class Options {
 							"ttm-forms-settings-section-$slug",
 							[
 								'id' => $field_slug,
+								'name' => $field[ 'name' ] ?? '',
+								'args' => $field[ 'args' ] ?? [],
 							]
 						);
 					}

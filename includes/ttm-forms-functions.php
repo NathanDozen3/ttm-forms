@@ -71,6 +71,23 @@ function render_input_password_field( array $args ) : void {
 }
 
 /**
+ * Print a radio input field.
+ *
+ * @param array $args This is the description.
+ *
+ * @return void
+ */
+function render_input_radio_field( array $args ) : void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	$options = get_option( 'ttm_forms' );
+	$args[ 'value' ] = $options[ $args[ 'id' ] ] ?? '';
+	get_partial( 'input-radio', $args );
+}
+
+/**
  * Return whether the module is active.
  *
  * @param string $module
@@ -93,26 +110,46 @@ function is_module_active( string $module ) : bool {
  * @param string $name
  * @param array $fields
  * @param string $block
+ * @param string $parent
  *
  * @return Module
  */
-function register_module( string $slug, string $name, array $fields = [], string $block = '' ) : Module {
+function register_module( string $slug, string $name, array $fields = [], string $block = '', string $parent = '' ) : Module {
 	global $ttm_forms_modules;
 
 	$module = new Module( $slug );
 	$module->name( $name );
 
 	foreach( $fields as $field ) {
-		$module->field( $field[ 'slug' ], $field[ 'label' ], $field[ 'callback' ] ?? null );
+		$module->field( $field[ 'slug' ], $field[ 'label' ], $field[ 'callback' ] ?? null, $field[ 'args' ] ?? [] );
 	}
 
 	if( ! empty( $block ) ) {
 		$module->block( $block );
 	}
 
+	if( ! empty( $parent ) ) {
+		$module->parent( $parent );
+	}
+
 	$ttm_forms_modules->register( $module );
 
 	return $module;
+}
+
+/**
+ * Register TTM Form module.
+ *
+ * @param string $slug
+ * @param string $name
+ * @param string $parent
+ * @param array $fields
+ * @param string $block
+ *
+ * @return Module
+ */
+function register_submodule( string $slug, string $name, string $parent, array $fields = [], string $block = '' ) : Module {
+	return register_module( $slug, $name, $fields, $block, $parent );
 }
 
 /**
