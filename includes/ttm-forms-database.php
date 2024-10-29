@@ -210,7 +210,7 @@ class Database {
 		$validated_fields[ 'subject' ] = sanitize_text_field( $validated_fields[ 'subject' ] );
 		$validated_fields[ 'headers' ] = [ 'Content-Type: text/html; charset=UTF-8' ];
 
-		$fields = $attrs;
+		$fields = [];
 		$n = 0;
 
 		$message = '<table>';
@@ -270,8 +270,8 @@ class Database {
 
 		// Validate reCAPTCHA
 		$options = get_option( 'ttm_forms' );
-		$secret = $options[ 'secret-key' ];
-		$response = $posted[ 'g-recaptcha-response' ];
+		$secret = $options[ 'secret-key' ] ?? null;
+		$response = $posted[ 'g-recaptcha-response' ] ?? null;
 		$remoteip = '';
 
 		$has_recaptcha = isset( $posted[ 'g-recaptcha-response' ]);

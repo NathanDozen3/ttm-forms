@@ -172,7 +172,7 @@ class Options {
 
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
-			esc_url( admin_url( '/wp-admin/admin.php?page=ttm-forms-settings' ) ),
+			esc_url( admin_url( '/admin.php?page=ttm-forms-settings' ) ),
 			esc_html__( 'Settings', 'ttm-forms' )
 		);
 

@@ -75,6 +75,7 @@ add_action( 'pre_wp_mail', [ $ttm_forms_mailgun, 'pre_wp_mail' ], 10, 2 );
 $ttm_forms_postmark = new Postmark();
 add_action( 'pre_wp_mail', [ $ttm_forms_postmark, 'pre_wp_mail' ], 10, 2 );
 
+global $ttm_forms_modules;
 $ttm_forms_modules = new Modules();
 
 $ttm_forms_akismet = new Akismet();
